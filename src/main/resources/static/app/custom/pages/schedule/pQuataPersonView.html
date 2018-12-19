@@ -1,0 +1,183 @@
+    <div id="page_content">
+        <div id="page_content_inner">
+             <div class="md-card">
+			     <div class="md-card-content">
+			         <div class="uk-grid" data-uk-grid-margin>
+			             <div class="uk-width-medium-1-1 user ">    
+			             	 <kendo-grid options="puserGrid"></kendo-grid>       
+			             </div> 			                       
+			         </div>               
+			     </div>
+			 </div> 
+        </div>
+    </div>
+	<div ng-include="'app/views/footer.html'"></div>
+	<script type="text/x-kendo-template" id="update2">			
+		#if (stepid==2) {#
+        	<button  class="k-button k-button-icontext" ng-click='update(dataItem)'><span class="k-icon k-i-search"></span>Хянах</button>
+		# }
+		
+		else if (stepid==3 || stepid==4 || stepid==5 || stepid==6){# 
+			<button class="k-button k-button-icontext" ng-click='update(dataItem)'><span class="k-icon k-i-hbars"></span>Харах</button>
+		#} 
+		
+		else if (stepid==1){# 
+			<button disabled class="k-button k-button-icontext" ng-click='update(dataItem)'><span class="k-icon k-i-search"></span>Хянах</button>
+		#} #	
+	</script>
+
+	<script type="text/x-kendo-template" id="update">
+		<button class="k-button k-button-icontext" ng-click='update(dataItem)'><span class="k-icon k-i-edit"></span>Засах</button>		
+	</script>
+	<script type="text/x-kendo-template" id="add">
+         <div id="details-container" style="text-align:left;">
+           <button class="k-button k-button-icontext" ng-click='addnew()'> <span class='k-icon k-i-plus'></span> Аудит эхлүүлэх үүсгэх</button>
+         </div>
+    </script>
+    <div class="uk-modal" id="modal_audit">
+         <div class="uk-modal-dialog">
+             
+             <div class="uk-modal-header">
+                 <h3 class="uk-modal-title">Шинээр аудит үүсгэх :  <span class="uk-text-danger"  data-uk-tooltip="{pos:'right'}" title="Багцын үлдэгдэл" style="display:inline;">{{count}}</span></h3>
+                 <button style="float:right; margin-top:-25px;" type="button" class="uk-modal-close uk-close"></button>
+             </div>
+             <hr>
+             <form id="newaudit" ng-submit="submitAudit()">
+             	<div class="uk-grid" data-uk-grid-margin>
+					<div class="uk-width-medium-1-3">
+						<div class=" uk-form-row parsley-row">
+							<label>Код</label> <input type="text"
+								class="md-input " ng-model="auditData.gencode"
+								md-input required />
+						</div>
+					</div>	
+					<div class="uk-width-medium-1-3">
+						<div class=" uk-form-row parsley-row">
+							<label>Байгууллагын нэр</label> <input type="text"
+								class="md-input " ng-model="auditData.orgname"
+								md-input required />
+						</div>
+					</div>				
+					<div class="uk-width-medium-1-3">
+						<div class=" uk-form-row parsley-row">
+							<label>Регистр</label> <input type="number"
+								class="md-input " ng-model="auditData.regnum"
+								maxlength="7" md-input char-counter required />
+						</div>
+					</div>
+				</div>
+				<div class="uk-grid" data-uk-grid-margin>	
+					<div class="uk-width-medium-1-3">
+						<div class=" uk-form-row parsley-row">
+							<label>Санхүүгийн жил</label> <input type="number"
+								class="md-input " ng-model="auditData.audityear"
+								maxlength="4" md-input char-counter required />
+						</div>
+					</div>	
+					<div class="uk-width-medium-1-3">
+						<div class=" uk-form-row parsley-row">
+							<input config="selectize_payroll_config" options="selectize_payroll_options" ng-model="auditData.autype" name="val_pay_select" selectize />
+						</div>
+					</div>			
+					<div class="uk-width-medium-1-3">
+						<div class=" uk-form-row parsley-row">
+							<input config="selectize_val_config" options="selectize_val_options" ng-model="auditData.orgtype" required name="val_select" selectize />
+						</div>
+					</div>
+					
+				</div>
+				<div class="uk-grid" data-uk-grid-margin>					
+					<div class="uk-width-medium-1-2">
+						<div class=" uk-form-row parsley-row">
+							<label>Захирлын албан тушаал</label> <input type="text"
+								class="md-input " ng-model="auditData.dpos"
+								md-input required />
+						</div>
+					</div>
+					<div class="uk-width-medium-1-2">
+						<div class=" uk-form-row parsley-row">
+							<label>Захирлын нэр</label> <input type="text"
+								class="md-input " ng-model="auditData.director"
+								md-input required />
+						</div>
+					</div>
+				</div>
+				<div class="uk-grid" data-uk-grid-margin>	
+					<div class="uk-width-medium-1-2">
+						<div class=" uk-form-row parsley-row">
+							<label>Аудитын нэр</label> <input type="text"
+								class="md-input " ng-model="auditData.auditname"
+								md-input required />
+						</div>
+					</div>
+					<div class="uk-width-medium-1-2">
+						<div class=" uk-form-row parsley-row">
+							<label>Аудитын менежер</label> <input type="text"
+								class="md-input " ng-model="auditData.manager"
+								md-input required />
+						</div>
+					</div>
+				</div>
+				<div class="uk-grid" data-uk-grid-margin>
+					<div class="uk-width-medium-1-1">
+						<div class=" uk-form-row parsley-row">
+							<label>Чанарын баталгаажуулалт хийсэн ажилтны албан тушаал</label> <input type="text"
+								class="md-input " ng-model="auditData.chpos"
+								md-input required />
+						</div>
+					</div>
+				</div>
+				<div class="uk-grid" data-uk-grid-margin>
+					<div class="uk-width-medium-1-1">
+						<div class=" uk-form-row parsley-row">
+							<label>Чанарын баталгаажуулалт хийсэн ажилтны овог нэр</label> <input type="text"
+								class="md-input " ng-model="auditData.chname"
+								md-input required />
+						</div>
+					</div>
+				</div>
+				<div class="uk-grid" data-uk-grid-margin>
+					<div class="uk-width-medium-1-2">
+						<div class=" uk-form-row parsley-row">
+							<label>Аудит хийсэн ажилтны албан тушаал</label> <input type="text"
+								class="md-input " ng-model="auditData.apos"
+								md-input required />
+						</div>
+					</div>
+					<div class="uk-width-medium-1-2">
+						<div class=" uk-form-row parsley-row">
+							<label>Аудит хийсэн ажилтны овог нэр</label> <input type="text"
+								class="md-input " ng-model="auditData.aname"
+								md-input required />
+						</div>
+					</div>
+				</div>
+				<div class="uk-grid" data-uk-grid-margin>
+					<div class="uk-width-medium-1-1">	
+						<div class=" uk-form-row parsley-row">
+							<selectize id="selec_adv_1" ng-model="auditData.lnkUsers" config="selectize_planets_config" options="selectize_role" position="bottom"></selectize> 
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="uk-modal-footer uk-text-right">
+            	 	<button type="submit" class="md-btn md-btn-primary md-btn-wave-light waves-effect waves-button waves-light">Хадгалах</button>
+                    <button type="button" class="md-btn md-btn-flat uk-modal-close">Хаах</button>                         
+                </div>  
+				
+			</form>
+         </div>
+     </div>
+     
+     	<style>
+		.k-grid-content table tbody{
+			cursor: pointer;
+		}
+		.k-grid-content-locked {
+	        float: right;
+	    }
+	
+	    .k-grid-header-locked {
+	        float: right;
+	    }
+	</style>

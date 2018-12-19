@@ -1,0 +1,144 @@
+    <div id="page_content">
+        <div id="page_content_inner">
+
+            <div class="uk-width-large-2-3 uk-container-center">
+                <div class="timeline timeline-center">
+
+                    <div class="timeline_item" ng-repeat="event in timeline_data">
+                        <div class="timeline_icon timeline_icon_danger uk-invisible" data-uk-scrollspy="{cls:'uk-animation-scale-up uk-invisible', delay:300, repeat: true}" ng-if="event.status == 'danger'"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                        <div class="timeline_icon timeline_icon_success uk-invisible" data-uk-scrollspy="{cls:'uk-animation-scale-up uk-invisible', delay:300, repeat: true}" ng-if="event.status == 'success'"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                        <div class="timeline_icon timeline_icon_warning uk-invisible" data-uk-scrollspy="{cls:'uk-animation-scale-up uk-invisible', delay:300, repeat: true}" ng-if="event.status == 'warning'"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                        <div class="timeline_icon timeline_icon_primary uk-invisible" data-uk-scrollspy="{cls:'uk-animation-scale-up uk-invisible', delay:300, repeat: true}" ng-if="event.status == 'primary'"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                        <div class="timeline_icon uk-invisible" data-uk-scrollspy="{cls:'uk-animation-scale-up uk-invisible', delay:300, repeat: true}" ng-if="!event.status"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                        <div class="timeline_date uk-invisible" data-uk-scrollspy="{cls:'uk-animation-slide-right uk-invisible', delay:300}" ng-if="$even">
+                            {{ event.date | momentDate:'MM-DD-YYYY':'DD' }}
+                            <span>{{ event.date | momentDate:'MM-DD-YYYY':'MMM' }}</span>
+                        </div>
+                        <div class="timeline_date uk-invisible" data-uk-scrollspy="{cls:'uk-animation-slide-left uk-invisible', delay:300}" ng-if="$odd">
+                            {{ event.date | momentDate:'MM-DD-YYYY':'DD' }}
+                            <span>{{ event.date | momentDate:'MM-DD-YYYY':'MMM' }}</span>
+                        </div>
+                        <div class="timeline_content uk-invisible {{ $even }}" data-uk-scrollspy="{cls:'uk-animation-slide-left uk-invisible', delay:300}" ng-if="$even">
+                            <span class="timeline_content_info">{{event.description}}</span>
+                            <a href="#" ng-if="event.link_text"><strong>{{event.link_text}}</strong></a>
+                            <div class="timeline_content_addon" ng-if="event.image || event.post_excerpt || event.user_name">
+                                <img ng-src="{{event.image}}" alt="" ng-if="event.image"/>
+                                <blockquote ng-if="event.post_excerpt">
+                                    {{event.post_excerpt}}&hellip;
+                                </blockquote>
+                                <ul class="md-list md-list-addon" ng-if="event.user_name">
+                                    <li>
+                                        <div class="md-list-addon-element" ng-if="event.user_avatar">
+                                            <img class="md-user-image md-list-addon-avatar" ng-src="{{event.user_avatar}}" alt=""/>
+                                        </div>
+                                        <div class="md-list-content">
+                                            <span class="md-list-heading" ng-if="event.user_name">{{event.user_name}}</span>
+                                            <span class="uk-text-small uk-text-muted" ng-if="event.user_status">{{event.user_status}}</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="timeline_content uk-invisible {{ $even }}" data-uk-scrollspy="{cls:'uk-animation-slide-right uk-invisible', delay:300}" ng-if="$odd">
+                            <span class="timeline_content_info">{{event.description}}</span>
+                            <a href="#" ng-if="event.link_text"><strong>{{event.link_text}}</strong></a>
+                            <div class="timeline_content_addon" ng-if="event.image || event.post_excerpt || event.user_name">
+                                <img ng-src="{{event.image}}" alt="" ng-if="event.image"/>
+                                <blockquote ng-if="event.post_excerpt">
+                                    {{event.post_excerpt}}&hellip;
+                                </blockquote>
+                                <ul class="md-list md-list-addon" ng-if="event.user_name">
+                                    <li>
+                                        <div class="md-list-addon-element" ng-if="event.user_avatar">
+                                            <img class="md-user-image md-list-addon-avatar" ng-src="{{event.user_avatar}}" alt=""/>
+                                        </div>
+                                        <div class="md-list-content">
+                                            <span class="md-list-heading" ng-if="event.user_name">{{event.user_name}}</span>
+                                            <span class="uk-text-small uk-text-muted" ng-if="event.user_status">{{event.user_status}}</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="uk-grid" data-uk-grid-margin>
+                <div class="uk-width-large-2-3">
+                    <h3 class="heading_a uk-margin-bottom">Regular</h3>
+                    <div class="timeline">
+                        <div class="timeline_item" ng-repeat="event in user_data.timeline">
+                            <div class="timeline_icon timeline_icon_danger" ng-if="event.status == 'danger'"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                            <div class="timeline_icon timeline_icon_success" ng-if="event.status == 'success'"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                            <div class="timeline_icon timeline_icon_warning" ng-if="event.status == 'warning'"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                            <div class="timeline_icon timeline_icon_primary" ng-if="event.status == 'primary'"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                            <div class="timeline_icon" ng-if="!event.status"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                            <div class="timeline_date">
+                                {{ event.date | momentDate:'MM-DD-YYYY':'DD' }}
+                                <span>{{ event.date | momentDate:'MM-DD-YYYY':'MMM' }}</span>
+                            </div>
+                            <div class="timeline_content">
+                                {{event.description}} <a href="#" ng-if="event.link_text"><strong>{{event.link_text}}</strong></a>
+                                <div class="timeline_content_addon" ng-if="event.image || event.post_excerpt || event.user_name">
+                                    <img ng-src="{{event.image}}" alt="" ng-if="event.image"/>
+                                    <blockquote ng-if="event.post_excerpt">
+                                        {{event.post_excerpt}}&hellip;
+                                    </blockquote>
+                                    <ul class="md-list md-list-addon" ng-if="event.user_name">
+                                        <li>
+                                            <div class="md-list-addon-element" ng-if="event.user_avatar">
+                                                <img class="md-user-image md-list-addon-avatar" ng-src="{{event.user_avatar}}" alt=""/>
+                                            </div>
+                                            <div class="md-list-content">
+                                                <span class="md-list-heading" ng-if="event.user_name">{{event.user_name}}</span>
+                                                <span class="uk-text-small uk-text-muted" ng-if="event.user_status">{{event.user_status}}</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-width-large-1-3">
+                    <h3 class="heading_a uk-margin-bottom">Mini</h3>
+                    <div class="timeline timeline_small">
+                        <div class="timeline_item" ng-repeat="event in user_data.timeline">
+                            <div class="timeline_icon timeline_icon_danger" ng-if="event.status == 'danger'"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                            <div class="timeline_icon timeline_icon_success" ng-if="event.status == 'success'"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                            <div class="timeline_icon timeline_icon_warning" ng-if="event.status == 'warning'"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                            <div class="timeline_icon timeline_icon_primary" ng-if="event.status == 'primary'"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                            <div class="timeline_icon" ng-if="!event.status"><i class="material-icons" ng-bind-html="event.icon"></i></div>
+                            <div class="timeline_date">
+                                {{ event.date | momentDate:'MM-DD-YYYY':'DD' }}
+                                <span>{{ event.date | momentDate:'MM-DD-YYYY':'MMM' }}</span>
+                            </div>
+                            <div class="timeline_content">
+                                {{event.description}} <a href="#" ng-if="event.link_text"><strong>{{event.link_text}}</strong></a>
+                                <div class="timeline_content_addon" ng-if="event.image || event.post_excerpt || event.user_name">
+                                    <img ng-src="{{event.image}}" alt="" ng-if="event.image"/>
+                                    <blockquote ng-if="event.post_excerpt">
+                                        {{event.post_excerpt}}&hellip;
+                                    </blockquote>
+                                    <ul class="md-list md-list-addon" ng-if="event.user_name">
+                                        <li>
+                                            <div class="md-list-addon-element" ng-if="event.user_avatar">
+                                                <img class="md-user-image md-list-addon-avatar" ng-src="{{event.user_avatar}}" alt=""/>
+                                            </div>
+                                            <div class="md-list-content">
+                                                <span class="md-list-heading" ng-if="event.user_name">{{event.user_name}}</span>
+                                                <span class="uk-text-small uk-text-muted" ng-if="event.user_status">{{event.user_status}}</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>

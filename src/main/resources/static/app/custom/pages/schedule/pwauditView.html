@@ -1,0 +1,111 @@
+    <div id="page_content">
+        <div id="page_content_inner">
+             <div class="md-card">
+			     <div class="md-card-content">
+			        <!--  <h3 class="heading_a">Input fields</h3> -->
+			         <div class="uk-grid" data-uk-grid-margin>
+			             <div class="uk-width-medium-1-1 user ">    
+			             	 <kendo-grid options="puserGrid"></kendo-grid>                     	
+			                <!-- <div id="orgGrid"></div> -->
+			             </div> 			                       
+			         </div>               
+			     </div>
+			 </div> 
+        </div>
+    </div>
+	<div ng-include="'app/views/footer.html'"></div>
+	
+	<style>
+		.k-grid-content table tbody{
+			cursor: pointer;
+		}
+		.k-grid-content-locked {
+	        float: right;
+	    }
+	
+	    .k-grid-header-locked {
+	        float: right;
+	    }
+	</style>
+	<script type="text/x-kendo-template" id="aper">			
+		#if (stepid==3) {#
+        	#:auditors# (#:aper#%)
+		# }
+		
+		else if (stepid==4){# 
+			#:auditors# (#:a2per#%)
+		#} 
+		
+		else if (stepid==5){# 
+			#:auditors# (#:a3per#%)
+		#} 
+
+		else if (stepid==6){# 
+			#:auditors# (#:a3per#%)
+		#}#	
+	</script>
+	<script type="text/x-kendo-template" id="mper">			
+		#if (stepid==3) {#
+        	#:managers# (#:mper#%)
+		# }
+		
+		else if (stepid==4){# 
+			#:managers# (#:m2per#%)
+		#} 
+		
+		else if (stepid==5){# 
+			#:managers# (#:m3per#%)
+		#}
+
+		else if (stepid==6){# 
+			#:managers# (#:m3per#%)
+		#} #	
+	</script>
+		<script type="text/x-kendo-template" id="tper">			
+		#if (stepid==3) {#
+        	#:terguuleh# (#:tper#%)
+		# }
+		
+		else if (stepid==4){# 
+			#:terguuleh# (#:t2per#%)
+		#} 
+		
+		else if (stepid==5){# 
+			#:terguuleh# (#:t3per#%)
+		#} 
+
+		else if (stepid==6){# 
+			#:terguuleh# (#:t3per#%)
+		#} #	
+	</script>
+	<script type="text/x-kendo-template" id="update2">			
+		#if (stepid==2) {#
+        	<button  class="k-button k-button-icontext" ng-click='update(dataItem)'><span class="k-icon k-i-search"></span>Хянах</button>
+		# }
+		
+		else if (stepid==3 || stepid==4){# 
+			<button class="k-button k-button-icontext" ng-click='update(dataItem)'><span class="k-icon k-i-hbars"></span>Харах</button>
+		#} 
+		
+		else if (stepid==1){# 
+			<button disabled class="k-button k-button-icontext" ng-click='update(dataItem)'><span class="k-icon k-i-search"></span>Хянах</button>
+		#} #	
+	</script>
+
+	<script type="text/x-kendo-template" id="read">
+	    <button class="md-btn md-btn-small md-btn-primary" ng-click='read(dataItem)'> </span>Нээх</button>
+	</script>
+	
+	<script type="text/x-kendo-template" id="update">
+		#if (stepid==3 || stepid==2){# 
+			<button class="k-button k-button-icontext" ng-click='update(dataItem)'><span class="k-icon k-i-hbars"></span>Харах</button>
+		#}
+		else if (stepid==1 || stepid==4){# 
+			<button class="k-button k-button-icontext" ng-click='update(dataItem)'><span class="k-icon k-edit"></span>Засах</button>
+		#} #		
+	</script>
+	<script type="text/x-kendo-template" id="add">
+         <div id="details-container" style="text-align:left;">
+           <button class="k-button k-button-icontext" ng-click='res()'  data-uk-modal="{target:'\\#modal_update'}"> <span class='k-icon k-add'></span> Байгууллагын жагсаалт үүсгэх</button>
+         </div>
+    </script>

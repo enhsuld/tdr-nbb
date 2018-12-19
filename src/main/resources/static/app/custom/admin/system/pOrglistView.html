@@ -1,0 +1,86 @@
+    <div id="page_content">
+        <div id="page_content_inner">
+             <div class="md-card">
+			     <div class="md-card-content">
+			         <div class="uk-grid" data-uk-grid-margin>
+			             <div class="uk-width-medium-1-1">    
+			             	 <kendo-grid options="pmenuGrid"></kendo-grid>                     	
+			                <!-- <div id="orgGrid"></div> -->
+			             </div>                  
+			         </div>               
+			     </div>
+			 </div> 
+        </div>
+    </div>
+	<footer id="footer">
+	    <span style="display:block;  text-align:right;">&copy; 2015-2016 <a href="www.staus.mn/sgt">Smart Green Technology LLC</a>, All rights reserved.</span>
+	</footer>
+	
+		<script type="text/x-kendo-template" id="addPosition">
+         <div id="details-container" style="text-align:left;">
+           <button class="k-button k-button-icontext" ng-click='org()'> <span class='k-icon k-add'></span>Шинээр өгөгдөл нэмэх </button>	  
+		   <a class="k-button k-button-icontext k-grid-excel" href="\#\"><span class="k-icon k-i-excel"></span>MS Excel-т экспортлох</a>
+		   <a class="k-button k-button-icontext k-grid-pdf" href="\#\"><span class="k-icon k-i-pdf"></span>PDF-т экспортлох</a>
+         </div>
+		
+     </script>
+	<script type="text/x-kendo-template" id="addorg">
+         <div id="details-container" style="text-align:left;">
+           <button class="k-button k-button-icontext" ng-click='org()'> <span class='k-icon k-add'></span>Шинээр өгөгдөл нэмэх </button>	  
+		   <a class="k-button k-button-icontext k-grid-excel" href="\#\"><span class="k-icon k-i-excel"></span>MS Excel-т экспортлох</a>
+		   <a class="k-button k-button-icontext k-grid-pdf" href="\#\"><span class="k-icon k-i-pdf"></span>PDF-т экспортлох</a>
+         </div>
+		
+     </script>
+	<script type="text/x-kendo-template" id="rep">
+         <div id="details-container" style="text-align:center;">
+           <button class="k-button k-button-icontext k-grid-edit" ng-click='update(#:id#)' "><span class="k-icon k-edit"></span>Засах</button>
+         </div>
+     </script>
+ 	<script type="text/x-kendo-template" id="add">
+         <div id="details-container" style="text-align:left;">
+           <button class="k-button k-button-icontext" ng-click='org()'> <span class='k-icon k-add'></span> Шинээр өгөгдөл нэмэх</button>
+         </div>
+     </script>
+     <script type="text/x-kendo-template" id="extend">
+         <div id="details-container" style="float:left;">
+           <button class="md-btn md-btn-small md-btn-primary" ng-click='edit(#:id#)'> </span>засах</button>
+         </div>
+		<div id="details-container1" style="float:left; margin-left: 20px;">
+           <button class="md-btn md-btn-small md-btn-danger" ng-click='deleteO(#:id#)'> </span>устгах</button>
+         </div>
+     </script>
+      <script type="text/x-kendo-template" id="extendu">
+         <div id="details-container" style="float:left;">
+           <button class="md-btn md-btn-small md-btn-primary" ng-click='edit(#:id#)'> </span>засах</button>
+         </div>
+		
+     </script>
+      <script type="text/x-kendo-template" id="extendd">
+         <div id="details-container1" style="float:left; margin-left: 20px;">
+           <button class="md-btn md-btn-small md-btn-danger" ng-click='deleteO(#:id#)'> </span>устгах</button>
+         </div>
+     </script>
+     <script type="text/x-kendo-template" id="export">
+         <div id="details-container" style="text-align:left;">
+		   <a class="k-button k-button-icontext k-grid-excel" href="\#\"><span class="k-icon k-i-excel"></span>MS Excel-т экспортлох</a>
+		   <a class="k-button k-button-icontext k-grid-pdf" href="\#\"><span class="k-icon k-i-pdf"></span>PDF-т экспортлох</a>
+         </div>
+     </script>
+ <style>
+	.k-textbox, .k-numerictextbox{
+		width:95%;
+	}
+	.slabel{
+	    color: #727272;
+   		font-size: 12px;
+   		margin: 0 !important;
+	}
+	.one .selectize-input {
+    border-width: 0 0 1px;
+    padding: 0px !important; 
+}
+</style>     
+     
+
+    

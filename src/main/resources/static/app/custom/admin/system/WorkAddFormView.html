@@ -1,0 +1,260 @@
+    <div id="page_content">
+        <div id="page_content_inner">
+        
+       <!--  <h2 class="heading_b uk-margin-bottom">Ажлын форм үүсгэх</h2> -->
+         
+         <form class="uk-form-stacked" id="user_add_form" name="user_add_form" ng-submit="submitWorkadd($event)">
+             <div class="md-card">
+	            <div class="uk-margin">
+	            	<div class="user_content">
+                           
+                            <div id="workaddform" class=" uk-margin">
+                                	<h2 class="heading_b uk-margin-bottom">Ажил</h2>  <hr>
+                                	<div class="uk-grid uk-margin-large-bottom" data-uk-grid-margin>
+	                                	<div class="uk-width-large-1-1 uk-margin-medium-top">
+                                    		<div class="uk-grid uk-margin-medium-bottom" data-uk-grid-margin>
+                                    			
+                                    			<div class="uk-width-medium-2-3">
+				                                    <div class="uk-input-group">
+				                                        <span class="uk-input-group-addon">
+				                                           <i class="md-list-addon-icon md-36 material-icons">&#xE866;</i>
+				                                        </span>
+				                                        <div class="parsley-row uk-form-row">
+					                                        <label for="workformname">Ажлын нэр <span class="req">*</span></label>
+		                                                	<input class="md-input" type="text" id="workformname" name="workformname" ng-model="formdata.workformname" md-input 
+		                                                	data-parsley-required data-parsley-error-message="Ажлын нэрээ оруулна уу"/>
+				                                    	</div>
+				                                    </div>
+				                                </div>
+				                                <div class="uk-width-medium-1-3">
+				                                    <div class="uk-input-group">
+				                                        <span class="uk-input-group-addon">
+				                                           <i class="md-list-addon-icon md-36 material-icons">&#xE242;</i>
+				                                        </span>
+				                                        <div class="parsley-row uk-form-row">
+					                                        <label for="lname">Дэлгэцэнд харагдах дараалал </label>
+		                                                	<input class="md-input" type="number" id="orderid" name="orderid" ng-model="formdata.orderid" md-input 
+		                                                	data-parsley-required data-parsley-error-message="дараалалаа оруулна уу"/>
+				                                    	</div>
+				                                    </div>
+				                                </div>
+				                                
+                                    		</div>
+                                    		<div class="uk-grid uk-margin-medium-bottom" data-uk-grid-margin>
+	                                            
+	                                            <div class="uk-width-large-1-2">
+	                                            	<div class="uk-input-group">
+				                                        <span class="uk-input-group-addon">
+				                                            <i class="md-list-addon-icon md-36 material-icons">&#xE8EC;</i>
+				                                        </span>
+				                                        <div class="parsley-row uk-form-row">
+									                    	<label class="slabel uk-margin-small-bottom"> Аудитын ангилал </label>
+									                    	<selectize ng-change="ch(formdata.categoryid)" type="text" ng-model="formdata.categoryid" class="md-input" placeholder="Сонгоно уу..." id="work_type"
+									                    	 data-parsley-required data-parsley-error-message="Ангилаа сонгоно уу."
+									                    	 position="bottom" config="selectize_work_type_config" options="selectize_work_type_options" name="work_type"></selectize>
+									           
+								                        </div>
+				                                    </div>
+	                                            </div>
+	                                            <div class="uk-width-large-1-2">
+		                                        	<div class="uk-input-group">
+					                                        <span class="uk-input-group-addon">
+					                                            <i class="md-list-addon-icon md-36 material-icons">&#xE7F9;</i>
+					                                        </span>
+					                                        <div class="parsley-row uk-form-row">
+										                    	<label class="slabel"> Аудитын төрөл </label>
+										                    	<selectize id="au_type" config="selectize_au_type_config" 
+										                    	ng-model="formdata.reasonid"
+										                    	options="selectize_au_type_options" position="bottom" placeholder="Сонгоно уу..."
+										                    	ng-model="forms_advanced.selectize_planets"></selectize>
+										                       
+									                        </div>
+					                            	</div>
+		                                        </div>
+	                                       </div>
+	                                       
+	                                       <div class="uk-grid uk-margin-medium-bottom" data-uk-grid-margin>
+	                                            <div class="uk-width-large-2-3">
+	                                            	<div class="uk-input-group">
+				                                        <span class="uk-input-group-addon">
+				                                            <i class="md-list-addon-icon md-36 material-icons">&#xE867;</i>
+				                                        </span>
+				                                        <div class="parsley-row uk-form-row">
+									                    	<label class="slabel"> Харъяалагдах ажил</label>
+									                    	<selectize ng-change="ch(formdata.parentid)" type="text" ng-model="formdata.parentid" class="md-input" placeholder="Сонгоно уу..." id="au_work"
+									                    	 required
+									                    	 position="bottom" config="selectize_au_work_config" options="selectize_au_work_options" name="selectize_au_work" ></selectize>
+									                    	
+								                        </div>
+				                                    </div>
+	                                            </div>
+	                                            <div class="uk-width-large-1-3">
+	                                            	<div class="uk-input-group">
+				                                        <span class="uk-input-group-addon">
+				                                            <i class="md-list-addon-icon md-36 material-icons">view_carousel</i>
+				                                        </span>
+				                                        <div class="parsley-row uk-form-row">
+									                    	<label class="slabel"> Аудитын үе шат </label>
+									                    	<selectize ng-change="ch(formdata.au_level)" type="text" ng-model="formdata.au_level" class="md-input" placeholder="Сонгоно уу..." id="au_level"
+									                    	 data-parsley-required data-parsley-error-message="Үе шатаа сонгоно уу."
+									                    	 position="bottom" config="selectize_au_level_config" options="selectize_au_level_options" name="au_level" ></selectize>
+									                       
+								                        </div>
+				                                    </div>
+	                                            </div>
+	                                       </div>
+	                                      
+										   <div class="uk-grid uk-margin-small-bottom uk-margin-medium-top" data-uk-grid-margin>
+	                                            <div class="uk-width-medium-1-1">
+				                                    <div class="uk-input-group">
+				                                        <span class="uk-input-group-addon">
+				                                            <i class="md-list-addon-icon md-36 material-icons">&#xE0C9;</i>
+				                                        </span>
+				                                        <div class="parsley-row uk-form-row">
+					                                        <label for="nationaly"> Зорилго </label>
+					                                        <textarea id="message" class="md-input" name="message" cols="10" rows="8" md-input ng-model="formdata.text" data-parsley-trigger="keyup" data-parsley-maxlength="4000" data-parsley-validation-threshold="10" data-parsley-minlength-message = "Come on! You need to enter at least a 20 caracters long comment.."></textarea>
+									                       <!--  <textarea class="md-input" name="formdata.text" requi
+		                                                	id="formdata.text" cols="30" rows="6" ng-model="formdata.text" md-input textarea-autosize data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-validation-threshold="10" data-parsley-minlength-message = "Come on! You need to enter at least a 20 caracters long comment.."
+		                                                	 ></textarea> -->
+				                                    	</div>
+				                                    </div>
+				                                </div>
+				                            </div>
+				                           
+				                            <div class="uk-grid uk-margin-small-bottom" data-uk-grid-margin>
+	                                            <div class="uk-width-large-1-2">
+	                                            	
+		                                            <div class="uk-grid uk-margin-small-bottom" data-uk-grid-margin>
+		                                            	<div class="uk-width-large-1-2 uk-margin-medium-bottom">
+			                                            	<div class="uk-input-group">
+						                                        <span class="uk-input-group-addon">
+						                                            <i class="md-list-addon-icon md-36 material-icons">&#xE7F9;</i>
+						                                        </span>
+						                                        <div class="parsley-row uk-form-row">
+											                    	<label class="slabel"> Маягттай эсэх</label>
+											                    	<selectize ng-change="fch(formdata.isfile)" type="text" ng-model="formdata.isfile" class="md-input" placeholder="Сонгоно уу..." id="isfile"
+											                    		position="bottom" config="selectize_isfile_config" options="selectize_isfile_options" name="isfile"></selectize>
+											                     </div>
+						                                    </div>
+			                                            </div>
+			                                            <div class="uk-width-large-1-2 uk-margin-medium-bottom">
+			                                            	<div class="uk-input-group">
+						                                        <span class="uk-input-group-addon">
+						                                            <i class="md-list-addon-icon md-36 material-icons">&#xE7F9;</i>
+						                                        </span>
+						                                        <div class="parsley-row uk-form-row">
+											                    	<label class="slabel"> Гүйцэтгэлд хамаарах эсэх</label>
+											                    	<selectize ng-change="fch(formdata.isfile)" type="text" ng-model="formdata.isscore" class="md-input" placeholder="Сонгоно уу..." id="isfile"
+											                    		position="bottom" config="selectize_isfile_config" options="selectize_isfile_options" name="isfile"></selectize>
+											                     </div>
+						                                    </div>
+			                                            </div>
+		                                            </div>
+		                                            <div class="uk-grid uk-margin-small-bottom" data-uk-grid-margin>
+			                                            <div class="uk-width-large-1-2 uk-margin-medium-bottom">
+			                                            	<div class="uk-input-group">
+						                                        <span class="uk-input-group-addon">
+						                                            <i class="md-list-addon-icon md-36 material-icons">&#xE7F9;</i>
+						                                        </span>
+						                                        <div class="parsley-row uk-form-row">
+											                    	<label class="slabel"> Маягтын нэр </label>
+											                    	<input class="md-input" type="text" id="filename" name="filename" ng-model="formdata.fname" md-input />
+										                        </div>
+						                                    </div>
+			                                            </div>
+			                                            <div class="uk-width-large-1-2 uk-margin-medium-bottom">
+			                                            	<div class="uk-input-group">
+						                                        <span class="uk-input-group-addon">
+						                                            <i class="md-list-addon-icon md-36 material-icons">&#xE7F9;</i>
+						                                        </span>
+						                                        <div class="parsley-row uk-form-row">
+											                    	<label class="slabel"> Файлын зам </label>
+											                    	<input class="md-input" type="text" id="fileurl" name="fileurl" ng-model="formdata.fileurl" md-input />
+										                        </div>
+						                                    </div>
+			                                            </div>
+		                                            </div>		                                            
+	                                            </div>
+				                                <div class="uk-width-medium-1-2">
+				                                    <div class="uk-input-group">
+				                                        <span class="uk-input-group-addon">
+				                                            <i class="md-list-addon-icon md-36 material-icons"></i>
+				                                        </span>
+				                                        <div class="parsley-row uk-form-row">
+		                                                	<input ng-show="formdata.isfile==1 && formdata.filepath==null" type="file" ng-files="getTheUFiles($files)"  id="input-file-b"
+                        										class="dropify-fr" />
+				                                    	</div>
+				                                    	<div class="md-list-outside-wrapper" custom-scrollbar style="text-align: center; height:190px !important; border: 1px solid; border-color: #e1e1e1" ng-if="formdata.isfile==1 && formdata.filepath!=null">
+													    	<span class="nofileIcon"><i class="material-icons md-48">cloud_download</i> <br> {{formdata.filename}}</span>
+													        <div style="position: absolute; top: 5px; right: 10px;">
+                        										<a class="md-btn md-btn-primary md-btn-mini md-btn-wave-light md-btn-icon" target="_self" 
+								                       				data-uk-tooltip="{pos:'bottom'}" title="Татах" 
+								                       				download="{{formdata.filename}}"  href="{{formdata.filepath}}" >
+								                   				    <i class="material-icons no_margin">file_download</i>
+								                   				 </a>
+								                   				 <a class="md-btn md-btn-danger md-btn-mini md-btn-wave-light md-btn-icon" 
+								                       				data-uk-tooltip="{pos:'bottom'}" title="Устгах" 
+								                       				ng-click="removeFile(formdata)"  href="javascript:void(0)" >
+								                       				<i class="material-icons no_margin">delete</i>
+								                       			</a>
+                        									</div>
+													    </div>
+				                                    </div>
+				                                </div>
+				                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="uk-grid">
+                                        <div class="uk-width-1-1">
+                                        	<button type="button" class="md-btn md-btn-success" ng-click="backtoview()">Буцах</button>
+                                        	<button type="submit" class="md-btn md-btn-primary uk-float-right">Хадгалах</button>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+	            </div>
+	        </div>
+	      </form>
+        </div>
+    </div>
+    
+<style>
+	.slabel{
+	    color: #727272;
+   		font-size: 12px;
+	}
+	.req{
+	color: red;
+	}
+	.rbutton>label, .rbutton>label {
+    top: -6px;
+    font-size: 12px;
+}
+.rbutton>label {
+    color: #727272;
+    position: absolute;
+    pointer-events: none;
+    -webkit-transition: all 150ms ease-out;
+    transition: all 150ms ease-out;
+}
+#rbutton{
+	position: absolute;
+	bottom: -10px;
+}
+.cab{
+	border:1px solid; 
+	padding: 50px 50px;
+	border-radius: 5px;
+	color: rgb(234, 234, 234);
+}
+
+#workaddform .selectize-control {
+    position: relative;
+    margin-top: 10px;
+}
+.nofileIcon{
+	position: relative; top: 30%; 
+}
+	
+</style>

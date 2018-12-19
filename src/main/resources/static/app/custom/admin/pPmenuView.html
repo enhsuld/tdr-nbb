@@ -1,0 +1,161 @@
+    <div id="page_content">
+        <div id="page_content_inner">
+             <div class="md-card">
+			     <div class="md-card-content">
+			        <!--  <h3 class="heading_a">Input fields</h3> -->
+			         <div class="uk-grid" data-uk-grid-margin>
+			             <div class="uk-width-medium-1-1">    
+			             	 <kendo-grid options="pmenuGrid"></kendo-grid>     
+			             <!-- 	 <kendo-tree-list k-options="pmenuGrid"></kendo-tree-list>                	 -->
+			                <!-- <div id="orgGrid"></div> -->
+			             </div>                  
+			         </div>               
+			     </div>
+			 </div> 
+        </div>
+    </div>
+	<div ng-include="'app/views/footer.html'"></div>
+<div class="uk-modal" id="modal_update">
+          <div class="uk-modal-dialog uk-modal-dialog-medium" data-uk-grid-margin>
+              <button type="button" id="closemodal" class="uk-modal-close uk-close uk-close-alt"></button>
+              <h3 class="heading_a">Цэс</h3>  
+ 			  	<form name="form_val" id="form_val"  data-ng-submit="submitForm($event)"> 	
+ 			  		<input type="hidden" id="{{section.id}}" class="menu" ng-model="id" value="{{id}}"/>	
+ 			  		<hr style="margin-bottom:10px;">
+ 			  		<div class="uk-margin-large-bottom">
+ 			  			<div class="uk-grid" data-uk-grid-margin>
+ 			  				<div class="uk-width-medium-1-1">
+				            	<div class="uk-grid" data-uk-grid-margin>
+				            		<div class="uk-width-large-1-1 uk-margin-medium-top">
+				            			<div class="uk-grid uk-margin-medium-bottom" data-uk-grid-margin>
+	                                		<div class="uk-width-medium-2-3">
+						                    	<div class="uk-input-group">
+						                        	<span class="uk-input-group-addon">
+						                            	<i class="md-list-addon-icon material-icons">date_range</i>
+						                            </span>
+						                            <div class="parsley-row uk-form-row">
+							                        	<label for="departmentname">Нэр /Mn/</label>
+				                                        <input class="md-input" type="text" id="menuname" name="menuname" ng-model="formdata.menuname" md-input 
+				                                        	data-parsley-required data-parsley-error-message="Нэрээ оруулна уу"/>
+						                            </div>
+						                        </div>
+						                    </div>
+						                    <div class="uk-width-medium-1-3">
+						                    	<div class="uk-input-group">
+						                        	<span class="uk-input-group-addon">
+						                            	<i class="md-list-addon-icon material-icons">format_list_numbered</i>
+						                            </span>
+						                            <div class="parsley-row uk-form-row">
+							                        	<label for="departmentname">Дараалал</label>
+				                                        <input class="md-input" type="number" id="orderid" name="orderid" ng-model="formdata.orderid" md-input 
+				                                        	data-parsley-required data-parsley-error-message="Дараалалаа оруулна уу"/>
+						                            </div>
+						                        </div>
+						                    </div>
+		                               </div>	
+		                               <div class="uk-grid uk-margin-medium-bottom" data-uk-grid-margin>
+	                                		<div class="uk-width-medium-1-2">
+						                    	<div class="uk-input-group">
+						                        	<span class="uk-input-group-addon">
+						                            	<i class="md-list-addon-icon material-icons">link</i>
+						                            </span>
+						                            <div class="parsley-row uk-form-row">
+							                        	<label for="departmentname">URL</label>
+				                                        <input class="md-input" type="text" id="stateurl" name="stateurl" ng-model="formdata.stateurl" md-input 
+				                                        	data-parsley-required data-parsley-error-message="Утгаа оруулна уу"/>
+						                            </div>
+						                        </div>
+						                    </div>
+						                    <div class="uk-width-medium-1-2">
+						                    	<div class="uk-input-group">
+						                        	<span class="uk-input-group-addon">
+						                            	<i class="md-list-addon-icon material-icons">panorama</i>
+						                            </span>
+						                            <div class="parsley-row uk-form-row">
+							                        	<label for="departmentname">IKON</label>
+				                                        <input class="md-input" type="text" id="uicon" name="uicon" ng-model="formdata.uicon" md-input/>
+						                            </div>
+						                        </div>
+						                    </div>
+		                                </div>		
+	                                	<div class="uk-grid uk-margin-small-bottom" data-uk-grid-margin>
+	                                		<div class="uk-width-large-1-1">
+			                                	<div class="uk-input-group">
+						                        	<span class="uk-input-group-addon">
+						                            	<i class="md-list-addon-icon material-icons">&#xE7F9;</i>
+						                            </span>
+						                            <div class="parsley-row uk-form-row one">
+											        	<label class="slabel"> Эцэг цэс</label>
+											            <selectize ng-change="fch(formdata.parentid)" type="text" ng-model="formdata.parentid" class="md-input" placeholder="Сонгоно уу..." id="parentid"
+											            	position="bottom" config="selectize_isfile_config" options="selectize_isfile_options" name="isactive"></selectize>
+											        </div>
+						                        </div>
+			                                 </div>
+		                                </div>	
+		                                	                                            
+	                                </div>
+				            	</div>
+				            </div>
+		                </div>	  
+			        </div>        	  
+					<hr>
+	                <div class="uk-modal-footer uk-text-right">
+	                	 <button type="submit" class="md-btn md-btn-primary md-btn-wave-light waves-effect waves-button waves-light">Хадгалах</button>
+                         <button type="button" class="md-btn md-btn-flat uk-modal-close">Хаах</button>                         
+                     </div>  
+				        
+                   
+                 </form> 
+              </div>
+          </div>
+
+	<script type="text/x-kendo-template" id="addorg">
+         <div id="details-container" style="text-align:left;">
+           <button class="k-button k-button-icontext" ng-click='org()'> <span class='k-icon k-i-plus'></span>Шинээр өгөгдөл нэмэх</button>	  
+         </div>
+		
+     </script>
+ 	<script type="text/x-kendo-template" id="add">
+         <div id="details-container" style="text-align:left;">
+           <button class="k-button k-button-icontext" ng-click='org()'> <span class='k-icon k-add'></span> Шинээр өгөгдөл нэмэх</button>
+         </div>
+     </script>
+     <script type="text/x-kendo-template" id="extend">
+         <div id="details-container" style="float:left;">
+           <button class="md-btn md-btn-small md-btn-primary" ng-click='edit(#:id#)'> </span>засах</button>
+         </div>
+		<div id="details-container1" style="float:left; margin-left: 20px;">
+           <button class="md-btn md-btn-small md-btn-danger" ng-click='deleteO(#:id#)'> </span>устгах</button>
+         </div>
+     </script>
+      <script type="text/x-kendo-template" id="extendu">
+         <div id="details-container" style="float:left;">
+           <button class="md-btn md-btn-small md-btn-primary" ng-click='edit(#:id#)'> </span>засах</button>
+         </div>
+		
+     </script>
+      <script type="text/x-kendo-template" id="extendd">
+         <div id="details-container1" style="float:left; margin-left: 20px;">
+           <button class="md-btn md-btn-small md-btn-danger" ng-click='deleteO(#:id#)'> </span>устгах</button>
+         </div>
+     </script>
+     <script type="text/x-kendo-template" id="export">
+         <div id="details-container" style="text-align:left;">
+		   <a class="k-button k-button-icontext k-grid-excel" href="\#\"><span class="k-icon k-i-excel"></span>MS Excel-т экспортлох</a>
+		   <a class="k-button k-button-icontext k-grid-pdf" href="\#\"><span class="k-icon k-i-pdf"></span>PDF-т экспортлох</a>
+         </div>
+     </script>
+ <style>
+	.k-textbox, .k-numerictextbox{
+		width:95%;
+	}
+	.slabel{
+	    color: #727272;
+   		font-size: 12px;
+   		margin: 0 !important;
+	}
+	.one .selectize-input {
+    border-width: 0 0 1px;
+    padding: 0px !important; 
+}
+</style>

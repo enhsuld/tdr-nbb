@@ -1,0 +1,94 @@
+    <div id="page_content">
+        <div id="page_content_inner">
+             <div class="md-card">        
+			     <div class="md-card-content">
+			        <!--  <h3 class="heading_a">Input fields</h3> -->
+			         <div class="uk-grid" data-uk-grid-margin>
+			             <div class="uk-width-medium-1-1 user ">    
+			             	 <kendo-grid options="puserGrid"></kendo-grid>                     	
+			                <!-- <div id="orgGrid"></div> -->
+			             </div> 			                       
+			         </div>               
+			     </div>
+			 </div> 
+        </div>
+    </div>
+    <div class="uk-modal" id="modal_update_user">
+         <div style="width: 450px;" class="uk-modal-dialog"> 
+             <button type="button" class="uk-modal-close uk-close"></button>
+             <h3 class="heading_a">Хэрэглэгч</h3>
+             <form name="form_signin" class="uk-form-stacked">		
+  			 <hr style="margin-bottom:20px;">
+		   
+                 
+                 <div class="uk-grid" style="margin-top:10px;">      
+                 <div class="uk-width-medium-1-2">	                    	
+                     <label>Овог</label>
+                     <input type="text" ng-model="ud.fname" class="md-input" md-input />	                    	
+                 </div>
+                 <div class="uk-width-medium-1-2" >	                    	
+                     <label>Нэр</label>
+                     <input type="text" ng-model="ud.gname" class="md-input" md-input />	                    	
+                 </div>
+                 </div>
+                 <div class="uk-grid" style="margin-top:10px;"> 
+	                 <div class="uk-width-medium-1-2" >	                    	
+	                     <label>Утас</label>
+	                     <input type="text" ng-model="ud.phone" class="md-input" md-input />	                    	
+	                 </div>  
+	                 <div class="uk-width-medium-1-2" >	                    	
+	                     <label>E-mail</label>
+	                     <input type="text" ng-model="ud.mail" class="md-input" md-input />	                    	
+	                 </div>  
+	             </div>
+	             <div class="uk-grid" style="margin-top:10px;">   
+                 <div class="uk-width-medium-1-1" style="margin-top:10px;">	                    	
+                     <label>Эрх</label>
+                     <input type="text" ng-model="ud.pos" config="selectize_a_config" options="selectize_b_data" name="selectize_a" selectize />                    	
+                 </div> 
+                 </div>
+                 <div class="uk-grid" style="margin-top:10px;">    
+                 <div class="uk-width-medium-1-1" >	                    	
+                     <label>Нэвтрэх нэр</label>
+                     <input type="text" ng-model="ud.uname" class="md-input" md-input />	                    	
+                 </div>
+                 </div>
+                 <div class="uk-grid" style="margin-top:10px;"> 
+                 <div class="uk-width-medium-1-1" >	                    	
+                     <label>Нууц үг</label>
+                     <input type="password" ng-model="ud.pass" type="text" class="md-input" md-input />	                    	
+                 </div>
+                 </div>
+                 <div class="uk-grid" style="margin-top:0px;">
+	                 <div class="uk-width-medium-1-1" style="margin-top:20px;">	       
+	                 	 <input  type="checkbox" ng-model="ud.isac" name="checkbox_demo_1" id="checkbox_demo_1" icheck ng-model="checkbox_demo_1" />             	
+	                     <label style="margin-left: 5px;">Идвэхтэй эсэх</label>
+	                 </div>
+                 </div>	  	
+                 <hr>
+                 <div class="uk-modal-footer uk-text-right">
+             		 <button ng-click="addUser()" type="submit" class="md-btn md-btn-primary md-btn-wave-light waves-effect waves-button waves-light">Хадгалах</button>
+                     <button type="button" class="md-btn md-btn-flat uk-modal-close">Хаах</button>                         
+                 </div>  
+        
+               
+             </form>
+         </div>
+    </div>
+    <div ng-include="'app/views/footer.html'"></div>
+
+	<script type="text/x-kendo-template" id="add">
+         <div style="width: 250px; float: left;" id="details-container" style="text-align:left;">
+           <button class="k-button k-button-icontext" ng-click='res()'  data-uk-modal="{target:'\\#modal_update_user'}"> <span class='k-icon k-i-plus'></span>Шинээр хэрэглэгч нэмэх</button>
+         </div>
+     </script>
+     <script type="text/x-kendo-template" id="update">
+        <button class="k-button k-button-icontext" ng-click='update(dataItem)'  data-uk-modal="{target:'\\#modal_update_user'}"><span class="k-icon k-i-edit"></span>Засах</button>
+    	<button class="k-button k-button-icontext  k-grid-delete" ><span class="k-icon k-i-delete"></span>Устгах</button>
+	</script>
+	<script type="text/x-kendo-template" id="updateu">
+        <button class="k-button k-button-icontext" ng-click='update(dataItem)'  data-uk-modal="{target:'\\#modal_update_user'}"><span class="k-icon k-i-edit"></span>Засах</button>
+    	</script>
+	<script type="text/x-kendo-template" id="updated">
+        <button class="k-button k-button-icontext  k-grid-delete" ><span class="k-icon k-i-delete"></span>Устгах</button>
+	</script>

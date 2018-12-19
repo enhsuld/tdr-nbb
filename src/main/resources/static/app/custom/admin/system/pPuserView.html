@@ -1,0 +1,144 @@
+    <div id="page_content">
+        <div id="page_content_inner">
+             <div class="md-card">        
+			     <div class="md-card-content">
+			        <!--  <h3 class="heading_a">Input fields</h3> -->
+			         <div class="uk-grid" data-uk-grid-margin>
+			             <div class="uk-width-medium-1-1 user ">    
+			             	 <kendo-grid options="puserGrid"></kendo-grid>                     	
+			                <!-- <div id="orgGrid"></div> -->
+			             </div> 			                       
+			         </div>               
+			     </div>
+			 </div> 
+        </div>
+    </div>
+    <div class="uk-modal" id="modal_update_user">
+         <div style="width: 450px;" class="uk-modal-dialog"> 
+             <button type="button" class="uk-modal-close uk-close"></button>
+             <h3 class="heading_a">Хэрэглэгч</h3>
+             <form name="form_signin" class="uk-form-stacked">		
+  			 <hr style="margin-bottom:20px;">
+                 <div class="uk-grid" style="margin-top:10px;">   
+                 <div class="uk-width-medium-1-1" style="margin-top:10px;">	                    	
+                     <label>Багц</label>
+                     <input type="text" ng-model="ud.planid" config="selectize_a_config" options="selectize_b_data" name="selectize_a" selectize />                    	
+                 </div> 
+                 </div>
+                 <div class="uk-grid" style="margin-top:10px;">    
+                 <div class="uk-width-medium-1-1" >	                    	
+                     <label>Хэрэглэгчийн нэр</label>
+                     <input type="text" ng-model="ud.uname" class="md-input" md-input />	                    	
+                 </div>
+                 </div>
+                 <div class="uk-grid" style="margin-top:10px;"> 
+                 <div class="uk-width-medium-1-1" >	                    	
+                     <label>Нууц үг</label>
+                     <input type="password" ng-model="ud.pass" type="text" class="md-input" md-input />	                    	
+                 </div>
+                 </div>
+                 <div class="uk-grid" style="margin-top:10px;"> 
+	                 <div class="uk-width-medium-1-2" >	                    	
+	                     <label>Утас</label>
+	                     <input type="text" ng-model="ud.phone" class="md-input" md-input />	                    	
+	                 </div>  
+	                 <div class="uk-width-medium-1-2" >	                    	
+	                     <label>E-mail</label>
+	                     <input type="text" ng-model="ud.mail" class="md-input" md-input />	                    	
+	                 </div>  
+	             </div>
+                 <div class="uk-grid" style="margin-top:10px;"> 
+	                 <div class="uk-width-medium-1-1" >	                    	
+	                     <label>Эрх</label>
+	                     <selectize id="selec_adv_1" ng-model="ud.roles" config="selectize_planets_config" options="selectize_role" position="bottom"></selectize>                    	
+	                 </div> 
+                 </div>
+             
+                 <div class="uk-grid" style="margin-top:0px;">
+                  	 <!-- <div class="uk-width-medium-1-2">	                    	
+	                     <input type="text" ng-model="ud.autype" config="audit_config" options="selectize_audit_data" name="selectize_a" selectize />                       	
+	                 </div>  -->
+	                 <div class="uk-width-medium-1-1" style="margin-top:20px;">	       
+	                 	 <input  type="checkbox" ng-model="ud.isac" name="checkbox_demo_1" id="checkbox_demo_1" icheck ng-model="checkbox_demo_1" />             	
+	                     <label style="margin-left: 5px;">Идвэхтэй эсэх</label>
+	                 </div>
+                 </div>	  	
+                 <hr>
+                 <div class="uk-modal-footer uk-text-right">
+             		 <button ng-click="addUser()" type="submit" class="md-btn md-btn-primary md-btn-wave-light waves-effect waves-button waves-light">Хадгалах</button>
+                     <button type="button" class="md-btn md-btn-flat uk-modal-close">Хаах</button>                         
+                 </div>  
+        
+               
+             </form>
+         </div>
+    </div>
+    <div class="uk-modal" id="modal_excel">
+        <div class="uk-modal-dialog">
+        	<form name="formUpload" id="form_validation_notloh" class="uk-form-stacked" ng-submit="submitUploadNotlohZuil()">
+            <div class="uk-modal-header">
+                <h3 class="uk-modal-title">Хэрэглэгч нэмэх</h3>
+            </div>
+            <hr>
+            <div class="uk-grid uk-text-center"  style="margin-top:38px; margin-bottom:38px;" ng-show="!sendBtn">
+                 <div class="uk-width-1-1">
+                       <md-preloader stroke-width="4" width="96" height="96"></md-preloader>                      
+                 </div>
+                 <div class="uk-width-1-1" style="margin-top:20px;">
+                       <span>
+                       		Түр хүлээнэ үү!!!
+                       </span>                  
+                 </div>	                  
+            </div> 
+            <div class="uk-grid" ng-show="sendBtn">
+                 <div class="uk-width-1-1">
+                 	 <div id="file_upload-drop" class="uk-file-upload">
+                         <p class="uk-text">Excel</p>
+                         <p class="uk-text-muted uk-text-small uk-margin-small-bottom">файл</p>
+                         <span class="uk-form-file md-btn" ngf-select ngf-max-size="20MB" ng-model="uploadfile" required name="uploadfile">сонгох</span>
+                         <div style="height:15px; margin-top:15px;">
+                         	<p class="uk-text-danger uk-text-small uk-margin-small-bottom" ng-show="formUpload.uploadfile.$error.required" style="height:15px;">*файлаа сонгоно уу</p>
+                         </div>
+                         <div style="height:15px;margin-top:-15px;">
+                         	<p class="uk-text-primary uk-text-small uk-margin-small-bottom" style="height:15px;" ng-show="!formUpload.uploadfile.$error.required">файл сонгогдлоо</p>
+                         </div>
+                         <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                     </div>
+                     <div class="file_upload-progressbar uk-progress uk-hidden">
+                         <div class="uk-progress-bar" style="width:{{file.progress}}%" ng-bind="file.progress + '%'" class="ng-binding">0%</div>
+                     </div>
+                 </div>
+            </div>
+            <hr>
+            <div class="uk-modal-footer">
+            	  <div class="uk-grid">
+	                 <div class="uk-width-medium-1-1">  
+	                     <div class="uk-form-row uk-text-right">
+		                     <button type="submit" class="md-btn  md-btn-wave-light">Илгээх</button> 
+	                		 <button type="button" class="md-btn md-btn-primary md-btn-wave-light uk-modal-close">Хаах</button>
+                		 </div>
+	                 </div>
+	            </div> 
+            </div>
+            </form>
+        </div>
+    </div> 
+	<div ng-include="'app/views/footer.html'"></div>
+	<script type="text/x-kendo-template" id="add">
+         <div style="width: 250px; float: left;" id="details-container" style="text-align:left;">
+           <button class="k-button k-button-icontext" ng-click='res()'  data-uk-modal="{target:'\\#modal_update_user'}"> <span class='k-icon k-i-plus'></span>Хэрэглэгч нэмэх</button>
+         </div>
+		 <div style="float:right;margin-right:10px;text-align:left;">
+           <button class="k-button k-button-icontext"  data-uk-modal="{target:'\\#modal_excel'}"> <span class='k-icon k-i-file-excel'></span>Excel татуулах</button>
+         </div>
+     </script>
+     <script type="text/x-kendo-template" id="update">
+        <button class="k-button k-button-icontext" ng-click='update(dataItem)'  data-uk-modal="{target:'\\#modal_update_user'}"><span class="k-icon k-i-edit"></span>Засах</button>
+    	<button class="k-button k-button-icontext  k-grid-delete" ><span class="k-icon k-i-delete"></span>Устгах</button>
+	</script>
+	<script type="text/x-kendo-template" id="updateu">
+        <button class="k-button k-button-icontext" ng-click='update(dataItem)'  data-uk-modal="{target:'\\#modal_update_user'}"><span class="k-icon k-i-edit"></span>Засах</button>
+    	</script>
+	<script type="text/x-kendo-template" id="updated">
+        <button class="k-button k-button-icontext  k-grid-delete" ><span class="k-icon k-i-delete"></span>Устгах</button>
+	</script>

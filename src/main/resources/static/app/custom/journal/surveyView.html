@@ -1,0 +1,182 @@
+    <div id="page_content">
+    	<div id="top_bar">
+	        <div ncy-breadcrumb></div>
+	    </div>
+        <div id="page_content_inner">
+        	<!-- <div class="md-card">
+			     <div class="md-card-content">  
+			     	<div class="uk-grid" data-uk-grid-margin>   
+			     		<div class="uk-width-medium-7-10">
+                	   		<h3 style="margin-top:7px;"><span>Компаний нэр</span>: {{mainobj.orgname}}, <span>Тайлангийн огноо</span>: {{mainobj.audityear}}, <span>Регистр</span>: {{mainobj.regnum}} </h3>
+                	    </div> 
+                	    <div class="uk-width-medium-3-10 uk-text-right">
+                	    	<a class="md-btn md-btn-primary md-btn-wave-light" data-uk-modal="{target:'#modal_header_footer_form'}" href="javascript:void(0)">Маягт</a>
+                       		<a class="md-btn md-btn-primary md-btn-wave-light" ng-click="modalExcel()"  href="javascript:void(0)">Excel</a>
+                        </div> 
+                    </div>                  
+			     </div>
+			</div>  -->
+        	<div class="md-card" style="margin-top:40px;">
+			     <div class="md-card-content">
+			     	<caption id="myselector">
+			     		АУДИТЫН ТҮҮВРИЙН СОРИЛ
+			     	</caption>
+	
+			        <div class="uk-grid" data-uk-grid-margin>			        		     
+			            <div class="uk-width-medium-1-2">
+			                <table class="uk-table survey">	                                                 
+	                            <tbody>
+		                            <tr>
+		                            	 <td style="width:50%; vertical-align:middle;">Лавлагаа:</td>
+		                            	 <td style="width:50%; vertical-align:middle;">
+		                            	 	 <input kendo-masked-text-box ng-model="fl.lavlagaa" disabled />
+		                            	</td>
+		                            </tr>
+	                                <tr>
+	                            		<td style="width:50%; vertical-align:middle;">Үйлчлүүлэгч:</td>
+		                            	<td style="width:50%; vertical-align:middle;">
+		                            		 <input style="width:100%;" kendo-masked-text-box ng-model="fl.org" disabled /> 
+		                            	</td>
+		                            </tr>
+		                            
+		                            <tr>
+	                             		 <td style="width:50%; vertical-align:middle;">Тайлангийн жил:</td>
+		                            	 <td style="width:50%; vertical-align:middle;"> <input style="width:100%;" kendo-masked-text-box ng-model="fl.year" disabled /></td>
+		                            </tr>
+		                           
+		                            <tr>
+	                             		 <td style="width:50%; vertical-align:middle;">Данс:</td>
+		                            	 <td style="width:50%;  padding:0px 8px; vertical-align:middle;">
+		                            	 	 <!-- <input id="acc" type="search" ng-change="amountChange()" ng-model="fl.account" style="width: 100%"/>	 -->	                          	 	 
+		                            	 	 <input type="text" config="selectize_acc_config" options="dir" disabled ng-model="fl.account" ng-model="selectize_c" name="selectize_c" selectize />
+		                            	 </td>
+		                            </tr>
+		                            <tr>
+		                             	 <td style="width:50%; vertical-align:middle;">Сонголт хийсэн арга:</td>
+		                            	 <td style="width:50%; padding:0px 8px; vertical-align:middle;">
+		                            	 	<input type="text" id="amm" ng-change="searchChange()" config="selectize_seachType_config" options="searchSource.options" ng-model="fl.searchType" name="selectize_a" selectize />
+		                            	 	<!-- <select kendo-drop-down-list
+									            k-data-text-field="'text'"
+									            k-data-value-field="'value'"
+									            k-data-source="searchSource"
+									            k-option-label="'Данс сонгоно уу...'"
+									            ng-change="searchTypeChange()" ng-model="fl.searchType"
+									            style="width: 100%"></select> -->
+		                            	 	<!-- <input id="amm" ng-model="fl.amount" ng-change="amountChange()" style="width: 100%;"  class="k-textbox" /> -->
+	                            	  	</td>
+		                            </tr>
+		                            <tr>	 
+		                            	 <td colspan="2" style="vertical-align:middle;">
+	                             		 	 <div class="uk-grid" data-uk-grid-margin>
+			                             		 <div class="uk-width-medium-1-2 uk-push-1-2">
+			                             		 	<div class="uk-grid" data-uk-grid-margin>
+			                             		 		<div class="uk-width-medium-1-1">
+		                             		 				<div>
+				                             		 			<p>
+								                                    <input type="radio" name="radio_demo" id="radio_demo_1" icheck ng-model="fl.debCre" value="1" />
+								                                    <label for="radio_demo_1" class="inline-label">Дебет</label>
+								                                    
+								                                    <input type="radio" name="radio_demo" id="radio_demo_2" icheck ng-model="fl.debCre" value="2" />
+								                                    <label for="radio_demo_2" class="inline-label">Кредит</label>
+								                                </p>
+				                             		 		</div>
+			                             		 		</div>
+			                             		 		<div class="uk-width-medium-1-2">
+					                             		 		<div ng-show="typeOne">
+					                             		 			<input id="amm" ng-model="fl.t1" type="number" placeholder="Мөнгөн дүн оруулна уу" style="width: 100%;"  class="k-textbox" />
+					                             		 		</div>
+					                             		 		<div ng-show="typeTwo">
+					                             		 			 <div id="ionslider_2" name="ionslider_2"  ion-slider ng-model="fl.t2" min="0" max="100"></div>
+					                             		 		</div>
+					                             		 		<div ng-show="typeThree">
+					                             		 			<input kendo-numeric-text-box k-min="0"  k-max="2"  ng-model="fl.t3"  style="width: 100%;" />
+					                             		 		</div>
+					                             		 		<div ng-show="typeFour">
+					                             		 			<input ng-model="fl.t4" type="number" placeholder="Гүйлгээний тоо" style="width: 100%;"  class="k-textbox" />
+					                             		 		</div>
+					                             		 		<div ng-show="typeFive">
+					                             		 			<input ng-model="fl.t5" type="number" placeholder="Гүйлгээний тоо оруулна уу" style="width: 100%;"  class="k-textbox" />
+					                             		 		</div>
+			                             		 		</div>
+			                             		 		<div class="uk-width-medium-1-2 uk-text-right">
+			                             		 			<div class="md-btn-group">
+							                                    <a href="javascript:void(0)" data-uk-tooltip="{pos:'bottom'}" title="Хайлт хийх" ng-click="excelSearch()" class="md-btn md-btn-facebook  md-btn-icon"><i class="uk-icon-check no_margin"></i></a>
+							                                    <a href="javascript:void(0)" data-uk-tooltip="{pos:'bottom'}" title="Хадгалах" ng-click="excelExport()"  ng-class="{'disabled': status == '0' , 'md-btn-twitter': status == '1' } " class="md-btn md-btn-icon"><i class="uk-icon-file-excel-o no_margin"></i></a>
+							                                </div>
+			                             		 		</div>
+			                             		 	</div>
+			                             		 	
+						                         </div> 
+					                         </div>
+	                             		 </td>
+		                            </tr>
+	                            </tbody>
+	                        </table>	                        
+			            </div>
+			            <div class="uk-width-medium-1-2">
+			               <table class="uk-table survey">	                                                 
+	                            <tbody>
+	                            <tr>
+	                            	 <td>Түүврийн үнэ цэнэ:</td>
+	                            	 <td>
+	                            	 	<input kendo-numeric-text-box ng-model="fl.totalAccAmount"  disabled style="width: 100%;"  decimals="1" />
+	                            	 </td>
+	                            </tr>
+	                            <tr>
+	                             	 <td>Түүврийн хэмжээ-ажил гүйлгээний тоо:</td>
+	                            	 <td><input kendo-numeric-text-box ng-model="fl.psize"  disabled style="width: 100%;" /></td>
+	                            </tr>
+                                <tr>
+                            		<td>Нийт алдаа:</td>
+	                            	 <td><input kendo-numeric-text-box ng-model="fl.totalError"  disabled style="width: 100%;"  decimals="1" /></td>
+	                            </tr>
+	                            <tr>
+                             		 <td>Алдааны хувь:</td>
+	                            	  <td> <input kendo-numeric-text-box ng-model="fl.errorPercentage"  disabled style="width: 100%;"  k-mask="'0 %'"/></td>
+	                            </tr>
+	                            <tr>
+	                             	 <td>Нийт олонлог:</td>
+	                            	 <td><input kendo-numeric-text-box ng-model="fl.totalAmount"  disabled style="width: 100%;"  decimals="1" /></td>
+	                            </tr>
+	                            <tr>
+	                             	 <td>Харьцуулан шилжүүлсэн алдаа	:</td>
+	                            	 <td><input kendo-numeric-text-box ng-model="fl.totalAccError"  disabled style="width: 100%;"  decimals="1" /></td>
+	                            </tr>
+	                            </tbody>	
+	                        </table>
+			            </div>
+			        </div>     
+			     </div>
+			 </div> 
+             <div class="md-card">
+			     <div class="md-card-content">
+			         <div class="uk-grid" data-uk-grid-margin>
+			             <div class="uk-width-medium-1-1">    
+			             	 <kendo-grid id="kGrid"  k-data-source="kdata"  options="puserGrid"></kendo-grid>                     	
+			                <!-- <div id="orgGrid"></div> -->
+			             </div>                  
+			         </div>               
+			     </div>
+			 </div> 
+        </div>
+    </div>
+	<footer id="footer">
+	    <span style="display:block;  text-align:right;">&copy; 2016-2017 <a href="www.staus.mn/sgt">Tyder LLC</a>, All rights reserved.</span>
+	</footer>
+	
+	 <script type="text/x-kendo-template" id="template">
+                <div class="refreshBtnContainer">
+                    <button ng-click="toolbarClick()" class=" k-button" title="Refresh"><span class="k-icon k-i-reload"></span></button>
+                </div>                
+            </script>
+    <style>
+    	.cellRight{
+    		float:right;
+    	}
+    	 .survey td{
+    		vertical-align:middle !important;
+    	 } 
+    	 .irs{
+    	 	height:40px;
+    	 }
+    </style>

@@ -1,0 +1,178 @@
+    <div id="page_content">
+        <div id="page_content_inner">
+             <div class="md-card">
+			     <div class="md-card-content">
+			        <!--  <h3 class="heading_a">Input fields</h3> -->
+			         <div class="uk-grid" data-uk-grid-margin>
+			             <div class="uk-width-medium-1-1 user ">    
+			             	 <kendo-grid options="puserGrid"></kendo-grid>                     	
+			                <!-- <div id="orgGrid"></div> -->
+			             </div> 			                       
+			         </div>               
+			     </div>
+			 </div> 
+        </div>
+    </div>
+	<footer id="footer">
+	    <span style="display:block;  text-align:right;">&copy; 2015-2016 <a href="www.staus.mn/sgt">Smart Green Technology LLC</a>, All rights reserved.</span>
+	</footer>
+	
+	<style>
+		.k-grid-content table tbody{
+			cursor: pointer;
+		}
+		.k-grid-content-locked {
+	        float: right;
+	    }
+	
+	    .k-grid-header-locked {
+	        float: right;
+	    }
+	</style>
+	<script type="text/x-kendo-template" id="aper">			
+		#if (stepid==3) {#
+        	#:auditors# (#:aper#%)
+		# }
+		
+		else if (stepid==4){# 
+			#:auditors# (#:a2per#%)
+		#} 
+		
+		else if (stepid==5){# 
+			#:auditors# (#:a3per#%)
+		#} 
+
+		else if (stepid==6){# 
+			#:auditors# (#:a3per#%)
+		#}#	
+	</script>
+	<script type="text/x-kendo-template" id="mper">			
+		#if (stepid==3) {#
+        	#:managers# (#:mper#%)
+		# }
+		
+		else if (stepid==4){# 
+			#:managers# (#:m2per#%)
+		#} 
+		
+		else if (stepid==5){# 
+			#:managers# (#:m3per#%)
+		#}
+
+		else if (stepid==6){# 
+			#:managers# (#:m3per#%)
+		#} #	
+	</script>
+		<script type="text/x-kendo-template" id="tper">			
+		#if (stepid==3) {#
+        	#:terguuleh# (#:tper#%)
+		# }
+		
+		else if (stepid==4){# 
+			#:terguuleh# (#:t2per#%)
+		#} 
+		
+		else if (stepid==5){# 
+			#:terguuleh# (#:t3per#%)
+		#} 
+
+		else if (stepid==6){# 
+			#:terguuleh# (#:t3per#%)
+		#} #	
+	</script>
+
+	<script type="text/x-kendo-template" id="read">
+	    <button class="md-btn md-btn-small md-btn-primary" ng-click='read(dataItem)'> </span>Нээх</button>
+	</script>
+
+	<script type="text/x-kendo-template" id="add">
+         <div id="details-container" style="text-align:left;">
+           <button class="k-button k-button-icontext" data-uk-modal="{target:'\\#modal_integration'}"> <span class='k-icon k-add'></span> Байгууллагын жагсаалт үүсгэх</button>
+         </div>
+    </script>
+    
+     <div class="uk-modal" id="modal_integration">
+         <div class="uk-modal-dialog uk-modal-dialog-large">
+             
+             <div class="uk-modal-header">
+                 <h3 class="uk-modal-title">Шинээр аудит үүсгэх</h3>
+                 <button style="float:right; margin-top:-25px;" type="button" class="uk-modal-close uk-close"></button>
+             </div>
+             <hr>
+             <form id="newaudit" ng-submit="submitAudit()">
+             	<div class="uk-grid" data-uk-grid-margin>
+					<div class="uk-width-medium-1-4">
+						<div class=" uk-form-row parsley-row">
+							<label>Код</label> <input type="text"
+								class="md-input " ng-model="auditData.gencode"
+								md-input required />
+						</div>
+					</div>					
+					<div class="uk-width-medium-1-4">
+						<div class=" uk-form-row parsley-row">
+							<label>Санхүүгийн жил</label> <input type="number"
+								class="md-input " ng-model="auditData.audityear"
+								maxlength="4" md-input char-counter required />
+						</div>
+					</div>
+					<div class="uk-width-medium-1-4">
+						<div class=" uk-form-row parsley-row">
+							<label>Байгууллагын нэр</label> <input type="text"
+								class="md-input " ng-model="auditData.orgname"
+								md-input required />
+						</div>
+					</div>
+					<div class="uk-width-medium-1-4">
+						<div class=" uk-form-row parsley-row">
+							<label>Байгууллагын регистр</label> <input type="number"
+								class="md-input " ng-model="auditData.regnum"
+								maxlength="7" md-input char-counter required />
+						</div>
+					</div>
+				</div>
+			<!-- 	<div class="uk-grid" data-uk-grid-margin>
+					<div class="uk-width-medium-1-3">
+						<div class=" uk-form-row parsley-row">
+							<input config="selectize_val_config" options="selectize_val_options" ng-model="auditData.orgtype" required name="val_select" selectize />
+						</div>
+					</div> 
+				</div> -->
+				
+				
+				<div class="uk-grid" data-uk-grid-margin>
+					<div class="uk-width-medium-1-2">
+						<div class=" uk-form-row parsley-row">
+							<label>Аудит хийсэн ажилтны албан тушаал</label> <input type="text"
+								class="md-input " ng-model="auditData.apos"
+								md-input required />
+						</div>
+					</div>
+					<div class="uk-width-medium-1-2">
+						<div class=" uk-form-row parsley-row">
+							<label>Аудит хийсэн ажилтны овог нэр</label> <input type="text"
+								class="md-input " ng-model="auditData.aname"
+								md-input required />
+						</div>
+					</div>
+				</div>
+				<div class="uk-grid" data-uk-grid-margin>
+					<div class="uk-width-medium-1-1">
+						 <kendo-grid options="integrationGrid"></kendo-grid>         
+					</div>
+				</div>
+			<!-- 	<div class="uk-grid" data-uk-grid-margin>
+					<div class="uk-width-medium-1-1">	
+						<div class=" uk-form-row parsley-row">
+							<selectize id="selec_adv_1" ng-model="auditData.lnkUsers" config="selectize_planets_config" options="selectize_role" position="bottom"></selectize> 
+						</div>
+					</div>
+				</div> -->
+				<hr>
+				<div class="uk-modal-footer uk-text-right">
+            	 	<button type="submit" class="md-btn md-btn-primary md-btn-wave-light waves-effect waves-button waves-light">Хадгалах</button>
+                    <button type="button" class="md-btn md-btn-flat uk-modal-close">Хаах</button>                         
+                </div>  
+				
+			</form>
+         </div>
+     </div>

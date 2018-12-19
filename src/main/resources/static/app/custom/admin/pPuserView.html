@@ -1,0 +1,110 @@
+    <div id="page_content">
+        <div id="page_content_inner">
+             <div class="md-card">
+              <div class="uk-modal" id="modal_update_user">
+                                <div style="width: 450px;" class="uk-modal-dialog" data-uk-grid-margin> 
+                                    <button type="button" class="uk-modal-close uk-close"></button>
+                                    <h3 class="heading_a">Хэрэглэгч</h3>
+                                   <form name="form_signin" > 	
+ 			  		<input type="hidden"  class="menu" ng-model="ud.id" />	
+ 			  		<hr style="margin-bottom:20px;">
+	  			    <div class="uk-grid" data-uk-grid-margin>	                   
+	                    <div class="uk-width-medium-1-1" style="margin-bottom:10px;">	                    	
+	                        <label>Байгууллага</label>
+	                        <input type="text" ng-model="ud.org" config="selectize_a_config" options="selectize_a_data" name="selectize_a" selectize />                   	
+	                    </div>  
+                    </div>
+                    <div class="uk-grid" data-uk-grid-margin>  
+	                    <div class="uk-width-medium-1-1" style="margin-bottom:10px;">	                    	
+	                        <label>Албан тушаал</label>
+	                        <input type="text" ng-model="ud.pos" config="selectize_a_config" options="selectize_b_data" name="selectize_a" selectize />                    	
+	                    </div> 
+                     </div>
+                     <div class="uk-grid" data-uk-grid-margin>      
+	                    <div class="uk-width-medium-1-1" style="margin-bottom:10px;">	                    	
+	                        <label>Овог</label>
+	                        <input type="text" ng-model="ud.fname" class="md-input" md-input />	                    	
+	                    </div> 
+                     </div>
+                     <div class="uk-grid" data-uk-grid-margin>    
+	                    <div class="uk-width-medium-1-1" style="margin-bottom:10px;">	                    	
+	                        <label>Нэр</label>
+	                        <input type="text" ng-model="ud.gname" class="md-input" md-input />	                    	
+	                    </div>
+                     </div>
+                     <div class="uk-grid" data-uk-grid-margin> 
+	                    <div class="uk-width-medium-1-1" style="margin-bottom:10px;">	                    	
+	                        <label>Утас</label>
+	                        <input type="text" ng-model="ud.phone" class="md-input" md-input />	                    	
+	                    </div>  
+                     </div>
+                     <div class="uk-grid" data-uk-grid-margin> 
+	                    <div class="uk-width-medium-1-1" style="margin-bottom:10px;">	                    	
+	                        <label>E-mail</label>
+	                        <input type="text" ng-model="ud.mail" class="md-input" md-input />	                    	
+	                    </div>  
+                     </div>
+                     <div class="uk-grid" data-uk-grid-margin> 
+	                    <div class="uk-width-medium-1-1" style="margin-bottom:10px;">	                    	
+	                        <label>Эрх</label>
+	                        <selectize id="selec_adv_1" ng-model="ud.roles" config="selectize_planets_config" options="selectize_role" position="bottom"></selectize>                    	
+	                    </div> 
+	                 </div>
+                     <div class="uk-grid" data-uk-grid-margin>    
+	                    <div class="uk-width-medium-1-1" style="margin-bottom:10px;">	                    	
+	                        <label>Хэрэглэгчийн нэр</label>
+	                        <input type="text" ng-model="ud.uname" class="md-input" md-input />	                    	
+	                    </div>
+                     </div>
+                     <div class="uk-grid" data-uk-grid-margin> 
+	                    <div class="uk-width-medium-1-1" style="margin-bottom:10px;">	                    	
+	                        <label>Нууц үг</label>
+	                        <input type="password" ng-model="ud.pass" type="text" class="md-input" md-input />	                    	
+	                    </div>
+                     </div>
+                     <div class="uk-grid" data-uk-grid-margin> 
+	                    <div class="uk-width-medium-1-1" style="margin-top:15px;">	                    	
+	                        <label style="margin-right: 10px;">Идвэхтэй эсэх</label>
+	                        <input  type="checkbox" ng-model="ud.isac" name="checkbox_demo_1" id="checkbox_demo_1" icheck ng-model="checkbox_demo_1" />                    	
+	                    </div>
+	                    <div class="uk-width-medium-1-1" style="margin-top:15px;">	                    	
+	                        <label style="margin-right: 24px;">Төрийн эсэх</label>
+	                        <input  type="checkbox" ng-model="ud.isst" name="checkbox_demo_1" id="checkbox_demo_1" icheck ng-model="checkbox_demo_1" />                    	
+	                    </div>
+	                    
+	                </div>	  	
+   	                <div class="uk-modal-footer uk-text-right">
+	                	 <button ng-click="addUser()" type="submit" class="md-btn md-btn-primary md-btn-wave-light waves-effect waves-button waves-light">Хадгалах</button>
+                         <button type="button" class="md-btn md-btn-flat uk-modal-close">Хаах</button>                         
+                     </div>  
+                 </form>
+                 </div>
+             </div>
+		     <div class="md-card-content">
+		         <div class="uk-grid" data-uk-grid-margin>
+		             <div class="uk-width-medium-1-1 user ">    
+		             	 <kendo-grid options="puserGrid"></kendo-grid>    
+		             </div> 			                       
+		         </div>               
+		     </div>
+			 </div> 
+        </div>
+    </div>
+	<footer id="footer">
+	    <span style="display:block;  text-align:right;">&copy; 2016-2016 <a href="www.tyder.kinder.mn">Tyder LLC</a>, All rights reserved.</span>
+	</footer>
+	<script type="text/x-kendo-template" id="add">
+         <div style="width: 250px; float: left;" id="details-container" style="text-align:left;">
+           <button class="k-button k-button-icontext" ng-click='res()'  data-uk-modal="{target:'\\#modal_update_user'}"> <span class='k-icon k-add'></span>Шинээр хэрэглэгч нэмэх</button>
+         </div>
+     </script>
+     <script type="text/x-kendo-template" id="update">
+        <button class="k-button k-button-icontext" ng-click='update(dataItem)'  data-uk-modal="{target:'\\#modal_update_user'}"><span class="k-icon k-edit"></span>Засах</button>
+    	<button class="k-button k-button-icontext  k-grid-delete" ><span class="k-icon k-delete"></span>Устгах</button>
+	</script>
+	<script type="text/x-kendo-template" id="updateu">
+        <button class="k-button k-button-icontext" ng-click='update(dataItem)'  data-uk-modal="{target:'\\#modal_update_user'}"><span class="k-icon k-edit"></span>Засах</button>
+    	</script>
+	<script type="text/x-kendo-template" id="updated">
+        <button class="k-button k-button-icontext  k-grid-delete" ><span class="k-icon k-delete"></span>Устгах</button>
+	</script>

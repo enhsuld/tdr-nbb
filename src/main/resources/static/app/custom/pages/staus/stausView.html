@@ -1,0 +1,83 @@
+    <div id="page_content">
+        <div id="page_content_inner">        	
+		    <div class="md-card">
+               <div class="md-card-content">
+               	    <div class="uk-grid">
+	                    <div class="uk-width-1-1">
+	                        <div id="file_upload-drop" class="uk-file-upload">
+	                            <p class="uk-text">Drop file to upload</p>
+	                            <p class="uk-text-muted uk-text-small uk-margin-small-bottom">or</p>
+	                            <span class="uk-form-file md-btn">choose file<input id="file_upload-select" type="file" ng-model="file_upload.input_1"></span>
+	                        </div>
+	                        <div id="file_upload-progressbar" class="uk-progress uk-hidden">
+	                            <div class="uk-progress-bar" style="width:0">0%</div>
+	                        </div>
+	                    </div>
+	                </div>           
+               </div>
+	        </div>		    
+	      
+             <div class="md-card">
+			     <div class="md-card-content">
+			        <!--  <h3 class="heading_a">Input fields</h3> -->
+			         <div class="uk-grid" data-uk-grid-margin>
+			             <div class="uk-width-medium-1-1">    
+			             	 <kendo-grid options="fileGrid"></kendo-grid>     
+			             </div>                  
+			         </div>               
+			     </div>
+			 </div> 
+        </div>
+    </div>
+	<footer id="footer">
+	    <span style="display:block;  text-align:right;">&copy; 2016-2016 <a href="www.tyder.kinder.mn">Tyder LLC</a>, All rights reserved.</span>
+	</footer>
+
+   <div class="uk-modal uk-modal-card-fullscreen" id="modal_update">
+        <div class="uk-modal-dialog uk-modal-dialog-blank">
+            <div class="md-card uk-height-viewport">
+                <div class="md-card-toolbar">
+                    <div class="md-card-toolbar-actions">
+                        <div class="md-card-dropdown" data-uk-dropdown="{pos:'bottom-right'}">
+                            <button type="button" id="closemodal" class="uk-modal-close uk-close uk-close-alt"></button>
+                        </div>
+                    </div>
+                    <span class="md-icon material-icons uk-modal-close">&#xE5C4;</span>
+                    <h3 class="md-card-toolbar-heading-text">
+                        Card Heading
+                    </h3>
+                </div>
+                <div class="md-card-content">
+                    <kendo-tree-list k-options="treelistOptions"></kendo-tree-list> 
+                </div>
+            </div>
+        </div>
+    </div> 
+
+
+
+     <script type="text/x-kendo-template" id="extend">
+		 <div id="details-container" style="float:left;">
+           <button class="md-btn md-btn-small md-btn-primary" data-uk-modal="{target:'\\#modal_update'}"> </span>маягт</button>
+         </div>
+         <div id="details-container" style="float:left;  margin-left: 20px;">
+           <a class="md-btn md-btn-small md-btn-primary" href='/api/excel/files/#:id#' download='#:filename#'> </span>татах</a>
+         </div>
+		<div id="details-container1" style="float:left; margin-left: 20px;">
+           <button class="md-btn md-btn-small md-btn-danger" ng-click='deleteO(#:id#)'> </span>устгах</button>
+         </div>
+     </script>
+ <style>
+	.k-textbox, .k-numerictextbox{
+		width:95%;
+	}
+	.slabel{
+	    color: #727272;
+   		font-size: 12px;
+   		margin: 0 !important;
+	}
+	.one .selectize-input {
+    border-width: 0 0 1px;
+    padding: 0px !important; 
+}
+</style>

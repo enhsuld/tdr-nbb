@@ -1,0 +1,128 @@
+<div id="page_content">
+        <div id="page_content_inner">
+             <div class="md-card">
+			     <div class="md-card-content">
+			        <!--  <h3 class="heading_a">Input fields</h3> -->
+			         <div class="uk-grid" data-uk-grid-margin>
+			             <div class="uk-width-medium-1-1">    
+			             	 <kendo-grid options="proleGrid"></kendo-grid>     
+			             </div>                  
+			         </div>               
+			     </div>
+			 </div> 
+        </div>
+    </div>
+
+<div ng-include="'app/views/footer.html'"></div>
+<!--    	 <style type="text/css">
+   		#modal_update{
+   			overflow-y:hidden !important;
+   		}
+     </style> --> 
+     <div class="uk-modal" id="modal_update">
+          <div class="uk-modal-dialog uk-modal-dialog-large" data-uk-grid-margin>
+              <button type="button" id="closemodal" class="uk-modal-close uk-close uk-close-alt"></button>
+              <h3 class="heading_a">Хэрэглэгчийн эрх </h3>  
+ 			  	<form name="form_signin" id="roleform"  data-ng-submit="submitForm()"> 	
+ 			  		<input type="hidden" id="{{section.id}}" class="menu" ng-model="roleid" value="{{roleid}}"/>	
+ 			  		<hr style="margin-bottom:20px;">
+	  			    <div class="uk-grid" data-uk-grid-margin>
+	                    <div class="uk-width-medium-1-3">
+	                    	<div class="parsley-row">
+		                        <label>Эрхийн нэр /Mn/</label>
+		                        <input type="text" class="input-count md-input" id="input_counter" maxlength="60" md-input required char-counter ng-model="role.rolename" />
+	                    	</div>
+	                    </div>
+	                    <div class="uk-width-medium-1-3">
+	                    	<div class="parsley-row">
+		                        <label>Эрхийн нэр /Eng/</label>
+		                        <input type="text"  class="md-input md-input input-count" maxlength="60" md-input required char-counter ng-model="role.roleauth" />
+	                        </div>
+	                    </div>
+	                    <div class="uk-width-medium-1-3">
+				             <div class="parsley-row">
+		                    	<input type="text" config="selectize_a_config" options="sections"  required ng-model="role.accessid" selectize />          
+		                      </div>
+	                    </div>
+	                </div>	  		
+ 			  		  <div class="uk-overflow-container">
+ 			  		  	 <table class="uk-table uk-table-align-vertical uk-table-nowrap tablesorter tablesorter-altair" id="ts_pager_filter" cellspacing="0" width="100%">
+	                        <thead>
+	                        <tr>
+	                            <th>№</th>	                            
+	                            <th>Цэс</th>
+	                            <th>
+	                            	<input type="checkbox" id="createAll" ng-model="createAll" class="ts_checkbox_all">
+	                            	<label for="createAll" class="inline-label">Нэмэх </label>
+                            	</th>
+	                            <th>
+	                            	<input type="checkbox" id="readAll" ng-model="readAll" class="ts_read_all">
+	                            	<label for="readAll" class="inline-label">Харах</label>
+                            	</th>
+	                            <th>
+	                            	<input type="checkbox" id="updateAll" ng-model="updateAll" class="ts_update_all">
+	                            	<label for="updateAll" class="inline-label">Засах</label>
+                            	</th>
+	                            <th>
+	                            	<input type="checkbox" id="deleteAll" ng-model="deleteAll" class="ts_delete_all">
+	                            	<label for="deleteAll" class="inline-label">Устгах</label>
+                            	</th>
+	                            <th>
+	                            	<input type="checkbox" id="exportAll" ng-model="exportAll" class="ts_export_all">
+	                            	<label for="exportAll" class="inline-label">Хэвлэх</label>
+                            	</th>
+	                        </tr>
+	                        </thead>	                       
+	                        <tbody>
+	                            <tr ng-repeat="item in sections track by $index" on-last-repeat>
+	                                <td>
+	                                	{{$index+1}}	  
+	                                	<input type="hidden" id="{{item.id}}" class="menu" ng-model="row_create.menuid" value="{{item.id}}"/>                              	
+                                	</td>	                              
+	                                <td><span ng-if="item.parent_id!=null" style="padding-left:20px; color:#29b6f6;">{{item.title}}</span><span ng-if="item.parent_id==null" class=".md-color-purple-400" style="padding-left:0px;">{{item.title}}</span></td>
+	                                <td>	                                
+	                                	<!-- <input type="checkbox" class="ts_checkbox" data-md-icheck icheck ng-model="row_select"> -->
+                                		<input type="checkbox" class="ts_checkbox" id="create{{item.id}}"   data-md-icheck icheck ng-model="row_create.ids[item.id]"  name="create"  data-md-icheck />		                                        
+                                       	<label for="create{{item.id}}" class="inline-label">Нэмэх</label>
+                                	</td>
+	                                <td>
+	                                	<input type="checkbox" class="ts_read_checkbox" id="read{{item.id}}" data-md-icheck icheck ng-model="row_read.ids[item.id]">
+                                		<label for="read{{item.id}}" class="inline-label">Харах</label>
+                                	</td>
+	                                <td>
+	                                	<input type="checkbox" class="ts_update_checkbox" id="update{{item.id}}" data-md-icheck icheck ng-model="row_update.ids[item.id]">
+                                		<label for="update{{item.id}}" class="inline-label">Засах</label>
+                                	</td>
+	                                <td>
+	                                	<input type="checkbox" class="ts_delete_checkbox" id="delete{{item.id}}" data-md-icheck icheck ng-model="row_delete.ids[item.id]">
+                                		<label for="delete{{item.id}}" class="inline-label">Устгах</label>
+                                	</td>
+	                                <td>
+	                                	<input type="checkbox" class="ts_export_checkbox" id="export{{item.id}}"  data-md-icheck icheck ng-model="row_export.ids[item.id]">
+                                		<label for="export{{item.id}}" class="inline-label">Хэвлэх</label>
+                                	</td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+			        </div>        	  
+
+	                <div class="uk-modal-footer uk-text-right">
+	                	 <button type="submit" class="md-btn md-btn-primary md-btn-wave-light waves-effect waves-button waves-light">Хадгалах</button>
+                         <button type="button" class="md-btn md-btn-flat uk-modal-close">Хаах</button>                         
+                     </div>  
+				        
+                   
+                 </form> 
+              </div>
+              
+          </div>
+	 	<script type="text/x-kendo-template" id="add">
+         <div style="width: 195px; float: left;" id="details-container" style="text-align:left;">
+           <button class="k-button k-button-icontext" ng-click='res()'  data-uk-modal="{target:'\\#modal_update'}"> <span class='k-icon k-i-plus'></span>Шинээр эрх нэмэх</button>
+         </div>
+     </script>
+     <script type="text/x-kendo-template" id="update">
+        <button class="k-button k-button-icontext" ng-click='update(dataItem)'  data-uk-modal="{target:'\\#modal_update'}"><span class="k-icon k-i-edit"></span>Засах</button>
+    	<button class="k-button k-button-icontext  k-grid-delete" ><span class="k-icon k-i-close"></span>Устгах</button>
+	</script>
+	

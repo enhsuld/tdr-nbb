@@ -1,0 +1,343 @@
+    <div id="page_content">
+        <div id="page_content_inner">
+         <div class="uk-grid" data-uk-grid-margin>
+         	<div class="uk-width-medium-1-1">    
+	        	<div class="md-card">
+				     <div class="md-card-content">
+				     	<div class="uk-grid uk-grid-collapse" data-uk-grid-margin data-uk-grid-match="{target:'.md-card'}">
+				            <div class="uk-width-medium-1-6">
+				            	<div class="md-card">
+				                    <div class="md-card-content">
+				                    	<div class="uk-grid">
+						                    <div class="uk-width-1-1">
+						                    	<form name="formFile" id="form_validation_dif" class="uk-form-stacked" ng-submit="submitUploadDifference()">
+							                        <div id= "file_upload-drop" class="uk-file-upload">
+							                            <p class="uk-text">Дансны код шалгах</p>
+							                            <span style="margin-top:15px;" class="uk-form-file md-btn" ngf-select ngf-max-size="20MB" ng-model="afl" required name="afl">сонгох</span>
+							                            <button style="margin-top:15px;" type="submit" class="md-btn  md-btn-wave-light" ng-show="!formFile.afl.$error.required">Шалгах</button> 
+							                            <div style="height:15px; margin-top:15px;">
+								                         	<p class="uk-text-danger uk-text-small uk-margin-small-bottom" ng-show="formFile.afl.$error.required" style="height:15px;">*файлаа сонгоно уу</p>
+								                         </div>
+								                         <div style="height:15px;margin-top:-15px;">
+								                         	<p class="uk-text-primary uk-text-small uk-margin-small-bottom" style="height:15px;" ng-show="!formFile.afl.$error.required">файл сонгогдлоо</p>
+								                         </div>
+							                        </div>
+						                        </form>
+						                    </div>
+						                </div>
+				                    </div>
+				                </div>			            	
+				            </div>
+				            <div class="uk-width-medium-1-6">
+				                <div class="md-card">
+				                    <div class="md-card-content">
+				                    	<div class="uk-grid">
+						                    <div class="uk-width-1-1">
+						                    	<form name="formUpload" id="form_validation_notloh" class="uk-form-stacked" ng-submit="submitUploadNotlohZuil()">
+							                        <div  class="file_upload-drop uk-file-upload">
+							                            <p class="uk-text">Тайлан хөрвүүлэх</p>
+							                            <span  style="margin-top:15px;"  ng-change="change()" class="uk-form-file md-btn" ngf-select ngf-max-size="20MB" ng-model="uploadfile" required name="uploadfile">сонгох</span>
+							                            <button  style="margin-top:15px;" type="submit" class="md-btn  md-btn-wave-light" ng-show="!formUpload.uploadfile.$error.required">Хөрвүүлэх</button> 
+							                            <div style="height:15px; margin-top:15px;">
+								                         	<p class="uk-text-danger uk-text-small uk-margin-small-bottom" ng-show="formUpload.uploadfile.$error.required" style="height:15px;">*файлаа сонгоно уу</p>
+								                         </div>
+								                         <div style="height:15px;margin-top:-15px;">
+								                         	<p class="uk-text-primary uk-text-small uk-margin-small-bottom" style="height:15px;" ng-show="!formUpload.uploadfile.$error.required">файл сонгогдлоо</p>
+								                         </div>
+							                        </div>						                        
+							                       
+						                        </form>
+						                    </div>
+						                </div>
+				                    </div>
+				                </div>
+				            </div>
+
+				            <div class="uk-width-medium-1-6">
+				                <div class="md-card">
+				                    <div class="md-card-content">
+				                    	<div class="uk-grid">
+						                    <div class="uk-width-1-1">
+						                    	<form name="formTsalin" id="form_validation_tsalin" class="uk-form-stacked" ng-submit="submitUploadTsalin()">
+							                        <div  class="file_upload-drop uk-file-upload">
+							                            <p class="uk-text">Цалин шалгах</p>
+							                            <span  style="margin-top:15px;"  class="uk-form-file md-btn" ngf-select ngf-max-size="20MB" ng-model="tsalin" required name="tsalin">сонгох</span>
+							                            <button  style="margin-top:15px;" type="submit" class="md-btn  md-btn-wave-light" ng-show="!formTsalin.tsalin.$error.required">Илгээх</button>
+							                            <div style="height:15px; margin-top:15px;">
+								                         	<p class="uk-text-danger uk-text-small uk-margin-small-bottom" ng-show="formTsalin.tsalin.$error.required" style="height:15px;">*файлаа сонгоно уу</p>
+								                         </div>
+								                         <div style="height:15px;margin-top:-15px;">
+								                         	<p class="uk-text-primary uk-text-small uk-margin-small-bottom" style="height:15px;" ng-show="!formTsalin.tsalin.$error.required">файл сонгогдлоо</p>
+								                         </div>
+							                        </div>						                        
+							                       
+						                        </form>
+						                    </div>
+						                </div>
+				                    </div>
+				                </div>
+				            </div>
+				            <div class="uk-width-medium-1-6">
+				                <div class="md-card">
+				                    <div class="md-card-content">
+				                    	<div class="uk-grid">
+						                    <div class="uk-width-1-1">
+						                    	<form name="formHuulga" id="form_validation_huulga" class="uk-form-stacked" ng-submit="submitUploadHuulga()">
+							                        <div  class="file_upload-drop uk-file-upload">
+							                            <p class="uk-text">Хуулга оруулах</p>
+							                            <span  style="margin-top:15px;"  class="uk-form-file md-btn" ngf-select ngf-max-size="20MB" ng-model="huulga" required name="huulga">сонгох</span>
+							                            <button  style="margin-top:15px;" type="submit" class="md-btn  md-btn-wave-light" ng-show="!formHuulga.huulga.$error.required">Илгээх</button>
+							                            <div style="height:15px; margin-top:15px;">
+								                         	<p class="uk-text-danger uk-text-small uk-margin-small-bottom" ng-show="formHuulga.huulga.$error.required" style="height:15px;">*файлаа сонгоно уу</p>
+								                         </div>
+								                         <div style="height:15px;margin-top:-15px;">
+								                         	<p class="uk-text-primary uk-text-small uk-margin-small-bottom" style="height:15px;" ng-show="!formHuulga.huulga.$error.required">файл сонгогдлоо</p>
+								                         </div>
+							                        </div>						                        
+							                       
+						                        </form>
+						                    </div>
+						                </div>
+				                    </div>
+				                </div>
+				            </div>
+							<div class="uk-width-medium-1-6">
+								<div class="md-card">
+									<div class="md-card-content">
+										<div class="uk-grid">
+											<div class="uk-width-1-1">
+												<div style="height:130px;"  class="file_upload-drop uk-file-upload">
+													<p class="uk-text">Тайлан</p>
+													<a style="margin-top:15px;" ng-click="downloadExcel()" href="javascript:void(0)" class="uk-form-file md-btn">Татах</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="uk-width-medium-1-6">
+								<div class="md-card">
+									<div class="md-card-content">
+										<div class="uk-grid">
+											<div class="uk-width-1-1">
+												<div style="height:130px;"  class="file_upload-drop uk-file-upload">
+													<p class="uk-text">Шинжилгээ</p>
+													<a style="margin-top:15px;" ng-click="surveyExcel()" href="javascript:void(0)" class="uk-form-file md-btn">Татах</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+				        </div>       
+				     </div>
+				 </div>
+				 <div id="file_upload-progressbar" class="uk-progress uk-hidden">
+	                 <div class="uk-progress-bar" style="width:0">0%</div>
+	             </div> 
+				 </div>
+			 </div> 
+			
+			
+			<div class="uk-grid" ng-if="diffence.length>0" data-uk-grid-margin>
+	             <div class="uk-width-medium-1-1">    
+             		<div class="md-card">
+			     		<div class="md-card-content nnn">		           
+		             		<kendo-grid  options="mainGridOptions"></kendo-grid>
+			            </div>  
+         			</div>
+	        	 </div>
+        	 </div>
+			 <div ng-if="aldaa.additionalSheet.length>0" class="uk-grid" data-uk-grid-margin>
+	             <div class="uk-width-medium-1-1">    
+             		<div class="md-card">
+			     		<div class="md-card-content nnn">		           
+		             		<table class="uk-table uk-table-condensed">
+	                            <thead>
+	                            <tr>
+	                                 <th>Хүснэгтийн нэр</th>
+	                            </tr>
+	                            </thead>
+	                            <tbody>
+	                            <tr ng-repeat="item in aldaa.additionalSheet">
+	                                <td>{{item.sheetname}}</td>
+	                            </tr>
+	                            </tbody>
+	                        </table>
+			            </div>  
+         			</div>
+	        	 </div>
+        	 </div> 
+        	 
+        	 <div class="md-card"  ng-if="ars.length>0 || aldaa.prefilter.length>0">
+			     <div class="md-card-content">
+			       	     <h3 class="uk-modal-title" ng-if="aldaa.additionalSheetlength>0" >Зөрүүтэй хүснэгт</h3>
+			             <div class="uk-grid" id="acc" ng-if="aldaa.additionalSheet.length>0">
+			                <div class="uk-width-1-1">
+			                	<div class="uk-overflow-container">
+			                        <table class="uk-table uk-table-condensed">
+			                            <thead>
+			                            <tr>
+			                                <th>Хүснэгтийн нэр</th>
+			                            </tr>
+			                            </thead>
+			                            <tbody>
+			                            <tr ng-repeat="item in aldaa.additionalSheet">
+			                                <td>{{item.sheetname}}</td>
+			                            </tr>
+			                            </tbody>
+			                        </table>
+			                    </div>
+			                </div>
+			            </div>  
+			            <h3 class="uk-modal-title" ng-if="aldaa.prefilter.length>0" >Зөрүүтэй баганы хүснэгт</h3>
+			            <div class="uk-overflow-container">
+				            <div class="uk-grid" id="acc" ng-if="aldaa.prefilter.length>0">
+				                <div class="uk-width-1-1">                	
+			                        <table class="uk-table uk-table-condensed">
+			                            <thead>
+			                            <tr>
+			                                <th>Хүснэгтийн нэр</th>
+			                                <th>Загварын багана</th>
+			                                <th>Зөрүүтэй багана</th>
+			                            </tr>
+			                            </thead>
+			                            <tbody>
+			                            <tr ng-repeat="item in aldaa.prefilter">
+			                                <td>{{item.sheetname}}</td>
+			                                <td>{{item.bagana2}}</td>
+			                                <td>{{item.bagana}}</td>
+			                            </tr>
+			                            </tbody>
+			                        </table>
+			                    </div>
+			                </div>
+			            </div>
+			            <div class="uk-grid" id="acc" ng-if="ars.length>0">
+			                <div class="uk-width-1-1">
+			                	<div class="uk-overflow-container">
+			                        <table class="uk-table uk-table-condensed">
+			                            <thead>
+			                            <tr>
+			                                <th>Хүснэгтийн нэр</th>
+			                                <th>Дансны код (байх ёстой)</th>
+			                                <th>Зөрүүтэй данс</th>
+			                            </tr>
+			                            </thead>
+			                            <tbody>
+			                            <tr ng-repeat="item in ars">
+			                                <td>{{item.sheet}}</td>
+			                                <td>{{item.code1}}</td>
+			                                <td>{{item.code2}}</td>
+			                            </tr>
+			                            </tbody>
+			                        </table>
+			                    </div>
+			                </div>
+			            </div> 
+			     </div>
+			 </div> 
+			
+			<div ng-if="aldaa.diff.length>0" class="uk-grid" data-uk-grid-margin>
+	             <div class="uk-width-medium-1-1">    
+             		<div class="md-card">
+			     		<div class="md-card-content nnn">		
+	                        <table class="uk-table uk-table-condensed">
+	                            <thead>
+	                            <tr>
+	                                <th>Хүснэгтийн нэр</th>
+	                                <th>Дансны код (байх ёстой)</th>
+	                                <th>Зөрүүтэй данс</th>
+	                            </tr>
+	                            </thead>
+	                            <tbody>
+	                            <tr ng-repeat="item in aldaa.diff">
+	                                <td>{{item.sheet}}</td>
+	                                <td>{{item.code1}}</td>
+	                                <td>{{item.code2}}</td>
+	                            </tr>
+	                            </tbody>
+	                        </table>
+			            </div>  
+         			</div>
+	        	 </div>
+        	 </div>
+			
+			<div ng-if="aldaa.naaltList.length>0" class="uk-grid" data-uk-grid-margin>
+	             <div class="uk-width-medium-1-1">    
+             		<div class="md-card">
+			     		<div class="md-card-content nnn">		
+			     		<h3>Алдаатай өгөгдөл байна. Хүснэгтийг томъёогүй болгон хадгалж дахин хөрвүүлнэ үү</h3>           
+		             		<table class="uk-table uk-table-condensed">
+	                            <thead>
+	                            <tr>
+	                                <th>Хүснэгтийн нэр</th>
+	                                <th>Мөр</th>
+	                                <th>Багана</th>
+	                            </tr>
+	                            </thead>
+	                            <tbody>
+	                            <tr ng-repeat="item in aldaa.naaltList">
+	                                <td>{{item.sheetname}}</td>
+	                                <td>{{item.rowIndex}}</td>
+	                                <td>{{item.columnIndex}}</td>
+	                            </tr>
+	                            </tbody>
+	                        </table>
+			            </div>  
+         			</div>
+	        	 </div>
+        	 </div>
+        	 
+			<div ng-if="aldaa.formula.length>0" class="uk-grid" data-uk-grid-margin>
+	             <div class="uk-width-medium-1-1">    
+             		<div class="md-card">
+			     		<div class="md-card-content nnn">		           
+		             		<table class="uk-table uk-table-condensed">
+	                            <thead>
+	                            <tr>
+	                                <th>Хүснэгтийн нэр</th>
+	                                <th>Алдааны мэдээлэл</th>
+	                            </tr>
+	                            </thead>
+	                            <tbody>
+	                            <tr ng-repeat="item in aldaa.formula">
+	                                <td>{{item.sheet}}</td>
+	                                <td>{{item.error}}</td>
+	                            </tr>
+	                            </tbody>
+	                        </table>
+			            </div>  
+         			</div>
+	        	 </div>
+        	 </div>
+        	 
+             
+			 
+			 <div class="uk-grid" data-uk-grid-margin>
+	             <div class="uk-width-medium-1-1">    
+             		<div class="md-card">
+			     		<div class="md-card-content">		           
+		             	     <div id="spreadSheetZagwarView" style="width:100%;"></div>
+			            </div>  
+         			</div>
+	        	 </div>
+        	 </div>  
+        </div>
+    </div>
+	<div ng-include="'app/views/footer.html'"></div>
+	 <script type="text/x-kendo-template" id="download">
+         <div id="details-container" style="float:left;">
+           <a class="md-btn md-btn-small md-btn-primary" href="/api/file/download/#:id#" download> </span>Татах</a>
+         </div>
+    </script>
+	
+	
+	<style>
+		.uk-file-upload{
+			padding: 16px;
+		}
+		#page_content_inner{
+		    padding: 24px;
+		}
+	</style>
