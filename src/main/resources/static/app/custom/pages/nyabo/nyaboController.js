@@ -168,6 +168,8 @@ angular
                     if (y == 1) {
                         if (resp.data.diff.length == 0) {
                             sweet.show('Анхаар!', 'Дансны код тохирч байна.', 'success');
+							$scope.aldaa = [];
+                            $scope.diffence = [];
                         }
                         else {
                             $scope.aldaa = resp.data;
@@ -248,36 +250,10 @@ angular
                             $scope.viewExcel();
                         }
                         else {
-                            $scope.viewExcel();
+                           // $scope.viewExcel();
+							$scope.diffence = resp.data.diff;
                             $scope.aldaa = resp.data;
                         }
-                        /*  console.log(resp.data);
-                          if(!resp.data.excel){
-                              $scope.aldaa=resp.data;
-                              if(resp.data.formula>0){
-                                  $scope.formula=resp.data.formula;
-                                  sweet.show('Анхаар!', 'Тайлангийн дансаа шалгана уу!!!', 'error');
-                              }
-                              else if(!resp.data.naalt){
-                                  $scope.naaltList=resp.data.naaltList;
-                                  $scope.ars=resp.data.additionalSheet;
-                                  $scope.sda=resp.data.additionalSheet;
-                                  if(resp.data.additionalSheet.length>0){
-                                      sweet.show('Анхаар!', 'Зөрүүтэй хүснэгтээ шалгана уу!!!', 'error');
-                                  }else{
-                                      sweet.show('Анхаар!', 'Тайлангийн дансаа шалгана уу!!!', 'error');
-                                  }
-                              }
-                              if(resp.data.additionalSheet>0){
-                                 // $scope.ars=resp.data.additionalSheet;
-                                  $scope.ars=resp.data.prefilter;
-                                  $scope.errList=resp.data.prefilter;
-                                  sweet.show('Анхаар!', 'Зөрүүтэй хүснэгтээ шалгана уу!!!', 'error');
-                              }
-                          }
-                          if(resp.data.excel){
-
-                          }*/
                         progressbar.removeClass("uk-hidden");
                         console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
                         $scope.ars = resp.data.error;
