@@ -1,5 +1,5 @@
 /* Compile using: /usr/local/flex_sdk_4.12/bin/mxmlc --target-player=11.0.0 -static-link-runtime-shared-libraries=true -library-path+=lib ZeroClipboard.as */
-package {
+package static.bower_components.datatables - buttons.as3 {
 	import flash.display.Stage;
 	import flash.display.Sprite;
 	import flash.display.LoaderInfo;

@@ -1,7 +1,5 @@
 package com.nbb;
 
-import java.security.Principal;
-
 import javax.annotation.Resource;
 
 import org.springframework.boot.CommandLineRunner;
