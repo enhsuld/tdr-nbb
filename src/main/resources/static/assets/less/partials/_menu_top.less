@@ -66,4 +66,59 @@
             }
         }
     }
+    .uk-nav-multilevel {
+        li {
+            position: relative;
+            ul {
+                position: absolute;
+                top: 0;
+                left: 100%;
+                width: 180px;
+                background: @white;
+                .boxShadowHelper(2);
+                margin: 0 0 0 1px;
+                padding: 0;
+                display: none;
+                &:before {
+                    position: absolute;
+                    left: -1px;
+                    height: 100%;
+                    width: 1px;
+                    content: '';
+                    display: block;
+                    z-index: 10;
+                }
+                li {
+                    > a {
+                        font-size: 14px;
+                        color: @text_primary_color;
+                        padding: 5px 15px;
+                        &:hover {
+                            background: @background_color_default;
+                        }
+                    }
+                }
+            }
+            &:hover {
+                > a {
+                    background: @background_color_default;
+                }
+                > ul {
+                    display: block;
+                }
+            }
+            &.has-submenu {
+                &:after {
+                    display: block;
+                    position: absolute;
+                    top: 4px;
+                    right: 2px;
+                    color: @text_secondary_color;
+                    content: '\e5cc';
+                    font-family: "Material Icons";
+                    font-size: 16px;
+                }
+            }
+        }
+    }
 }

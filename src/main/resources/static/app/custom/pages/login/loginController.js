@@ -8,37 +8,36 @@ angular
         'utils',
         'mainService',
         'sessionService',
-        function ($scope,$rootScope,$http,$state,utils, mainService,sessionService) {
-       	
-				
+        function ($scope, $rootScope, $http, $state, utils, mainService, sessionService) {
 
-    	   var $formValidate = $('#form_validation');
 
-           $formValidate
-               .parsley()
-               .on('form:validated',function() {
-                   $scope.$apply();
-               })
-               .on('field:validated',function(parsleyField) {
-                   if($(parsleyField.$element).hasClass('md-input')) {
-                       $scope.$apply();
-                   }
-               });
-         
-      	   var $respassword = $('#reset_password');
+            var $formValidate = $('#form_validation');
 
-      	   $respassword
-               .parsley()
-               .on('form:validated',function() {
-                   $scope.$apply();
-               })
-               .on('field:validated',function(parsleyField) {
-                   if($(parsleyField.$element).hasClass('md-input')) {
-                       $scope.$apply();
-                   }
-               });
-              
-               
+            $formValidate
+                .parsley()
+                .on('form:validated', function () {
+                    $scope.$apply();
+                })
+                .on('field:validated', function (parsleyField) {
+                    if ($(parsleyField.$element).hasClass('md-input')) {
+                        $scope.$apply();
+                    }
+                });
+
+            var $respassword = $('#reset_password');
+
+            $respassword
+                .parsley()
+                .on('form:validated', function () {
+                    $scope.$apply();
+                })
+                .on('field:validated', function (parsleyField) {
+                    if ($(parsleyField.$element).hasClass('md-input')) {
+                        $scope.$apply();
+                    }
+                });
+
+
             $scope.registerFormActive = false;
 
             var $login_card = $('#login_card'),
@@ -48,7 +47,7 @@ angular
                 $login_password_reset = $('#login_password_reset');
 
             // show login form (hide other forms)
-            var login_form_show = function() {
+            var login_form_show = function () {
                 $login_form
                     .show()
                     .siblings()
@@ -56,7 +55,7 @@ angular
             };
 
             // show register form (hide other forms)
-            var register_form_show = function() {
+            var register_form_show = function () {
                 $register_form
                     .show()
                     .siblings()
@@ -64,7 +63,7 @@ angular
             };
 
             // show login help (hide other forms)
-            var login_help_show = function() {
+            var login_help_show = function () {
                 $login_help
                     .show()
                     .siblings()
@@ -72,124 +71,120 @@ angular
             };
 
             // show password reset form (hide other forms)
-            var password_reset_show = function() {
+            var password_reset_show = function () {
                 $login_password_reset
                     .show()
                     .siblings()
                     .hide();
             };
 
-            $scope.loginHelp = function($event) {
+            $scope.loginHelp = function ($event) {
                 $event.preventDefault();
-                utils.card_show_hide($login_card,undefined,login_help_show,undefined);
+                utils.card_show_hide($login_card, undefined, login_help_show, undefined);
             };
 
-            $scope.backToLogin = function($event) {
+            $scope.backToLogin = function ($event) {
                 $event.preventDefault();
                 $scope.registerFormActive = false;
-                utils.card_show_hide($login_card,undefined,login_form_show,undefined);
+                utils.card_show_hide($login_card, undefined, login_form_show, undefined);
             };
 
-            $scope.registerForm = function($event) {
+            $scope.registerForm = function ($event) {
                 $event.preventDefault();
                 $scope.registerFormActive = true;
-                utils.card_show_hide($login_card,undefined,register_form_show,undefined);
+                utils.card_show_hide($login_card, undefined, register_form_show, undefined);
             };
 
-            $scope.passwordReset = function($event) {
+            $scope.passwordReset = function ($event) {
                 $event.preventDefault();
-                utils.card_show_hide($login_card,undefined,password_reset_show,undefined);
+                utils.card_show_hide($login_card, undefined, password_reset_show, undefined);
             };
-            
-            var authenticate = function(credentials, callback) {
-            	
-				var headers = credentials ? {
-					authorization : "Basic "
-							+ btoa(unescape(encodeURIComponent(credentials.username)) + ":"
-									+ unescape(encodeURIComponent(credentials.password)))
-				} : {};
 
-				$http.get('user', {
-					headers : headers
-				}).then(function(response) {
-					if (response.data.name) {
-						//$rootScope.user=response.data;
-						$rootScope.authenticated = true;
-					} else {
-						$rootScope.authenticated = false;
-					}
-					callback && callback($rootScope.authenticated);
-				}, function() {
-					$rootScope.authenticated = false;
-					callback && callback(false);
-				});
-				
-	
-			}
+            var authenticate = function (credentials, callback) {
 
-			
-			
-			authenticate();
-			$scope.credentials = {};
-	/*	    $scope.login = function() {    	 
-                sessionService.login($scope.credentials).then(
-                		
-                function(data) {   
-                	if($rootScope.authenticated){
-                
-                	    var promise = $http.get("/core/defaultSuccess").success(
-                        function (data) {
-                            var response = data;
-                            $state.go(response.url);
-                        })
-                		 $state.go("restricted.dashboard");
-                	}
-                	else{
-                		$scope.error="Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!!!";
-                		$state.go("login");
-                	}
-                },
-                function(data) {
-                	$state.go("login");
+                var headers = credentials ? {
+                    authorization: "Basic "
+                        + btoa(unescape(encodeURIComponent(credentials.username)) + ":"
+                            + unescape(encodeURIComponent(credentials.password)))
+                } : {};
+
+                $http.get('user', {
+                    headers: headers
+                }).then(function (response) {
+                    if (response.data.name) {
+                        $rootScope.authenticated = true;
+                    } else {
+                        $rootScope.authenticated = false;
+                    }
+                    callback && callback($rootScope.authenticated);
+                }, function () {
+                    $rootScope.authenticated = false;
+                    callback && callback(false);
                 });
-            };*/
-			
-			$scope.login = function() {
-				$rootScope.loggedout=false;
-				authenticate($scope.credentials, function(authenticated) {
-					if (authenticated) {
-						console.log("Login succeeded")
-						
-						
-                	   var promise = $http.get("/core/defaultSuccess").success(
+            };
+
+
+            authenticate();
+            $scope.credentials = {};
+            /*	    $scope.login = function() {
+                        sessionService.login($scope.credentials).then(
+
+                        function(data) {
+                            if($rootScope.authenticated){
+
+                                var promise = $http.get("/core/defaultSuccess").success(
                                 function (data) {
                                     var response = data;
                                     $state.go(response.url);
                                 })
-                                
-					
-						//$state.go('restricted.dashboard', {reload: true});					
-						$scope.error = false;
-					//	localStorage.setItem("session", {});
-						$rootScope.authenticated = true;
-					} else {				
-						$scope.error = true;
-						console.log("Login failed")					
-						$rootScope.authenticated = false;
-					}
-				})
-			};
+                                 $state.go("restricted.dashboard");
+                            }
+                            else{
+                                $scope.error="Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!!!";
+                                $state.go("login");
+                            }
+                        },
+                        function(data) {
+                            $state.go("login");
+                        });
+                    };*/
 
-			$scope.res = {};
-			$scope.resetPassword = function() {			
-				 mainService.withdata('put','/service/send-mail', $scope.res)
-		   			.then(function(data){
-		   				if(data){
-			   				sweet.show('Мэдээлэл', 'Амжилттай хадгаллаа.', 'success');
-			   				init();
-		   				}
-			   				
-	   			});
-			};
+            $scope.login = function () {
+                $rootScope.loggedout = false;
+                authenticate($scope.credentials, function (authenticated) {
+                    if (authenticated) {
+                        console.log("Login succeeded")
+
+
+                        $http.get("/core/defaultSuccess").then(
+                            function (data) {
+                                console.log(data.data);
+                                $state.go(data.data.url);
+                            });
+
+
+                        //$state.go('restricted.dashboard', {reload: true});
+                        $scope.error = false;
+                        //	localStorage.setItem("session", {});
+                        $rootScope.authenticated = true;
+                    } else {
+                        $scope.error = true;
+                        console.log("Login failed")
+                        $rootScope.authenticated = false;
+                    }
+                })
+            };
+
+            $scope.res = {};
+            $scope.resetPassword = function () {
+                mainService.withdata('put', '/service/send-mail', $scope.res)
+                    .then(function (data) {
+                        if (data) {
+                            sweet.show('Мэдээлэл', 'Амжилттай хадгаллаа.', 'success');
+                            init();
+                        }
+
+                    });
+            };
         }
     ]);

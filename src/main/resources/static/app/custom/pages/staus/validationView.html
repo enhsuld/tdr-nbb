@@ -1,0 +1,29 @@
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="md-card">
+            <div class="md-card-content">
+                <div class="uk-grid" data-uk-grid-margin>
+                    <div class="uk-width-medium-1-1 user ">
+                        <kendo-grid options="puserGrid"></kendo-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-include="'app/views/footer.html'"></div>
+<script type="text/x-kendo-template" id="add">
+    <div style="width: 250px; float: left;" id="details-container" style="text-align:left;">
+        <button class="k-button k-button-icontext" ng-click='res()'  data-uk-modal="{target:'\\#modal_update_user'}"> <span class='k-icon k-add'></span>Шинээр хэрэглэгч нэмэх</button>
+    </div>
+</script>
+<script type="text/x-kendo-template" id="update">
+    <button class="k-button k-button-icontext" ng-click='update(dataItem)'  data-uk-modal="{target:'\\#modal_update_user'}"><span class="k-icon k-edit"></span>Засах</button>
+    <button class="k-button k-button-icontext  k-grid-delete" ><span class="k-icon k-delete"></span>Устгах</button>
+</script>
+<script type="text/x-kendo-template" id="updateu">
+    <button class="k-button k-button-icontext" ng-click='update(dataItem)'  data-uk-modal="{target:'\\#modal_update_user'}"><span class="k-icon k-edit"></span>Засах</button>
+</script>
+<script type="text/x-kendo-template" id="updated">
+    <button class="k-button k-button-icontext  k-grid-delete" ><span class="k-icon k-delete"></span>Устгах</button>
+</script>

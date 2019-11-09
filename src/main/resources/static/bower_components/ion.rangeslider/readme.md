@@ -6,9 +6,9 @@ Ion.RangeSlider. Is an easy, flexible and responsive range slider with tons of o
 
 ***
 
-* Version: 2.1.7 | *Version 3.x is under development now*
+* Version: 2.1.8 | *Version 3.x is under development now*
 * <a href="http://ionden.com/a/plugins/ion.rangeSlider/en.html">Project page and demos</a>
-* <a href="http://ionden.com/a/plugins/ion.rangeSlider/ion.rangeSlider-2.1.7.zip">Download ZIP</a>
+* <a href="http://ionden.com/a/plugins/ion.rangeSlider/ion.rangeSlider-2.1.8.zip">Download ZIP</a>
 
 ## Description
 * Ion.RangeSlider — cool, comfortable, responsive and easily customizable range slider
@@ -101,14 +101,29 @@ If your are new in web development and you are not sure how to correctly install
 <a href="http://ionden.com/a/plugins/ion.rangeSlider/ionRangeSliderDemo.zip" class="button">this demo example</a>
 
 
-## Migrating from 1.x to 2.x
-* All params (except functions) are lowercase now: <b>param_name</b>, not paramName
-* Same param names was changed: hasGrid &rarr; <b>grid</b>, onLoad &rarr; <b>onStart</b>
-* Callbacks data object format was changed. Example: fromNumber &rarr; <b>from</b>
-* Slider now writes it's result to value attribute and also to data-from and data-to attributes
-
-
 ## <a href="http://jsfiddle.net/IonDen/qv6yrjrv/" target="_blank">Experiments playground</a>
+
+Here you can find bunch of advanced JSFIDDLE demos with different, non-standart use cases:
+* [Reverse or RTL](http://jsfiddle.net/IonDen/gbmszmp4/)
+* [1 handle bind to 1 input](http://jsfiddle.net/IonDen/mvrfg2vc/)
+* [2 handles bind to 2 inputs](http://jsfiddle.net/IonDen/r5aox84v/)
+* [2 sliders connected to each other](http://jsfiddle.net/IonDen/4k3d4y3s/)
+* [1st slider disables/enables 2nd slider](http://jsfiddle.net/IonDen/ctkouh69/)
+* [Non-linear slider](http://jsfiddle.net/IonDen/pzjaoxe7/)
+* [Plus and Minus buttons](http://jsfiddle.net/IonDen/wsk7y08a/)
+* [Calculating sum](http://codepen.io/anon/pen/QyzwJZ)
+* [Adding one more diapazon on 1 slider](http://jsfiddle.net/IonDen/st9eotpy/)
+* [Live editing of Min and Max values](http://jsfiddle.net/IonDen/wL8gq4py/)
+* [Prettify and transform values at the same time](http://jsfiddle.net/IonDen/j0tLzgq1/)
+* [Custom marks on slider](http://jsfiddle.net/IonDen/spez12kt/)
+* [Rendering money value n.nn](http://jsfiddle.net/IonDen/vrqqL2Lw/)
+* [Rendering Dates with Moment.js](http://jsfiddle.net/tvn2ckj2/)
+* [Changing step live](http://jsfiddle.net/IonDen/ca6ykae6/)
+* [Toggle slider](http://jsfiddle.net/IonDen/t936wtjv/)
+* [Using different skin color at the same time](http://jsfiddle.net/IonDen/2sruxk4e/)
+* [2 dependant sliders](http://jsfiddle.net/IonDen/n2sxswv2/)
+* [Skip some values](http://jsfiddle.net/IonDen/4qgq9bto/)
+* [Good Prettify example](http://jsfiddle.net/IonDen/bvbvr0xs/)
 
 
 ## Settings
@@ -155,8 +170,8 @@ If your are new in web development and you are not sure how to correctly install
 | `disable` | `data-disable` | `false` | boolean | Locks slider and makes it inactive |
 | `onStart` | `-` | `null` | function | Callback. Is called on slider start. Gets all slider data as a 1st attribute |
 | `onChange` | `-` | `null` | function | Callback. IS called on each values change. Gets all slider data as a 1st attribute |
-| `onFinish` | `-` | `null` | function | Callback. Is called than user releases handle. Gets all slider data as a 1st attribute |
-| `onUpdate` | `-` | `null` | function | Callback. Is called than slider is modified by external methods `update` or `reset` |
+| `onFinish` | `-` | `null` | function | Callback. Is called when user releases handle. Gets all slider data as a 1st attribute |
+| `onUpdate` | `-` | `null` | function | Callback. Is called when slider is modified by external methods `update` or `reset` |
 
 
 

@@ -95,3 +95,36 @@
         font-size: 12px;
     }
 }
+
+.scrum_board_menu {
+    float: left;
+    width: 320px;
+    position: relative;
+    padding: 46px 8px 8px 16px;
+    border-right: 1px solid @border_color_light;
+    @media @screen_medium_max {
+        display: none;
+    }
+    &_heading {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        width: 100%;
+        font-weight: 500;
+        font-size: 13px;
+        text-transform: uppercase;
+        line-height: 36px;
+        box-sizing: border-box;
+        .truncate_line;
+        padding: 0 16px;
+    }
+    &_inner {
+        height: 100%;
+        overflow: auto;
+        padding-right: 8px;
+        > div + div {
+            margin-top: 4px;
+        }
+    }
+}
+

@@ -128,7 +128,7 @@ altairApp
             FastClick.attach(document.body);
 
             // get version from package.json
-            $http.get('./package.json').success(function(response) {
+            $http.get('./package.json').then(function(response) {
                 $rootScope.appVer = response.version;
             });
 

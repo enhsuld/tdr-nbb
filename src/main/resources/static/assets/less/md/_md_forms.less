@@ -63,6 +63,22 @@ input[type="color"] {
                 width: 500px;
             }
         }
+        &.inverted-colors {
+            color: @white;
+            border-bottom-color: @white;
+            &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                color: @white;
+            }
+            &::-moz-placeholder { /* Firefox 19+ */
+                color: @white;
+            }
+            &:-ms-input-placeholder { /* IE 10+ */
+                color: @white;
+            }
+            &:-moz-placeholder { /* Firefox 18- */
+                color: @white;
+            }
+        }
     }
 }
 
@@ -120,7 +136,7 @@ textarea {
             width: 0;
             height: 2px;
             background: @primary_color_dark;
-            transition: width 400ms @md_easing;
+            transition: width 300ms @md_easing;
         }
         &:before {
             left: 50%

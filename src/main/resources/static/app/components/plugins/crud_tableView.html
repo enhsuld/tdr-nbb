@@ -1,0 +1,91 @@
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <h3 class="heading_b uk-margin-bottom">CRUD table</h3>
+
+        <div class="md-card">
+            <div class="md-card-content">
+                <div class="uk-overflow-container">
+                    <table class="uk-table uk-table-align-vertical uk-table-striped uk-table-nowrap">
+                        <thead>
+                            <tr>
+                                <th class="small_col">id</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th class="small_col">Age</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Balance</th>
+                                <th>Company</th>
+                                <th></th>
+                                <th class="small_col"></th>
+                                <th class="small_col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="user in users" ng-class="{'row_checked': user.editable}">
+                                <td class="uk-text-muted">
+                                    {{ user.index + 1 }}.
+                                </td>
+                                <td>
+                                    <input type="text" class="md-input" ng-model="user.name.first" ng-show="user.editable" md-input>
+                                    <span ng-hide="user.editable">{{ user.name.first }}</span>
+                                </td>
+                                <td>
+                                    <input type="text" class="md-input" ng-model="user.name.last" ng-show="user.editable" md-input>
+                                    <span ng-hide="user.editable"><strong>{{ user.name.last }}</strong></span>
+                                </td>
+                                <td>
+                                    <input type="text" class="md-input" ng-model="user.age" ng-show="user.editable" md-input>
+                                    <span ng-hide="user.editable">{{ user.age }}</span>
+                                </td>
+                                <td>
+                                    <input type="text" class="md-input" ng-model="user.email" ng-show="user.editable" md-input>
+                                    <span ng-hide="user.editable">{{ user.email }}</span>
+                                </td>
+                                <td>
+                                    <input type="text" class="md-input" ng-model="user.phone" ng-show="user.editable" md-input>
+                                    <span ng-hide="user.editable">{{ user.phone }}</span>
+                                </td>
+                                <td>
+                                    <div class="uk-input-group" ng-show="user.editable">
+                                        <span class="uk-input-group-addon">$</span>
+                                        <input type="text" class="md-input masked_input" ng-model="user.balance" md-input data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'prefix': '', 'placeholder': '0'" data-inputmask-showmaskonhover="false" />
+                                    </div>
+                                    <span ng-hide="user.editable">$ {{ user.balance }}</span>
+                                </td>
+                                <td>
+                                    <input type="text" class="md-input" ng-model="user.company" ng-show="user.editable" md-input>
+                                    <span ng-hide="user.editable">{{ user.company }}</span>
+                                </td>
+                                <td>
+                                    <div class="icheck-wrapper" ng-show="user.editable" >
+                                        <input type="checkbox" ng-model="user.isActive" icheck>
+                                    </div>
+                                    <div ng-hide="user.editable">
+                                        <span ng-show="user.isActive" class="uk-badge uk-badge-success">Active</span>
+                                        <span ng-show="!user.isActive" class="uk-badge uk-badge-danger">Inactive</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="#" ng-click="edit($event,$index)" ng-hide="user.editable"><i class="md-icon material-icons">&#xE254;</i></a>
+                                    <a href="#" ng-click="save($event,$index)" ng-show="user.editable"><i class="md-icon material-icons">&#xE161;</i></a>
+                                </td>
+                                <td>
+                                    <a href="#" ng-click="delete($event,$index,user.index + 1)"><i class="md-icon material-icons">&#xE872;</i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="md-fab-wrapper">
+    <a class="md-fab md-fab-primary" href="#" ng-click="add($event)">
+        <i class="material-icons">&#xE145;</i>
+    </a>
+</div>

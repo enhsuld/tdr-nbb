@@ -465,6 +465,13 @@ altairApp
                             "assets/css/themes/_theme_i.min.css",
                             "assets/css/themes/_theme_dark.min.css"
                         ]
+                    },
+                    {
+                        name: 'angular-print',
+                        files: [
+                            "kendoui/angular-print/angularPrint.js",
+                            "kendoui/angular-print/angularPrint.css"
+                        ]
                     }
 
                 ]

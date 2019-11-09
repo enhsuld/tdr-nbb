@@ -1,314 +1,562 @@
-  function isNumber(n) {
-    return typeof n === 'number' && !isNaN(n);
+import $ from 'jquery';
+import {
+  WINDOW,
+} from './constants';
+
+/**
+ * Check if the given value is a string.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a string, else `false`.
+ */
+export function isString(value) {
+  return typeof value === 'string';
+}
+
+/**
+ * Check if the given value is not a number.
+ */
+export const isNaN = Number.isNaN || WINDOW.isNaN;
+
+/**
+ * Check if the given value is a number.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a number, else `false`.
+ */
+export function isNumber(value) {
+  return typeof value === 'number' && !isNaN(value);
+}
+
+/**
+ * Check if the given value is undefined.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is undefined, else `false`.
+ */
+export function isUndefined(value) {
+  return typeof value === 'undefined';
+}
+
+/**
+ * Takes a function and returns a new one that will always have a particular context.
+ * Custom proxy to avoid jQuery's guid.
+ * @param {Function} fn - The target function.
+ * @param {Object} context - The new context for the function.
+ * @returns {Function} The new function.
+ */
+export function proxy(fn, context, ...args) {
+  return (...args2) => fn.apply(context, args.concat(args2));
+}
+
+/**
+ * Get the own enumerable properties of a given object.
+ * @param {Object} obj - The target object.
+ * @returns {Array} All the own enumerable properties of the given object.
+ */
+export const objectKeys = Object.keys || function objectKeys(obj) {
+  const keys = [];
+
+  $.each(obj, (key) => {
+    keys.push(key);
+  });
+
+  return keys;
+};
+
+const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
+
+/**
+ * Normalize decimal number.
+ * Check out {@link http://0.30000000000000004.com/ }
+ * @param {number} value - The value to normalize.
+ * @param {number} [times=100000000000] - The times for normalizing.
+ * @returns {number} Returns the normalized number.
+ */
+export function normalizeDecimalNumber(value, times = 100000000000) {
+  return REGEXP_DECIMALS.test(value) ? (Math.round(value * times) / times) : value;
+}
+
+const { location } = WINDOW;
+const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
+
+/**
+ * Check if the given URL is a cross origin URL.
+ * @param {string} url - The target URL.
+ * @returns {boolean} Returns `true` if the given URL is a cross origin URL, else `false`.
+ */
+export function isCrossOriginURL(url) {
+  const parts = url.match(REGEXP_ORIGINS);
+
+  return parts && (
+    parts[1] !== location.protocol ||
+    parts[2] !== location.hostname ||
+    parts[3] !== location.port
+  );
+}
+
+/**
+ * Add timestamp to the given URL.
+ * @param {string} url - The target URL.
+ * @returns {string} The result URL.
+ */
+export function addTimestamp(url) {
+  const timestamp = `timestamp=${(new Date()).getTime()}`;
+
+  return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
+}
+
+/**
+ * Get transform values base on the given object.
+ * @param {Object} obj - The target object.
+ * @returns {string} A string contains transform values.
+ */
+export function getTransformValues({
+  rotate,
+  scaleX,
+  scaleY,
+  translateX,
+  translateY,
+}) {
+  const values = [];
+
+  if (isNumber(translateX) && translateX !== 0) {
+    values.push(`translateX(${translateX}px)`);
   }
 
-  function isUndefined(n) {
-    return typeof n === 'undefined';
+  if (isNumber(translateY) && translateY !== 0) {
+    values.push(`translateY(${translateY}px)`);
   }
 
-  function toArray(obj, offset) {
-    var args = [];
-
-    // This is necessary for IE8
-    if (isNumber(offset)) {
-      args.push(offset);
-    }
-
-    return args.slice.apply(obj, args);
+  // Rotate should come first before scale to match orientation transform
+  if (isNumber(rotate) && rotate !== 0) {
+    values.push(`rotate(${rotate}deg)`);
   }
 
-  // Custom proxy to avoid jQuery's guid
-  function proxy(fn, context) {
-    var args = toArray(arguments, 2);
-
-    return function () {
-      return fn.apply(context, args.concat(toArray(arguments)));
-    };
+  if (isNumber(scaleX) && scaleX !== 1) {
+    values.push(`scaleX(${scaleX})`);
   }
 
-  function isCrossOriginURL(url) {
-    var parts = url.match(/^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i);
-
-    return parts && (
-      parts[1] !== location.protocol ||
-      parts[2] !== location.hostname ||
-      parts[3] !== location.port
-    );
+  if (isNumber(scaleY) && scaleY !== 1) {
+    values.push(`scaleY(${scaleY})`);
   }
 
-  function addTimestamp(url) {
-    var timestamp = 'timestamp=' + (new Date()).getTime();
+  return values.length ? values.join(' ') : 'none';
+}
 
-    return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
+const { navigator } = WINDOW;
+const IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
+
+/**
+ * Get an image's natural sizes.
+ * @param {string} image - The target image.
+ * @param {Function} callback - The callback function.
+ */
+export function getImageNaturalSizes(image, callback) {
+  // Modern browsers (except Safari)
+  if (image.naturalWidth && !IS_SAFARI_OR_UIWEBVIEW) {
+    callback(image.naturalWidth, image.naturalHeight);
+    return;
   }
 
-  function getCrossOrigin(crossOrigin) {
-    return crossOrigin ? ' crossOrigin="' + crossOrigin + '"' : '';
+  const newImage = document.createElement('img');
+
+  newImage.onload = () => {
+    callback(newImage.width, newImage.height);
+  };
+
+  newImage.src = image.src;
+}
+
+/**
+ * Get the max ratio of a group of pointers.
+ * @param {string} pointers - The target pointers.
+ * @returns {number} The result ratio.
+ */
+export function getMaxZoomRatio(pointers) {
+  const pointers2 = $.extend({}, pointers);
+  const ratios = [];
+
+  $.each(pointers, (pointerId, pointer) => {
+    delete pointers2[pointerId];
+
+    $.each(pointers2, (pointerId2, pointer2) => {
+      const x1 = Math.abs(pointer.startX - pointer2.startX);
+      const y1 = Math.abs(pointer.startY - pointer2.startY);
+      const x2 = Math.abs(pointer.endX - pointer2.endX);
+      const y2 = Math.abs(pointer.endY - pointer2.endY);
+      const z1 = Math.sqrt((x1 * x1) + (y1 * y1));
+      const z2 = Math.sqrt((x2 * x2) + (y2 * y2));
+      const ratio = (z2 - z1) / z1;
+
+      ratios.push(ratio);
+    });
+  });
+
+  ratios.sort((a, b) => Math.abs(a) < Math.abs(b));
+
+  return ratios[0];
+}
+
+/**
+ * Get a pointer from an event object.
+ * @param {Object} event - The target event object.
+ * @param {boolean} endOnly - Indicates if only returns the end point coordinate or not.
+ * @returns {Object} The result pointer contains start and/or end point coordinates.
+ */
+export function getPointer({ pageX, pageY }, endOnly) {
+  const end = {
+    endX: pageX,
+    endY: pageY,
+  };
+
+  if (endOnly) {
+    return end;
   }
 
-  function getImageSize(image, callback) {
-    var newImage;
+  return $.extend({
+    startX: pageX,
+    startY: pageY,
+  }, end);
+}
 
-    // Modern browsers (ignore Safari, #120 & #509)
-    if (image.naturalWidth && !IS_SAFARI_OR_UIWEBVIEW) {
-      return callback(image.naturalWidth, image.naturalHeight);
-    }
+/**
+ * Get the center point coordinate of a group of pointers.
+ * @param {Object} pointers - The target pointers.
+ * @returns {Object} The center point coordinate.
+ */
+export function getPointersCenter(pointers) {
+  let pageX = 0;
+  let pageY = 0;
+  let count = 0;
 
-    // IE8: Don't use `new Image()` here (#319)
-    newImage = document.createElement('img');
+  $.each(pointers, (pointerId, { startX, startY }) => {
+    pageX += startX;
+    pageY += startY;
+    count += 1;
+  });
 
-    newImage.onload = function () {
-      callback(this.width, this.height);
-    };
+  pageX /= count;
+  pageY /= count;
 
-    newImage.src = image.src;
-  }
+  return {
+    pageX,
+    pageY,
+  };
+}
 
-  function getTransform(options) {
-    var transforms = [];
-    var rotate = options.rotate;
-    var scaleX = options.scaleX;
-    var scaleY = options.scaleY;
+/**
+ * Check if the given value is a finite number.
+ */
+export const isFinite = Number.isFinite || WINDOW.isFinite;
 
-    // Rotate should come first before scale to match orientation transform
-    if (isNumber(rotate) && rotate !== 0) {
-      transforms.push('rotate(' + rotate + 'deg)');
-    }
+/**
+ * Get the max sizes in a rectangle under the given aspect ratio.
+ * @param {Object} data - The original sizes.
+ * @returns {Object} The result sizes.
+ */
+export function getContainSizes({
+  aspectRatio,
+  height,
+  width,
+}) {
+  const isValidNumber = value => isFinite(value) && value > 0;
 
-    if (isNumber(scaleX) && scaleX !== 1) {
-      transforms.push('scaleX(' + scaleX + ')');
-    }
-
-    if (isNumber(scaleY) && scaleY !== 1) {
-      transforms.push('scaleY(' + scaleY + ')');
-    }
-
-    return transforms.length ? transforms.join(' ') : 'none';
-  }
-
-  function getRotatedSizes(data, isReversed) {
-    var deg = abs(data.degree) % 180;
-    var arc = (deg > 90 ? (180 - deg) : deg) * Math.PI / 180;
-    var sinArc = sin(arc);
-    var cosArc = cos(arc);
-    var width = data.width;
-    var height = data.height;
-    var aspectRatio = data.aspectRatio;
-    var newWidth;
-    var newHeight;
-
-    if (!isReversed) {
-      newWidth = width * cosArc + height * sinArc;
-      newHeight = width * sinArc + height * cosArc;
+  if (isValidNumber(width) && isValidNumber(height)) {
+    if (height * aspectRatio > width) {
+      height = width / aspectRatio;
     } else {
-      newWidth = width / (cosArc + sinArc / aspectRatio);
-      newHeight = newWidth / aspectRatio;
+      width = height * aspectRatio;
     }
+  } else if (isValidNumber(width)) {
+    height = width / aspectRatio;
+  } else if (isValidNumber(height)) {
+    width = height * aspectRatio;
+  }
 
+  return {
+    width,
+    height,
+  };
+}
+
+/**
+ * Get the new sizes of a rectangle after rotated.
+ * @param {Object} data - The original sizes.
+ * @returns {Object} The result sizes.
+ */
+export function getRotatedSizes({ width, height, degree }) {
+  degree = Math.abs(degree);
+
+  if (degree % 180 === 90) {
     return {
-      width: newWidth,
-      height: newHeight
+      width: height,
+      height: width,
     };
   }
 
-  function getSourceCanvas(image, data) {
-    var canvas = $('<canvas>')[0];
-    var context = canvas.getContext('2d');
-    var dstX = 0;
-    var dstY = 0;
-    var dstWidth = data.naturalWidth;
-    var dstHeight = data.naturalHeight;
-    var rotate = data.rotate;
-    var scaleX = data.scaleX;
-    var scaleY = data.scaleY;
-    var scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
-    var rotatable = isNumber(rotate) && rotate !== 0;
-    var advanced = rotatable || scalable;
-    var canvasWidth = dstWidth * abs(scaleX || 1);
-    var canvasHeight = dstHeight * abs(scaleY || 1);
-    var translateX;
-    var translateY;
-    var rotated;
+  const arc = ((degree % 90) * Math.PI) / 180;
+  const sinArc = Math.sin(arc);
+  const cosArc = Math.cos(arc);
 
-    if (scalable) {
-      translateX = canvasWidth / 2;
-      translateY = canvasHeight / 2;
-    }
+  return {
+    width: (width * cosArc) + (height * sinArc),
+    height: (width * sinArc) + (height * cosArc),
+  };
+}
 
-    if (rotatable) {
-      rotated = getRotatedSizes({
-        width: canvasWidth,
-        height: canvasHeight,
-        degree: rotate
-      });
+/**
+ * Get a canvas which drew the given image.
+ * @param {HTMLImageElement} image - The image for drawing.
+ * @param {Object} imageData - The image data.
+ * @param {Object} canvasData - The canvas data.
+ * @param {Object} options - The options.
+ * @returns {HTMLCanvasElement} The result canvas.
+ */
+export function getSourceCanvas(
+  image,
+  {
+    naturalWidth: imageNaturalWidth,
+    naturalHeight: imageNaturalHeight,
+    rotate = 0,
+    scaleX = 1,
+    scaleY = 1,
+  },
+  {
+    aspectRatio,
+    naturalWidth,
+    naturalHeight,
+  },
+  {
+    fillColor = 'transparent',
+    imageSmoothingEnabled = true,
+    imageSmoothingQuality = 'low',
+    maxWidth = Infinity,
+    maxHeight = Infinity,
+    minWidth = 0,
+    minHeight = 0,
+  },
+) {
+  const maxSizes = getContainSizes({
+    aspectRatio,
+    width: maxWidth,
+    height: maxHeight,
+  });
+  const minSizes = getContainSizes({
+    aspectRatio,
+    width: minWidth,
+    height: minHeight,
+  });
+  const width = Math.min(maxSizes.width, Math.max(minSizes.width, naturalWidth));
+  const height = Math.min(maxSizes.height, Math.max(minSizes.height, naturalHeight));
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  const params = [
+    -imageNaturalWidth / 2,
+    -imageNaturalHeight / 2,
+    imageNaturalWidth,
+    imageNaturalHeight,
+  ];
 
-      canvasWidth = rotated.width;
-      canvasHeight = rotated.height;
-      translateX = canvasWidth / 2;
-      translateY = canvasHeight / 2;
-    }
+  canvas.width = normalizeDecimalNumber(width);
+  canvas.height = normalizeDecimalNumber(height);
+  context.fillStyle = fillColor;
+  context.fillRect(0, 0, width, height);
+  context.save();
+  context.translate(width / 2, height / 2);
+  context.rotate((rotate * Math.PI) / 180);
+  context.scale(scaleX, scaleY);
+  context.imageSmoothingEnabled = !!imageSmoothingEnabled;
+  context.imageSmoothingQuality = imageSmoothingQuality;
+  context.drawImage(image, ...$.map(params, param => Math.floor(normalizeDecimalNumber(param))));
+  context.restore();
+  return canvas;
+}
 
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
+const { fromCharCode } = String;
 
-    if (advanced) {
-      dstX = -dstWidth / 2;
-      dstY = -dstHeight / 2;
+/**
+ * Get string from char code in data view.
+ * @param {DataView} dataView - The data view for read.
+ * @param {number} start - The start index.
+ * @param {number} length - The read length.
+ * @returns {string} The read result.
+ */
+export function getStringFromCharCode(dataView, start, length) {
+  let str = '';
+  let i;
 
-      context.save();
-      context.translate(translateX, translateY);
-    }
+  length += start;
 
-    // Rotate should come first before scale as in the "getTransform" function
-    if (rotatable) {
-      context.rotate(rotate * Math.PI / 180);
-    }
-
-    if (scalable) {
-      context.scale(scaleX, scaleY);
-    }
-
-    context.drawImage(image, floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
-
-    if (advanced) {
-      context.restore();
-    }
-
-    return canvas;
+  for (i = start; i < length; i += 1) {
+    str += fromCharCode(dataView.getUint8(i));
   }
 
-  function getTouchesCenter(touches) {
-    var length = touches.length;
-    var pageX = 0;
-    var pageY = 0;
+  return str;
+}
 
-    if (length) {
-      $.each(touches, function (i, touch) {
-        pageX += touch.pageX;
-        pageY += touch.pageY;
-      });
+const REGEXP_DATA_URL_HEAD = /^data:.*,/;
 
-      pageX /= length;
-      pageY /= length;
-    }
+/**
+ * Transform Data URL to array buffer.
+ * @param {string} dataURL - The Data URL to transform.
+ * @returns {ArrayBuffer} The result array buffer.
+ */
+export function dataURLToArrayBuffer(dataURL) {
+  const base64 = dataURL.replace(REGEXP_DATA_URL_HEAD, '');
+  const binary = atob(base64);
+  const arrayBuffer = new ArrayBuffer(binary.length);
+  const uint8 = new Uint8Array(arrayBuffer);
 
-    return {
-      pageX: pageX,
-      pageY: pageY
-    };
-  }
+  $.each(uint8, (i) => {
+    uint8[i] = binary.charCodeAt(i);
+  });
 
-  function getStringFromCharCode(dataView, start, length) {
-    var str = '';
-    var i;
+  return arrayBuffer;
+}
 
-    for (i = start, length += start; i < length; i++) {
-      str += fromCharCode(dataView.getUint8(i));
-    }
+/**
+ * Transform array buffer to Data URL.
+ * @param {ArrayBuffer} arrayBuffer - The array buffer to transform.
+ * @param {string} mimeType - The mime type of the Data URL.
+ * @returns {string} The result Data URL.
+ */
+export function arrayBufferToDataURL(arrayBuffer, mimeType) {
+  const uint8 = new Uint8Array(arrayBuffer);
+  let data = '';
 
-    return str;
-  }
+  // TypedArray.prototype.forEach is not supported in some browsers.
+  $.each(uint8, (i, value) => {
+    data += fromCharCode(value);
+  });
 
-  function getOrientation(arrayBuffer) {
-    var dataView = new DataView(arrayBuffer);
-    var length = dataView.byteLength;
-    var orientation;
-    var exifIDCode;
-    var tiffOffset;
-    var firstIFDOffset;
-    var littleEndian;
-    var endianness;
-    var app1Start;
-    var ifdStart;
-    var offset;
-    var i;
+  return `data:${mimeType};base64,${btoa(data)}`;
+}
 
-    // Only handle JPEG image (start by 0xFFD8)
-    if (dataView.getUint8(0) === 0xFF && dataView.getUint8(1) === 0xD8) {
-      offset = 2;
+/**
+ * Get orientation value from given array buffer.
+ * @param {ArrayBuffer} arrayBuffer - The array buffer to read.
+ * @returns {number} The read orientation value.
+ */
+export function getOrientation(arrayBuffer) {
+  const dataView = new DataView(arrayBuffer);
+  let orientation;
+  let littleEndian;
+  let app1Start;
+  let ifdStart;
 
-      while (offset < length) {
-        if (dataView.getUint8(offset) === 0xFF && dataView.getUint8(offset + 1) === 0xE1) {
-          app1Start = offset;
-          break;
-        }
+  // Only handle JPEG image (start by 0xFFD8)
+  if (dataView.getUint8(0) === 0xFF && dataView.getUint8(1) === 0xD8) {
+    const length = dataView.byteLength;
+    let offset = 2;
 
-        offset++;
+    while (offset < length) {
+      if (dataView.getUint8(offset) === 0xFF && dataView.getUint8(offset + 1) === 0xE1) {
+        app1Start = offset;
+        break;
       }
+
+      offset += 1;
     }
+  }
 
-    if (app1Start) {
-      exifIDCode = app1Start + 4;
-      tiffOffset = app1Start + 10;
+  if (app1Start) {
+    const exifIDCode = app1Start + 4;
+    const tiffOffset = app1Start + 10;
 
-      if (getStringFromCharCode(dataView, exifIDCode, 4) === 'Exif') {
-        endianness = dataView.getUint16(tiffOffset);
-        littleEndian = endianness === 0x4949;
+    if (getStringFromCharCode(dataView, exifIDCode, 4) === 'Exif') {
+      const endianness = dataView.getUint16(tiffOffset);
 
-        if (littleEndian || endianness === 0x4D4D /* bigEndian */) {
-          if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
-            firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
+      littleEndian = endianness === 0x4949;
 
-            if (firstIFDOffset >= 0x00000008) {
-              ifdStart = tiffOffset + firstIFDOffset;
-            }
+      if (littleEndian || endianness === 0x4D4D /* bigEndian */) {
+        if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
+          const firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
+
+          if (firstIFDOffset >= 0x00000008) {
+            ifdStart = tiffOffset + firstIFDOffset;
           }
         }
       }
     }
+  }
 
-    if (ifdStart) {
-      length = dataView.getUint16(ifdStart, littleEndian);
+  if (ifdStart) {
+    const length = dataView.getUint16(ifdStart, littleEndian);
+    let offset;
+    let i;
 
-      for (i = 0; i < length; i++) {
-        offset = ifdStart + i * 12 + 2;
+    for (i = 0; i < length; i += 1) {
+      offset = ifdStart + (i * 12) + 2;
 
-        if (dataView.getUint16(offset, littleEndian) === 0x0112 /* Orientation */) {
+      if (dataView.getUint16(offset, littleEndian) === 0x0112 /* Orientation */) {
+        // 8 is the offset of the current tag's value
+        offset += 8;
 
-          // 8 is the offset of the current tag's value
-          offset += 8;
+        // Get the original orientation value
+        orientation = dataView.getUint16(offset, littleEndian);
 
-          // Get the original orientation value
-          orientation = dataView.getUint16(offset, littleEndian);
-
-          // Override the orientation with its default value for Safari (#120)
-          if (IS_SAFARI_OR_UIWEBVIEW) {
-            dataView.setUint16(offset, 1, littleEndian);
-          }
-
-          break;
-        }
+        // Override the orientation with its default value
+        dataView.setUint16(offset, 1, littleEndian);
+        break;
       }
     }
-
-    return orientation;
   }
 
-  function dataURLToArrayBuffer(dataURL) {
-    var base64 = dataURL.replace(REGEXP_DATA_URL_HEAD, '');
-    var binary = atob(base64);
-    var length = binary.length;
-    var arrayBuffer = new ArrayBuffer(length);
-    var dataView = new Uint8Array(arrayBuffer);
-    var i;
+  return orientation;
+}
 
-    for (i = 0; i < length; i++) {
-      dataView[i] = binary.charCodeAt(i);
-    }
+/**
+ * Parse Exif Orientation value.
+ * @param {number} orientation - The orientation to parse.
+ * @returns {Object} The parsed result.
+ */
+export function parseOrientation(orientation) {
+  let rotate = 0;
+  let scaleX = 1;
+  let scaleY = 1;
 
-    return arrayBuffer;
+  switch (orientation) {
+    // Flip horizontal
+    case 2:
+      scaleX = -1;
+      break;
+
+    // Rotate left 180°
+    case 3:
+      rotate = -180;
+      break;
+
+    // Flip vertical
+    case 4:
+      scaleY = -1;
+      break;
+
+    // Flip vertical and rotate right 90°
+    case 5:
+      rotate = 90;
+      scaleY = -1;
+      break;
+
+    // Rotate right 90°
+    case 6:
+      rotate = 90;
+      break;
+
+    // Flip horizontal and rotate right 90°
+    case 7:
+      rotate = 90;
+      scaleX = -1;
+      break;
+
+    // Rotate left 90°
+    case 8:
+      rotate = -90;
+      break;
+
+    default:
   }
 
-  // Only available for JPEG image
-  function arrayBufferToDataURL(arrayBuffer) {
-    var dataView = new Uint8Array(arrayBuffer);
-    var length = dataView.length;
-    var base64 = '';
-    var i;
-
-    for (i = 0; i < length; i++) {
-      base64 += fromCharCode(dataView[i]);
-    }
-
-    return 'data:image/jpeg;base64,' + btoa(base64);
-  }
+  return {
+    rotate,
+    scaleX,
+    scaleY,
+  };
+}

@@ -78,7 +78,7 @@
 }
 
 // Retina background-image support with non-retina fall back
-.retina_image(@file-1x, @file-2x, @width-1x, @height-1x) {
+.retina_image(@file-1x, @file-2x, @width, @height) {
     background-image: url("@{file-1x}");
     background-repeat: no-repeat;
     @media only screen and (-webkit-min-device-pixel-ratio: 2),
@@ -88,7 +88,7 @@
             only screen and ( min-resolution: 192dppx),
             only screen and ( min-resolution: 2dppx) {
         background-image: url("@{file-2x}");
-        background-size: @width-1x @height-1x;
+        background-size: @width @height;
     }
 }
 

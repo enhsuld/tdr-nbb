@@ -1,205 +1,216 @@
-    resize: function () {
-      var restore = this.options.restore;
-      var $container = this.$container;
-      var container = this.container;
-      var canvasData;
-      var cropBoxData;
-      var ratio;
+import $ from 'jquery';
+import {
+  ACTION_CROP,
+  ACTION_ZOOM,
+  CLASS_CROP,
+  CLASS_MODAL,
+  DATA_ACTION,
+  DRAG_MODE_CROP,
+  DRAG_MODE_MOVE,
+  DRAG_MODE_NONE,
+  EVENT_CROP_END,
+  EVENT_CROP_MOVE,
+  EVENT_CROP_START,
+  REGEXP_ACTIONS,
+} from './constants';
+import {
+  getPointer,
+  objectKeys,
+} from './utilities';
 
-      // Check `container` is necessary for IE8
-      if (this.isDisabled || !container) {
-        return;
+export default {
+  resize() {
+    const { options, $container, container } = this;
+    const minContainerWidth = Number(options.minContainerWidth) || 200;
+    const minContainerHeight = Number(options.minContainerHeight) || 100;
+
+    if (this.disabled || container.width <= minContainerWidth ||
+      container.height <= minContainerHeight) {
+      return;
+    }
+
+    const ratio = $container.width() / container.width;
+
+    // Resize when width changed or height changed
+    if (ratio !== 1 || $container.height() !== container.height) {
+      let canvasData;
+      let cropBoxData;
+
+      if (options.restore) {
+        canvasData = this.getCanvasData();
+        cropBoxData = this.getCropBoxData();
       }
 
-      ratio = $container.width() / container.width;
+      this.render();
 
-      // Resize when width changed or height changed
-      if (ratio !== 1 || $container.height() !== container.height) {
-        if (restore) {
-          canvasData = this.getCanvasData();
-          cropBoxData = this.getCropBoxData();
-        }
-
-        this.render();
-
-        if (restore) {
-          this.setCanvasData($.each(canvasData, function (i, n) {
-            canvasData[i] = n * ratio;
-          }));
-          this.setCropBoxData($.each(cropBoxData, function (i, n) {
-            cropBoxData[i] = n * ratio;
-          }));
-        }
+      if (options.restore) {
+        this.setCanvasData($.each(canvasData, (i, n) => {
+          canvasData[i] = n * ratio;
+        }));
+        this.setCropBoxData($.each(cropBoxData, (i, n) => {
+          cropBoxData[i] = n * ratio;
+        }));
       }
-    },
+    }
+  },
 
-    dblclick: function () {
-      if (this.isDisabled) {
-        return;
-      }
+  dblclick() {
+    if (this.disabled || this.options.dragMode === DRAG_MODE_NONE) {
+      return;
+    }
 
-      if (this.$dragBox.hasClass(CLASS_CROP)) {
-        this.setDragMode(ACTION_MOVE);
-      } else {
-        this.setDragMode(ACTION_CROP);
-      }
-    },
+    this.setDragMode(this.$dragBox.hasClass(CLASS_CROP) ? DRAG_MODE_MOVE : DRAG_MODE_CROP);
+  },
 
-    wheel: function (event) {
-      var e = event.originalEvent || event;
-      var ratio = num(this.options.wheelZoomRatio) || 0.1;
-      var delta = 1;
+  wheel(event) {
+    const e = event.originalEvent || event;
+    const ratio = Number(this.options.wheelZoomRatio) || 0.1;
 
-      if (this.isDisabled) {
-        return;
-      }
+    if (this.disabled) {
+      return;
+    }
 
-      event.preventDefault();
+    event.preventDefault();
 
-      // Limit wheel speed to prevent zoom too fast
-      if (this.wheeling) {
-        return;
-      }
+    // Limit wheel speed to prevent zoom too fast
+    if (this.wheeling) {
+      return;
+    }
 
-      this.wheeling = true;
+    this.wheeling = true;
 
-      setTimeout($.proxy(function () {
-        this.wheeling = false;
-      }, this), 50);
+    setTimeout(() => {
+      this.wheeling = false;
+    }, 50);
 
-      if (e.deltaY) {
-        delta = e.deltaY > 0 ? 1 : -1;
-      } else if (e.wheelDelta) {
-        delta = -e.wheelDelta / 120;
-      } else if (e.detail) {
-        delta = e.detail > 0 ? 1 : -1;
-      }
+    let delta = 1;
 
-      this.zoom(-delta * ratio, event);
-    },
+    if (e.deltaY) {
+      delta = e.deltaY > 0 ? 1 : -1;
+    } else if (e.wheelDelta) {
+      delta = -e.wheelDelta / 120;
+    } else if (e.detail) {
+      delta = e.detail > 0 ? 1 : -1;
+    }
 
-    cropStart: function (event) {
-      var options = this.options;
-      var originalEvent = event.originalEvent;
-      var touches = originalEvent && originalEvent.touches;
-      var e = event;
-      var touchesLength;
-      var action;
+    this.zoom(-delta * ratio, event);
+  },
 
-      if (this.isDisabled) {
-        return;
-      }
+  cropStart(e) {
+    if (this.disabled) {
+      return;
+    }
 
-      if (touches) {
-        touchesLength = touches.length;
+    const { options, pointers } = this;
+    const { originalEvent } = e;
+    let action;
 
-        if (touchesLength > 1) {
-          if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
-            e = touches[1];
-            this.startX2 = e.pageX;
-            this.startY2 = e.pageY;
-            action = ACTION_ZOOM;
-          } else {
-            return;
-          }
-        }
+    if (originalEvent && originalEvent.changedTouches) {
+      // Handle touch event
+      $.each(originalEvent.changedTouches, (i, touch) => {
+        pointers[touch.identifier] = getPointer(touch);
+      });
+    } else {
+      // Handle mouse event and pointer event
+      pointers[(originalEvent && originalEvent.pointerId) || 0] = getPointer(originalEvent || e);
+    }
 
-        e = touches[0];
-      }
+    if (objectKeys(pointers).length > 1 && options.zoomable && options.zoomOnTouch) {
+      action = ACTION_ZOOM;
+    } else {
+      action = $(e.target).data(DATA_ACTION);
+    }
 
-      action = action || $(e.target).data(DATA_ACTION);
+    if (!REGEXP_ACTIONS.test(action)) {
+      return;
+    }
 
-      if (REGEXP_ACTIONS.test(action)) {
-        if (this.trigger(EVENT_CROP_START, {
-          originalEvent: originalEvent,
-          action: action
-        }).isDefaultPrevented()) {
-          return;
-        }
+    if (this.trigger(EVENT_CROP_START, {
+      originalEvent,
+      action,
+    }).isDefaultPrevented()) {
+      return;
+    }
 
-        event.preventDefault();
+    e.preventDefault();
 
-        this.action = action;
-        this.cropping = false;
+    this.action = action;
+    this.cropping = false;
 
-        // IE8  has `event.pageX/Y`, but not `event.originalEvent.pageX/Y`
-        // IE10 has `event.originalEvent.pageX/Y`, but not `event.pageX/Y`
-        this.startX = e.pageX || originalEvent && originalEvent.pageX;
-        this.startY = e.pageY || originalEvent && originalEvent.pageY;
+    if (action === ACTION_CROP) {
+      this.cropping = true;
+      this.$dragBox.addClass(CLASS_MODAL);
+    }
+  },
 
-        if (action === ACTION_CROP) {
-          this.cropping = true;
-          this.$dragBox.addClass(CLASS_MODAL);
-        }
-      }
-    },
+  cropMove(e) {
+    const { action } = this;
 
-    cropMove: function (event) {
-      var options = this.options;
-      var originalEvent = event.originalEvent;
-      var touches = originalEvent && originalEvent.touches;
-      var e = event;
-      var action = this.action;
-      var touchesLength;
+    if (this.disabled || !action) {
+      return;
+    }
 
-      if (this.isDisabled) {
-        return;
-      }
+    const { pointers } = this;
+    const { originalEvent } = e;
 
-      if (touches) {
-        touchesLength = touches.length;
+    e.preventDefault();
 
-        if (touchesLength > 1) {
-          if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
-            e = touches[1];
-            this.endX2 = e.pageX;
-            this.endY2 = e.pageY;
-          } else {
-            return;
-          }
-        }
+    if (this.trigger(EVENT_CROP_MOVE, {
+      originalEvent,
+      action,
+    }).isDefaultPrevented()) {
+      return;
+    }
 
-        e = touches[0];
-      }
+    if (originalEvent && originalEvent.changedTouches) {
+      $.each(originalEvent.changedTouches, (i, touch) => {
+        $.extend(pointers[touch.identifier], getPointer(touch, true));
+      });
+    } else {
+      $.extend(
+        pointers[(originalEvent && originalEvent.pointerId) || 0],
+        getPointer(originalEvent || e, true),
+      );
+    }
 
-      if (action) {
-        if (this.trigger(EVENT_CROP_MOVE, {
-          originalEvent: originalEvent,
-          action: action
-        }).isDefaultPrevented()) {
-          return;
-        }
+    this.change(e);
+  },
 
-        event.preventDefault();
+  cropEnd(e) {
+    if (this.disabled) {
+      return;
+    }
 
-        this.endX = e.pageX || originalEvent && originalEvent.pageX;
-        this.endY = e.pageY || originalEvent && originalEvent.pageY;
+    const { action } = this;
+    const { pointers } = this;
+    const { originalEvent } = e;
 
-        this.change(e.shiftKey, action === ACTION_ZOOM ? event : null);
-      }
-    },
+    if (originalEvent && originalEvent.changedTouches) {
+      $.each(originalEvent.changedTouches, (i, touch) => {
+        delete pointers[touch.identifier];
+      });
+    } else {
+      delete pointers[(originalEvent && originalEvent.pointerId) || 0];
+    }
 
-    cropEnd: function (event) {
-      var originalEvent = event.originalEvent;
-      var action = this.action;
+    if (!action) {
+      return;
+    }
 
-      if (this.isDisabled) {
-        return;
-      }
+    e.preventDefault();
 
-      if (action) {
-        event.preventDefault();
+    if (!objectKeys(pointers).length) {
+      this.action = '';
+    }
 
-        if (this.cropping) {
-          this.cropping = false;
-          this.$dragBox.toggleClass(CLASS_MODAL, this.isCropped && this.options.modal);
-        }
+    if (this.cropping) {
+      this.cropping = false;
+      this.$dragBox.toggleClass(CLASS_MODAL, this.cropped && this.options.modal);
+    }
 
-        this.action = '';
-
-        this.trigger(EVENT_CROP_END, {
-          originalEvent: originalEvent,
-          action: action
-        });
-      }
-    },
+    this.trigger(EVENT_CROP_END, {
+      originalEvent,
+      action,
+    });
+  },
+};

@@ -183,69 +183,6 @@ angular
                             $scope.sda = [];
                             $scope.ars = [];
                             $scope.diffence = resp.data.diff;
-                            $scope.mainGridOptions = {
-                                dataSource: {
-                                    data: resp.data.diff,
-                                    pageSize: 10
-                                },
-                                sortable: true,
-                                height: 500,
-                                pageable: {
-                                    refresh: true,
-                                    pageSizes: true,
-                                    buttonCount: 5
-                                },
-                                columns: [
-                                    {title: "#", template: "<span class='row-number'></span>", width: "60px"},
-                                    {
-                                        field: "sheet",
-                                        title: "Хүснэгтийн нэр",
-                                        width: "120px"
-                                    }, {
-                                        field: "code",
-                                        title: "Дансны код",
-                                        width: "120px"
-                                    }, {
-                                        field: "dans",
-                                        title: "Дансны нэр",
-                                        width: "300px"
-                                    }, {
-                                        field: "uld",
-                                        title: "Үлдэгдэл",
-                                        width: "120px"
-                                    },
-                                    {
-                                        field: "uldDun",
-                                        title: "Дүн",
-                                        template: "<span class='cellRight'>#= kendo.toString(uldDun, 'n') # ₮</span>"
-                                    },
-                                    {
-                                        field: "tulgalt",
-                                        width: "300px",
-                                        title: "Тулгалт хийгдэж буй үзүүлэлт",
-                                    },
-                                    {
-                                        field: "uldDun2",
-                                        title: "Дүн",
-                                        template: "<span class='cellRight'>#= kendo.toString(uldDun2, 'n') # ₮</span>"
-                                    },
-                                    {
-                                        field: "zuruu",
-                                        title: "Зөрүү",
-                                        template: "<span class='cellRight'>#= kendo.toString(zuruu, 'n') # ₮</span>"
-                                    }
-                                ],
-                                dataBound: function () {
-                                    var rows = this.items();
-                                    $(rows).each(function () {
-                                        var index = $(this).index() + 1
-                                            + ($(".k-grid").data("kendoGrid").dataSource.pageSize() * ($(".k-grid").data("kendoGrid").dataSource.page() - 1));
-                                        ;
-                                        var rowLabel = $(this).find(".row-number");
-                                        $(rowLabel).html(index);
-                                    });
-                                },
-                            };
                             sweet.show('Анхаар!', 'Тайлан амжилттай хөрвүүлэгдлээ!!!', 'success');
                             $scope.viewExcel();
                         }

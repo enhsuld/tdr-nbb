@@ -58,9 +58,11 @@ function getLinkFunction($http, theme, util, type) {
                 tooltip: util.getTooltip(data, config, type),
                 legend: util.getLegend(data, config, type),
                 toolbox: angular.extend({ show: false }, angular.isObject(config.toolbox) ? config.toolbox : {}),
-                xAxis: [ angular.extend(xAxis, util.getAxisTicks(data, config, type)) ],
-                yAxis: [ yAxis ],
-                series: util.getSeries(data, config, type)
+                xAxis: util.isHeatmapChart(type)? config.xAxis : [ angular.extend(xAxis, util.getAxisTicks(data, config, type)) ],
+                yAxis: util.isHeatmapChart(type)? config.yAxis :[ yAxis ],
+                graphic: config.graphic && (angular.isObject(config.graphic) || angular.isArray(config.graphic)) ? config.graphic : [],
+                series: util.getSeries(data, config, type),
+                visualMap: config.visualMap ? config.visualMap : null
             };
 
             if (!config.showXAxis) {
@@ -79,11 +81,11 @@ function getLinkFunction($http, theme, util, type) {
                 });
             }
 
-            if (!config.showLegend || type === 'gauge' || type === 'map') {
+            if (!config.showLegend || type === 'gauge') {
                 delete options.legend;
             }
 
-            if (!util.isAxisChart(type)) {
+            if (!util.isAxisChart(type) && !util.isHeatmapChart(type)) {
                 delete options.xAxis;
                 delete options.yAxis;
             }
@@ -103,6 +105,10 @@ function getLinkFunction($http, theme, util, type) {
                 options.polar = config.polar;
             }
 
+            if (config.grid) {
+                options.grid = config.grid;
+            }
+
             return options;
         }
 
@@ -119,7 +125,7 @@ function getLinkFunction($http, theme, util, type) {
             getSizes(scope.config);
 
             if (!chart) {
-                chart = echarts.init(ndWrapper, theme.get(scope.config.theme || 'macarons'));
+                chart = echarts.init(ndWrapper, scope.config.theme || 'shine');
             }
 
             if (scope.config.event) {
@@ -148,12 +154,12 @@ function getLinkFunction($http, theme, util, type) {
                 chart.showLoading({ text: scope.config.loading || '奋力加载中...', textStyle: textStyle });
 
                 // fire data request
-                $http.get(scope.data).success(function (response) {
+                $http.get(scope.data).then(function (response) {
                     isAjaxInProgress = false;
                     chart.hideLoading();
 
-                    if (response.data) {
-                        options = getOptions(response.data, scope.config, type);
+                    if (response.data.data) {
+                        options = getOptions(response.data.data, scope.config, type);
                         if (scope.config.forceClear) {
                             chart.clear();
                         }
@@ -166,10 +172,6 @@ function getLinkFunction($http, theme, util, type) {
                     } else {
                         chart.showLoading({ text: scope.config.emptyMsg || '数据加载失败', textStyle: textStyle });
                     }
-
-                }).error(function (response) {
-                    isAjaxInProgress = false;
-                    chart.showLoading({ text: scope.config.emptyMsg || '数据加载失败', textStyle: textStyle });
                 });
 
             // if data is avaliable, render immediately
@@ -185,6 +187,7 @@ function getLinkFunction($http, theme, util, type) {
                     chart.showLoading({ text: scope.config.errorMsg || '没有数据', textStyle: textStyle });
                 }
             }
+            scope.chartObj = chart;
         }
 
         // update when charts config changes
@@ -203,16 +206,17 @@ function getLinkFunction($http, theme, util, type) {
  * add directives
  */
 var app = angular.module('angular-echarts', ['angular-echarts.theme', 'angular-echarts.util']);
-var types = ['line', 'bar', 'area', 'pie', 'donut', 'gauge', 'map', 'radar'];
+var types = ['line', 'bar', 'area', 'pie', 'donut', 'gauge', 'map', 'radar', 'heatmap'];
 for (var i = 0, n = types.length; i < n; i++) {
     (function (type) {
         app.directive(type + 'Chart', ['$http', 'theme', 'util', function ($http, theme, util) {
             return {
                 restrict: 'EA',
-                template: '<div></div>',
+                template: '<div config="config" data="data"></div>',
                 scope: {
                     config: '=config',
-                    data: '=data'
+                    data: '=data',
+                    chartObj: '=?chartObj'
                 },
                 link: getLinkFunction($http, theme, util, type)
             };

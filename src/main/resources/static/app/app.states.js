@@ -2,9 +2,11 @@ altairApp
     .config([
         '$stateProvider',
         '$urlRouterProvider',
+        '$locationProvider',
         '$httpProvider',
-        function ($stateProvider, $urlRouterProvider,$httpProvider) {
-        	
+        function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+
+            $locationProvider.hashPrefix('');
         	 $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 
             // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).

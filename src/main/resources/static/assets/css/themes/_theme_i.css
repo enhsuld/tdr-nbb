@@ -98,9 +98,11 @@
   background: #fbc02d;
 }
 .app_theme_i #top_bar .top_bar_nav > li > a:hover {
+  -webkit-box-shadow: inset 0 -3px 0 #fbc02d;
   box-shadow: inset 0 -3px 0 #fbc02d;
 }
 .app_theme_i #top_bar .top_bar_nav > li.uk-active a {
+  -webkit-box-shadow: inset 0 -3px 0 #fbc02d;
   box-shadow: inset 0 -3px 0 #fbc02d;
 }
 .app_theme_i .user_heading {
@@ -141,6 +143,7 @@
   color: #00acc1;
 }
 .app_theme_i .fc-unthemed .fc-highlight {
+  -webkit-box-shadow: inset 0 0 0 2px #fbc02d, inset 0 -1px 0 2px #fbc02d;
   box-shadow: inset 0 0 0 2px #fbc02d, inset 0 -1px 0 2px #fbc02d;
 }
 .app_theme_i .tablesorter-altair tbody > tr.row_highlighted > td {

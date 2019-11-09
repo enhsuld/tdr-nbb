@@ -2850,7 +2850,7 @@ public class FileController {
     								|| sheet!=null && dataSheet.getSheetName().trim().equals("23.TRIAL BALANCE") || sheet!=null && dataSheet.getSheetName().trim().equals("24.ABWS")
     								|| sheet!=null && dataSheet.getSheetName().trim().equals("25.CBWS")){
 
-								for(int kk=2;kk<dataSheet.getLastRowNum();kk++){
+								for(int kk=2;kk<dataSheet.getLastRowNum()+1;kk++){
 									Row currentRow= dataSheet.getRow(kk);	
 									if(currentRow!=null){
 										if(currentRow.getCell(0)!=null){											
@@ -3760,16 +3760,17 @@ public class FileController {
 			FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
 			for(String item:shArr){
 				Sheet sh=workbook.getSheet(item);
-				 for(Row r : sh) { 
+
+				 for(Row r : sh) {
 			        	if(r!=null){
-			        		 for(Cell c : r) { 
-				                if (c != null && c.getCellTypeEnum()== CellType.FORMULA) { 
-				                    String formula = c.getCellFormula(); 
-				                    if (formula != null) { 
-				                    	c.setCellFormula(formula);	    				                    	
-				                    	CellValue cellValue = evaluator.evaluate(c);	    				                    	 
+			        		 for(Cell c : r) {
+				                if (c != null && c.getCellTypeEnum()== CellType.FORMULA) {
+				                    String formula = c.getCellFormula();
+				                    if (formula != null) {
+				                    	c.setCellFormula(formula);
+				                    	CellValue cellValue = evaluator.evaluate(c);
 				                    	switch (cellValue.getCellTypeEnum()) {
-				                    	    case STRING:	    				                    	    	
+				                    	    case STRING:
 				                    	    	c.setCellType(CellType.STRING);
 				                    	    	c.setCellValue(cellValue.getStringValue());
 				                    	        break;
@@ -3781,10 +3782,10 @@ public class FileController {
 				                    	    	c.setCellValue(cellValue.getNumberValue());
 				                    	        break;
 				                    	}
-				                        evaluator.clearAllCachedResultValues();                       
-				                    } 
-				                } 
-				            } 
+				                        evaluator.clearAllCachedResultValues();
+				                    }
+				                }
+				            }
 			        	}
 			        }
 			}
@@ -3805,7 +3806,7 @@ public class FileController {
 	        try (ServletOutputStream outputStream = response.getOutputStream()) {
 				response.setContentType("application/ms-excel; charset=UTF-8");
 				response.setCharacterEncoding("UTF-8");
-	            response.setHeader("Content-Disposition","attachment; filename*=UTF-8''"+"Audit-it-"+loguser.getFlname()+".xlsx");
+	            response.setHeader("Content-Disposition","attachment; filename*=UTF-8''"+"Audit-it-"+loguser.getFlname());
 	            workbook.write(outputStream);
 	            outputStream.close();
 	        }

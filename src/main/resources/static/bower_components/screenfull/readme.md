@@ -2,6 +2,8 @@
 
 > Simple wrapper for cross-browser usage of the JavaScript [Fullscreen API](https://developer.mozilla.org/en/DOM/Using_full-screen_mode), which lets you bring the page or any element into fullscreen. Smoothens out the browser implementation differences, so you don't have to.
 
+**This package is feature complete. No new changes will be accepted.**
+
 ---
 
 <p align="center"><b>🔥 Want to strengthen your core JavaScript skills and master ES6?</b><br>I would personally recommend this awesome <a href="https://ES6.io/friend/AWESOME">ES6 course</a> by Wes Bos.</p>
@@ -27,6 +29,11 @@ $ npm install --save screenfull
 ```
 
 Also available on [cdnjs](https://cdnjs.com/libraries/screenfull.js).
+
+
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/tmkVF4Qm7RNE8e9RVwnim6gU/sindresorhus/screenfull.js'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/tmkVF4Qm7RNE8e9RVwnim6gU/sindresorhus/screenfull.js.svg' />
+</a>
 
 
 ## Why?
@@ -124,17 +131,23 @@ $('img').on('click', event => {
 
 ```js
 if (screenfull.enabled) {
-	screenfull.onchange(() => {
+	screenfull.on('change', () => {
 		console.log('Am I fullscreen?', screenfull.isFullscreen ? 'Yes' : 'No');
 	});
 }
+```
+
+Remove listeners with:
+
+```js
+screenfull.off('change', callback);
 ```
 
 #### Detect fullscreen error
 
 ```js
 if (screenfull.enabled) {
-	screenfull.onerror(event => {
+	screenfull.on('error', event => {
 		console.error('Failed to enable fullscreen', event);
 	});
 }
@@ -157,7 +170,7 @@ You can use the [Angular.js binding](https://github.com/hrajchert/angular-screen
 
 ```typescript
 import {Directive, HostListener} from '@angular/core';
-const screenfull = require('screenfull');
+import * as screenfull from 'screenfull';
 
 @Directive({
 	selector: '[toggleFullscreen]'
@@ -195,13 +208,23 @@ Brings you out of fullscreen.
 
 Requests fullscreen if not active, otherwise exits.
 
+#### .on(event, function)
+
+Events: `change` `error`
+
+Add a listener for when the browser switches in and out of fullscreen or when there is an error.
+
+#### .off(event, function)
+
+Remove a previously registered event listener.
+
 #### .onchange(function)
 
-Add a listener for when the browser switches in and out of fullscreen.
+Alias for `.on('change', function)`
 
 #### .onerror(function)
 
-Add a listener for when the browser cannot switch to fullscreen.
+Alias for `.on('error', function)`
 
 ### Properties
 

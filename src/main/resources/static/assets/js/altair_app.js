@@ -114,14 +114,13 @@ altairApp
                     $rootScope.pageLoading = true;
                     $rootScope.pageLoaded = false;
                 }
-
             });
 
             // fastclick (eliminate the 300ms delay between a physical tap and the firing of a click event on mobile browsers)
             FastClick.attach(document.body);
 
             // get version from package.json
-            $http.get('./package.json').success(function(response) {
+            $http.get('./package.json').then(function onSuccess(response) {
                 $rootScope.appVer = response.version;
             });
 
@@ -249,32 +248,42 @@ angular.module("ConsoleLogger", [])
     .factory("PrintToConsole", ["$rootScope", function ($rootScope) {
         var handler = { active: false };
         handler.toggle = function () { handler.active = !handler.active; };
-        if (handler.active) {
-            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            if (handler.active) {
                 console.log("$stateChangeStart --- event, toState, toParams, fromState, fromParams");
                 console.log(arguments);
-            });
-            $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+            };
+        });
+        $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+            if (handler.active) {
                 console.log("$stateChangeError --- event, toState, toParams, fromState, fromParams, error");
                 console.log(arguments);
-            });
-            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            };
+        });
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            if (handler.active) {
                 console.log("$stateChangeSuccess --- event, toState, toParams, fromState, fromParams");
                 console.log(arguments);
-            });
-            $rootScope.$on('$viewContentLoading', function (event, viewConfig) {
+            };
+        });
+        $rootScope.$on('$viewContentLoading', function (event, viewConfig) {
+            if (handler.active) {
                 console.log("$viewContentLoading --- event, viewConfig");
                 console.log(arguments);
-            });
-            $rootScope.$on('$viewContentLoaded', function (event) {
+            };
+        });
+        $rootScope.$on('$viewContentLoaded', function (event) {
+            if (handler.active) {
                 console.log("$viewContentLoaded --- event");
                 console.log(arguments);
-            });
-            $rootScope.$on('$stateNotFound', function (event, unfoundState, fromState, fromParams) {
+            };
+        });
+        $rootScope.$on('$stateNotFound', function (event, unfoundState, fromState, fromParams) {
+            if (handler.active) {
                 console.log("$stateNotFound --- event, unfoundState, fromState, fromParams");
                 console.log(arguments);
-            });
-        };
+            };
+        })
         return handler;
     }]);
 altairApp
@@ -2183,6 +2192,40 @@ altairApp
             }
         }
     ])
+    .directive('altairUiSelect', [
+        '$timeout',
+        function($timeout) {
+            return {
+                require: 'uiSelect',
+                link: function(scope, element, attrs, $select) {
+
+                    $timeout(function() {
+                        scope.dropdown = $($select.$element).find('.ui-select-dropdown')
+                    },1000);
+
+                    scope.onOpenClose = function(isOpen) {
+                        var $dropdown = scope.dropdown;
+                        if(isOpen) {
+                            $dropdown
+                                .hide()
+                                .velocity('slideDown', {
+                                    duration: 200,
+                                    easing: [ 0.4,0,0.2,1 ]
+                                })
+                        } else {
+                            scope.dropdown
+                                .show()
+                                .velocity('slideUp', {
+                                    duration: 200,
+                                    easing: [ 0.4,0,0.2,1 ]
+                                });
+                        }
+                    };
+
+                }
+            };
+        }
+    ])
 ;
 altairApp
     .filter('multiSelectFilter', function () {
@@ -2257,7 +2300,10 @@ altairApp
     .config([
         '$stateProvider',
         '$urlRouterProvider',
-        function ($stateProvider, $urlRouterProvider) {
+        '$locationProvider',
+        function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+            $locationProvider.hashPrefix('');
 
             // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
             $urlRouterProvider
@@ -2296,6 +2342,20 @@ altairApp
                                 'lazy_uikit',
                                 'lazy_iCheck',
                                 'app/components/pages/loginController.js'
+                            ]);
+                        }]
+                    }
+                })
+                .state("login_v2", {
+                    url: "/login_v2",
+                    templateUrl: 'app/components/pages/login_v2View.html',
+                    controller: 'login_v2Ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_uikit',
+                                'lazy_iCheck',
+                                'app/components/pages/login_v2Controller.js'
                             ]);
                         }]
                     }
@@ -2388,6 +2448,8 @@ altairApp
                                 'lazy_ionRangeSlider',
                                 'lazy_masked_inputs',
                                 'lazy_character_counter',
+                                'bower_components/jquery-ui/jquery-ui.min.js',
+                                'lazy_uiSelect',
                                 'app/components/forms/advancedController.js'
                             ], {serie:true} );
                         }]
@@ -3081,6 +3143,21 @@ altairApp
                     template: '<div ui-view autoscroll="false"/>',
                     abstract: true
                 })
+                .state("restricted.ecommerce.payment_page", {
+                    url: "/payment_page",
+                    templateUrl: 'app/components/ecommerce/paymentView.html',
+                    controller: 'paymentCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/ecommerce/paymentController.js'
+                            ]);
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Product Details'
+                    }
+                })
                 .state("restricted.ecommerce.product_details", {
                     url: "/product_details",
                     templateUrl: 'app/components/ecommerce/product_detailsView.html',
@@ -3250,6 +3327,22 @@ altairApp
                         pageTitle: 'Charts (echarts)'
                     }
                 })
+                .state("restricted.plugins.crud_table", {
+                    url: "/crud_table",
+                    templateUrl: 'app/components/plugins/crud_tableView.html',
+                    controller: 'crud_tableCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_masked_inputs',
+                                'app/components/plugins/crud_tableController.js'
+                            ], {serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Context Menu'
+                    }
+                })
                 .state("restricted.plugins.context_menu", {
                     url: "/context_menu",
                     templateUrl: 'app/components/plugins/context_menuView.html',
@@ -3385,7 +3478,7 @@ altairApp
                         deps: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load([
                                 // push.js
-                                'bower_components/push.js/push.min.js',
+                                'bower_components/push.js/bin/push.min.js',
                                 'app/components/plugins/push_notificationsController.js'
                             ],{serie:true});
                         }]
@@ -3589,6 +3682,21 @@ altairApp
                         pageTitle: 'Gallery'
                     }
                 })
+                .state("restricted.pages.gallery_v2", {
+                    url: "/gallery_v2",
+                    templateUrl: 'app/components/pages/gallery_v2View.html',
+                    controller: 'gallery_v2Ctrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'app/components/pages/gallery_v2Controller.js'
+                            ],{serie: true});
+                        }]
+                    },
+                    data: {
+                        pageTitle: 'Gallery'
+                    }
+                })
                 .state("restricted.pages.help", {
                     url: "/help",
                     templateUrl: 'app/components/pages/helpView.html',
@@ -3723,6 +3831,13 @@ altairApp
                     templateUrl: 'app/components/pages/pricing_tablesView.html',
                     data: {
                         pageTitle: 'Pricing Tables'
+                    }
+                })
+                .state("restricted.pages.pricing_tables_v2", {
+                    url: "/pricing_tables_v2",
+                    templateUrl: 'app/components/pages/pricing_tables_v2View.html',
+                    data: {
+                        pageTitle: 'Pricing Tables v2'
                     }
                 })
                 .state("restricted.pages.scrum_board", {
@@ -4288,7 +4403,7 @@ altairApp
                             <!-- jquery ui -->
                             'bower_components/jquery-ui/jquery-ui.min.js',
                             <!-- gantt chart -->
-                            'assets/js/custom/gantt_chart.js'
+                            'assets/js/custom/gantt_chart.min.js'
                         ],
                         serie: true
                     },
@@ -4318,7 +4433,7 @@ altairApp
                         name: 'lazy_dropify',
                         files: [
                             'assets/skins/dropify/css/dropify.css',
-                            'assets/js/custom/dropify/dist/js/dropify.min.js'
+                            'bower_components/dropify/dist/js/dropify.min.js'
                         ],
                         insertBefore: '#main_stylesheet'
                     },
@@ -4385,6 +4500,13 @@ altairApp
                         name: 'lazy_listNav',
                         files: [
                             'bower_components/jquery-listnav/jquery-listnav.min.js'
+                        ]
+                    },
+                    {
+                        name: 'lazy_uiSelect',
+                        files: [
+                            'bower_components/angular-ui-select/dist/select.min.css',
+                            'bower_components/angular-ui-select/dist/select.min.js'
                         ]
                     },
 

@@ -323,7 +323,8 @@
     border-radius: 2px;
     position: relative;
     box-sizing: border-box;
-    padding: 36px 0 64px;
+    padding: 36px 0 48px;
+    overflow: hidden;
     transition: all 280ms @md_easing;
     + .chatbox {
         margin-left: 8px;
@@ -437,15 +438,20 @@
         bottom: 0;
         left: 0;
         right: 0;
-        padding: 8px;
-        height: 64px;
         box-sizing: border-box;
         border-top: 1px solid @border_color;
+        background: @white;
         .message_input {
             width: 100%;
             border: none;
             font-size: 13px;
-            padding: 4px 0;
+            padding: 8px;
+            max-height: 80px;
+            .md_font(400, 13px, 16px);
+            resize: none;
+            word-wrap: break-word;
+            box-sizing: border-box;
+            display: block;
         }
     }
     &.removing {

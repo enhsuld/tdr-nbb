@@ -2,11 +2,11 @@ Prism.languages.scala = Prism.languages.extend('java', {
 	'keyword': /<-|=>|\b(?:abstract|case|catch|class|def|do|else|extends|final|finally|for|forSome|if|implicit|import|lazy|match|new|null|object|override|package|private|protected|return|sealed|self|super|this|throw|trait|try|type|val|var|while|with|yield)\b/,
 	'string': [
 		{
-			pattern: /"""[\W\w]*?"""/,
+			pattern: /"""[\s\S]*?"""/,
 			greedy: true
 		},
 		{
-			pattern: /("|')(?:\\\\|\\?[^\\\r\n])*?\1/,
+			pattern: /("|')(?:\\.|(?!\1)[^\\\r\n])*\1/,
 			greedy: true
 		}
 	],

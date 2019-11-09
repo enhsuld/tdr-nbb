@@ -17,6 +17,10 @@ angular.module('angular-echarts.util', []).factory('util', function () {
         return ['line', 'bar', 'area'].indexOf(type) > -1;
     }
 
+    function isHeatmapChart(type) {
+        return ['heatmap'].indexOf(type) > -1;
+    }
+
     /**
      * get x axis ticks from the 1st serie
      */
@@ -161,7 +165,9 @@ angular.module('angular-echarts.util', []).factory('util', function () {
                             normal : {
                                 label : {
                                     position : 'inner',
-                                    formatter : function (a,b,c,d) { return (d - 0).toFixed(0) + '%'; }
+                                    formatter : function (item) {
+                                        return (+item.percent).toFixed() + '%';
+                                    }
                                 },
                                 labelLine : {
                                     show : false
@@ -180,7 +186,7 @@ angular.module('angular-echarts.util', []).factory('util', function () {
 
             if (isMapChart(type)) {
                 conf.type = 'map';
-                conf = angular.extend(conf, {}, config.map || {});
+                conf = angular.extend(conf, serie, config.map || {});
             }
 
             // if stack set to true
@@ -190,6 +196,25 @@ angular.module('angular-echarts.util', []).factory('util', function () {
 
             if (type === 'radar') {
                 conf.data = serie.data;
+            }
+
+            if (isHeatmapChart(type)) {
+              conf.type = 'heatmap';
+              conf.name = serie.name;
+              conf.data =  serie.data;
+              conf = angular.extend(conf, {
+                label: {
+                    normal: {
+                        show: true
+                    }
+                },
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+              }, config.heatmap || {});
             }
 
             series.push(conf);
@@ -212,7 +237,8 @@ angular.module('angular-echarts.util', []).factory('util', function () {
             legend.orient = 'verticle';
             legend.x = 'right';
             legend.y = 'center';
-
+        } else if (type === 'map') {
+            legend = {};
         } else {
             angular.forEach(data, function (serie) {
                 legend.data.push(serie.name);
@@ -283,6 +309,7 @@ angular.module('angular-echarts.util', []).factory('util', function () {
     return {
         isPieChart: isPieChart,
         isAxisChart: isAxisChart,
+        isHeatmapChart: isHeatmapChart,
         getAxisTicks: getAxisTicks,
         getSeries: getSeries,
         getLegend: getLegend,

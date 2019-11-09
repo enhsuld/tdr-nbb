@@ -1,5 +1,5 @@
 /* Compile using: /usr/local/flex_sdk_4.12/bin/mxmlc --target-player=11.0.0 -static-link-runtime-shared-libraries=true -library-path+=lib ZeroClipboard.as */
-package static.bower_components.datatables - buttons.as3 {
+package {
 	import flash.display.Stage;
 	import flash.display.Sprite;
 	import flash.display.LoaderInfo;
@@ -211,8 +211,8 @@ package static.bower_components.datatables - buttons.as3 {
 			}
 			
 			pdf.setFont( new CoreFont(FontFamily.HELVETICA), 11 );
-			if ( json.message != "" ) {
-				pdf.writeText(11, json.message+"\n");
+			if ( json.messageTop != "" ) {
+				pdf.writeText(11, json.messageTop+"\n");
 			}
 
 			for ( var i:int=0, ien:int=json.header.length ; i<ien ; i++ ) {
@@ -238,6 +238,12 @@ package static.bower_components.datatables - buttons.as3 {
 			);
 			
 			pdf.addGrid( grid, 0, 0 );
+
+			pdf.setFont( new CoreFont(FontFamily.HELVETICA), 11 );
+			if ( json.messageBottom != "" ) {
+				pdf.writeText(11, json.messageBottom+"\n");
+			}
+
 			return pdf;
 		}
 	}

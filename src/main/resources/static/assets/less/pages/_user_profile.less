@@ -19,6 +19,28 @@
             }
         }
     }
+    &_bg {
+        background-repeat: no-repeat;
+        background-position: center center;
+        padding: 0;
+        .bg_overlay {
+            padding: 24px;
+            position: relative;
+            &:before {
+                display: block;
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,.3);
+            }
+            .user_heading_content {
+                position: relative;
+            }
+        }
+    }
     &_avatar {
         float: left;
         margin-right: 24px;

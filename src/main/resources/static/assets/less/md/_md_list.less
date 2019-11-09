@@ -236,9 +236,26 @@
             }
         }
     }
-    /*&-outside-wrapper {
-        overflow: hidden;
-    }*/
+    &-outside-wrapper {
+        position: relative;
+        .md-list-outside-search {
+            position: absolute;
+            top: -46px;
+            left: 16px;
+            right: 16px;
+            z-index: 1000;
+            .md-input-wrapper {
+                padding: 0;
+                .md-input-bar:before,
+                .md-input-bar:after {
+                    background: @white;
+                }
+            }
+            .md-input {
+                border-bottom-color: transparent !important;
+            }
+        }
+    }
     .uk-nestable-list {
         padding-left: 0;
         .uk-nestable-item {

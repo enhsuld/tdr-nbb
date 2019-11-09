@@ -29,19 +29,36 @@ altairApp
 	               url: "/accountant",
 	               templateUrl: 'app/custom/pages/nyabo/nyaboView.html',
 	               controller: 'nyaboCtrl',
-	               resolve: {                    	
+	               resolve: {
 	                   deps: ['$ocLazyLoad', function($ocLazyLoad) {
 	                       return $ocLazyLoad.load(['lazy_KendoUI',
 	                                                'lazy_parsleyjs',
 	                           'app/custom/pages/nyabo/nyaboController.js'
 	                       ]);
 	                   }],
-			         
-	               },	                
+
+	               },
 	               data: {
 	                   pageTitle: 'Багц'
 	               }
 	           })
+			   .state("restricted.pages.price", {
+				   url: "/pricing_table",
+				   templateUrl: 'app/custom/pages/nyabo/pricingView.html',
+				   controller: 'pricingCtrl',
+				   resolve: {
+					   deps: ['$ocLazyLoad', function($ocLazyLoad) {
+						   return $ocLazyLoad.load(['lazy_KendoUI',
+							   'lazy_parsleyjs',
+							   'angular-print',
+							   'app/custom/pages/nyabo/pricingController.js'
+						   ]);
+					   }]
+				   },
+				   data: {
+					   pageTitle: 'Багц'
+				   }
+			   })
 	           .state("restricted.pages.comuser", {
 	                 url: "/accounts",
 	                 templateUrl: 'app/custom/pages/schedule/pPuserView.html',

@@ -14,6 +14,11 @@ $dropify-clear-color:      #e53935 !default;
 $dropify-error-color:      #e53935 !default;
 $dropify-stripes:          #F6F6F6 !default;
 $dropify-font-path:        "../fonts" !default;
+$dropify-loader-size:      20px !default;
+$dropify-loader-border:    1px !default;
+$dropify-loader-fill:      #CCC !default;
+$dropify-loader-trace:     #777 !default;
+
 
 @import "dropify-font";
 
@@ -99,8 +104,8 @@ $dropify-font-path:        "../fonts" !default;
         top: 50%;
         transform: translateY(-50%);
         span.file-icon {
-            @extend .dropify-font;
-            @extend .dropify-font-upload;
+            //@extend .dropify-font;
+            //@extend .dropify-font-upload;
             font-size: 42px;
             color: $dropify-icon-color;
         }
@@ -213,8 +218,8 @@ $dropify-font-path:        "../fonts" !default;
                     &.dropify-filename {
                         font-weight: bold;
                         span.file-icon {
-                            @extend .dropify-font;
-                            @extend .dropify-font-empty;
+                            //@extend .dropify-font;
+                            //@extend .dropify-font-empty;
                             margin-right: 2px;
                         }
                     }
@@ -243,7 +248,6 @@ $dropify-font-path:        "../fonts" !default;
         .dropify-clear {
             opacity: 1;
         }
-
         .dropify-preview {
             .dropify-infos {
                 opacity: 1;
@@ -251,6 +255,13 @@ $dropify-font-path:        "../fonts" !default;
                 .dropify-infos-inner {
                     margin-top: -5px;
                 }
+            }
+        }
+        &:hover {
+            .dropify-errors-container {
+                visibility: visible;
+                opacity: 1;
+                transition-delay: 0s;
             }
         }
     }
@@ -350,9 +361,85 @@ $dropify-font-path:        "../fonts" !default;
             }
         }
     }
+
+    .dropify-loader {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        display: none;
+        z-index: 9;
+
+        &::after {
+            display: block;
+            position: relative;
+            width: $dropify-loader-size;
+            height: $dropify-loader-size;
+            animation: rotate 0.6s linear infinite;
+            border-radius: 100%;
+            border-top: $dropify-loader-border solid $dropify-loader-fill;
+            border-bottom: $dropify-loader-border solid $dropify-loader-trace;
+            border-left: $dropify-loader-border solid $dropify-loader-fill;
+            border-right: $dropify-loader-border solid $dropify-loader-trace;
+            content: '';
+        }
+    }
+
+    .dropify-errors-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 3;
+        background: transparentize($dropify-error-color, 0.2);
+        text-align: left;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s linear 0.15s,opacity 0.15s linear;
+        ul {
+            padding: 10px 20px;
+            margin: 0;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            li {
+                margin-left: 40px;
+                color: #FFF;
+                font-weight: bold;
+            }
+        }
+        &.visible {
+            visibility: visible;
+            opacity: 1;
+            transition-delay: 0s;
+        }
+    }
+    & ~ .dropify-errors-container {
+        ul {
+            padding: 0;
+            margin: 15px 0;
+
+            li {
+                margin-left: 20px;
+                color: $dropify-error-color;
+                font-weight: bold;
+            }
+        }
+    }
+
 }
 
 @keyframes stripes {
   from { background-position: 0 0; }
   to   { background-position: 60px 30px; }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateZ(-360deg);
+    }
+    100% {
+        transform: rotateZ(0deg);
+    }
 }

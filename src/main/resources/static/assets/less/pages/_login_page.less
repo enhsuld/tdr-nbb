@@ -29,4 +29,40 @@
         text-align: center;
         margin-bottom: 32px;
     }
+    &.login_page_v2 {
+        padding: 48px 24px;
+        @media @screen_medium_max {
+            > .uk-container {
+                padding: 0;
+            }
+            padding: 16px;
+        }
+        .login_page_forms {
+            padding: 24px 48px;
+            @media @screen_medium_max {
+                padding: 24px;
+            }
+        }
+        .login_page_info {
+            background-position: 0 0;
+            background-size: cover;
+            position: relative;
+            .info_content {
+                h1,h2 {
+                    color: @white;
+                    margin-bottom: 16px;
+                }
+                position: absolute;
+                background: rgba(0,0,0,.6);
+                padding: 24px;
+                color: @white;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                p {
+                    margin: 16px 0 0;
+                }
+            }
+        }
+    }
 }

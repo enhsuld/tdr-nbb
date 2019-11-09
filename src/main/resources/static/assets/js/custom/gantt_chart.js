@@ -189,9 +189,11 @@
 
                             series_dates.append( function() {
                                 return moreItems +
-                                moment(sub_serie.start,"MM/DD/YYYY").format('D MMM') +
-                                " - " +
-                                moment(sub_serie.end,"MM/DD/YYYY").format('D MMM')
+                                "<span data-event-id='"+ data[i].series[j].sub_series[k].id +"'>" +
+                                    moment(sub_serie.start,"MM/DD/YYYY").format('D MMM') +
+                                    " - " +
+                                    moment(sub_serie.end,"MM/DD/YYYY").format('D MMM') +
+                                "</span>"
                             });
 
                             series_content.append(series_dates);
@@ -211,9 +213,11 @@
                                             data[i].series[j].name +
                                         '</div>' +
                                         "<div class='series-dates'>" +
-                                            moment(data[i].series[j].start,"MM/DD/YYYY").format('D MMM') +
-                                            " - " +
-                                            moment(data[i].series[j].end,"MM/DD/YYYY").format('D MMM') +
+                                            "<span data-event-id='"+ data[i].series[j].id +"'>" +
+                                                moment(data[i].series[j].start,"MM/DD/YYYY").format('D MMM') +
+                                                " - " +
+                                                moment(data[i].series[j].end,"MM/DD/YYYY").format('D MMM') +
+                                            "</span>" +
                                         "</div>" +
                                     "</div>"
                             }
@@ -309,26 +313,29 @@
         }
 
         function addBlocks(div, data, cellWidth, start) {
-            var rows = jQuery("div.ganttview-blocks div.ganttview-block-container", div);
-            var rowIdx = 0;
+            var rows = jQuery("div.ganttview-blocks div.ganttview-block-container", div),
+                rowIdx = 0;
+
             for (var i = 0; i < data.length; i++) {
                 for (var j = 0; j < data[i].series.length; j++) {
 
                     if(data[i].series[j].sub_series) {
-                        var sub_series = data[i].series[j].sub_series;
-                        var $sub_series_name = (data[i].series[j].name).replace(/(<([^>]+)>)/ig," ");
+                        var sub_series = data[i].series[j].sub_series,
+                            $sub_series_name = (data[i].series[j].name).replace(/(<([^>]+)>)/ig," ");
                         $.each(sub_series, function($key,$value) {
-                            var size = DateUtils.daysBetween($value.start, $value.end) + 1;
-                            var offset = DateUtils.daysBetween(start, $value.start);
-                            var user_name = $value.user_name ? ' (' + $value.user_name + ')' : '';
-                            var block = jQuery("<div>", {
-                                "class": "ganttview-block",
-                                "title": $sub_series_name + user_name,
-                                "css": {
-                                    "width": ((size * cellWidth) - 9) + "px",
-                                    "left": ((offset * cellWidth) + 3) + "px"
-                                }
-                            });
+                            var size = DateUtils.daysBetween($value.start, $value.end) + 1,
+                                offset = DateUtils.daysBetween(start, $value.start),
+                                user_name = $value.user_name ? ' (' + $value.user_name + ')' : '',
+                                block = jQuery("<div>", {
+                                    "class": "ganttview-block",
+                                    "title": $sub_series_name + user_name,
+                                    "data-id": $value.id,
+                                    "css": {
+                                        "width": ((size * cellWidth) - 7) + "px",
+                                        "left": ((offset * cellWidth) + 3) + "px"
+                                    }
+                                });
+
                             addBlockData(block, data[i], sub_series[$key]);
                             if ($value.color) {
                                 block.css("background-color", $value.color);
@@ -342,18 +349,18 @@
                             jQuery(rows[rowIdx]).append(block);
                         });
                     } else {
-                        var series = data[i].series[j];
-                        var $series_name = (series.name).replace(/(<([^>]+)>)/ig," ");
-                        var size = DateUtils.daysBetween(series.start, series.end) + 1;
-                        var offset = DateUtils.daysBetween(start, series.start);
-                        var block = jQuery("<div>", {
-                            "class": "ganttview-block",
-                            "title": $series_name,
-                            "css": {
-                                "width": ((size * cellWidth) - 9) + "px",
-                                "left": ((offset * cellWidth) + 3) + "px"
-                            }
-                        });
+                        var series = data[i].series[j],
+                            $series_name = (series.name).replace(/(<([^>]+)>)/ig," "),
+                            size = DateUtils.daysBetween(series.start, series.end) + 1,
+                            offset = DateUtils.daysBetween(start, series.start),
+                            block = jQuery("<div>", {
+                                "class": "ganttview-block",
+                                "title": $series_name,
+                                "css": {
+                                    "width": ((size * cellWidth) - 7) + "px",
+                                    "left": ((offset * cellWidth) + 3) + "px"
+                                }
+                            });
                         addBlockData(block, data[i], series);
                         if (data[i].series[j].color) {
                             block.css("background-color", data[i].series[j].color);
@@ -473,20 +480,22 @@
         }
 
         function bindBlockClick(div, callback) {
-            console.log('1');
             jQuery("div.ganttview-block", div).on("click", function () {
                 if (callback) { callback(jQuery(this).data("block-data")); }
             });
         }
 
         function bindBlockResize(div, cellWidth, startDate, callback) {
-            console.log('2');
             jQuery("div.ganttview-block", div).resizable({
                 grid: cellWidth,
                 handles: "e,w",
                 stop: function () {
                     var block = jQuery(this);
                     updateDataAndPosition(div, block, cellWidth, startDate);
+
+                    var blockData = block.data("block-data");
+                    div.find('[data-event-id='+blockData.id+']').text(moment(blockData.start).format('D MMM') + ' - ' + moment(blockData.end).format('D MMM'));
+
                     if (callback) { callback(block.data("block-data")); }
                 }
             });
@@ -500,6 +509,10 @@
                 stop: function () {
                     var block = jQuery(this);
                     updateDataAndPosition(div, block, cellWidth, startDate);
+
+                    var blockData = block.data("block-data");
+                    div.find('[data-event-id='+blockData.id+']').text(moment(blockData.start).format('D MMM') + ' - ' + moment(blockData.end).format('D MMM'));
+
                     if (callback) { callback(block.data("block-data")); }
                 }
             });
@@ -522,10 +535,6 @@
             if(!block.data("block-data").title) {
                 jQuery("div.ganttview-block-text", block).text( moment.duration(numberOfDays+1,'days').format());
             }
-
-            // Remove top and left properties to avoid incorrect block positioning,
-            // set position to relative to keep blocks relative to scrollbar when scrolling
-            block.css("top", "").css("left", offset + "px");
         }
 
         return {
@@ -534,29 +543,43 @@
     };
 
     var DateUtils = {
-
         daysBetween: function (start, end) {
             if (!start || !end) { return 0; }
             start = Date.parse(start); end = Date.parse(end);
             if (moment(start)._d.getYear() == 1901 || moment(end)._d.getYear() == 8099) { return 0; }
             return moment(end).diff(moment(start),'days');
         },
-
         isWeekend: function (date) {
             return date.getDay() % 6 == 0;
         },
-
         getBoundaryDatesFromData: function (data, minDays) {
-            var minStart = new Date(); maxEnd = new Date();
-            for (var i = 0; i < data.length; i++) {
-                for (var j = 0; j < data[i].series.length; j++) {
-                    var start = Date.parse(data[i].series[j].start);
-                    var end = Date.parse(data[i].series[j].end);
-                    if (i == 0 && j == 0) { minStart = start; maxEnd = end; }
-                    if (moment(minStart).isAfter(start)) { minStart = start; }
-                    if (moment(maxEnd).isBefore(end)) { maxEnd = end; }
+            var minStart = new Date(),
+                maxEnd = new Date(),
+                entries = [];
+
+            data.forEach(function(group) {
+                group.series.forEach(function (entry) {
+                    if (entry.sub_series) {
+                        entry.sub_series.forEach(function (subEntry) {
+                            entries.push(subEntry);
+                        })
+                    } else {
+                        entries.push(entry);
+                    }
+                });
+            });
+            entries.forEach(function(entry,index) {
+                var start = Date.parse(entry.start),
+                    end = Date.parse(entry.end);
+
+                if (index == 0) {
+                    minStart = start;
+                    maxEnd = end;
                 }
-            }
+
+                if (moment(minStart).isAfter(start)) { minStart = start; }
+                if (moment(maxEnd).isBefore(end)) { maxEnd = end; }
+            });
 
             // Insure that the width of the chart is at least the slide width to avoid empty
             // whitespace to the right of the grid

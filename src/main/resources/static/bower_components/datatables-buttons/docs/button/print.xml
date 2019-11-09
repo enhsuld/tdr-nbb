@@ -14,6 +14,8 @@
 		The constructed table does not retain the full information from the original table (table row and cell classes are not copied across for example), but the stylesheets from the original document are copied to the print document so the basic styling of the table can be retained.
 
 		Customisation of the printed view is available through the `title` and `message` options for simple description strings and through the `customize` option for complete control over the generated document (allowing, for example images to be added, etc).
+
+		Please note that the print button will set the `decodeEntities` option of `-api buttons.exportData()` to `false` to prevent XSS attacks.
 	</description>
 
 
@@ -27,10 +29,6 @@
 
 	<option type="function" name="action">
 		Show the print view
-	</option>
-
-	<option type="string" name="title" default="*">
-		The title to be shown for the print view document. This is shown in an H1 tag. If given as the value `*`, that value is automatically replaced with the value read from the host document's `-tag title` tag.
 	</option>
 
 	<option type="string|function" name="message" default="">
@@ -68,6 +66,18 @@
 		1. `-type object` `window` - The window object for the new window. As such the document body can be accessed using `window.document.body` and manipulated using jQuery / DOM methods as any element can be.
 
 		No return value is expected or acted upon.
+	</option>
+
+	<option type="string|function" name="title" default="*">
+		Title of the table that will be included in the exported data. Please see `-api buttons.exportInfo()` for all options relating to this parameter.
+	</option>
+
+	<option type="string|function" name="messageTop" default="*" since="1.4.0">
+		Message to be shown at the top of the table, or the `-tag caption` tag if displayed at the top of the table.
+	</option>
+
+	<option type="string|function" name="messageBottom" default="*" since="1.4.0">
+		Message to be shown at the bottom of the table, or the `-tag caption` tag if displayed at the bottom of the table.
 	</option>
 
 

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
   font-family: 'dropify';
   src: url("../fonts/dropify.eot");
@@ -7,9 +8,7 @@
 
 [class^="dropify-font-"]:before,
 [class*=" dropify-font-"]:before,
-.dropify-font:before,
-.dropify-wrapper .dropify-message span.file-icon:before,
-.dropify-wrapper .dropify-preview .dropify-infos .dropify-infos-inner p.dropify-filename span.file-icon:before {
+.dropify-font:before {
   font-family: "dropify";
   font-style: normal;
   font-weight: normal;
@@ -25,7 +24,7 @@
   line-height: 1em;
   font-size: 50px; }
 
-.dropify-font-upload:before, .dropify-wrapper .dropify-message span.file-icon:before {
+.dropify-font-upload:before {
   content: '\e800'; }
 
 .dropify-font-file:before {
@@ -211,6 +210,10 @@
     opacity: 1; }
     .dropify-wrapper:hover .dropify-preview .dropify-infos .dropify-infos-inner {
       margin-top: -5px; }
+  .dropify-wrapper:hover:hover .dropify-errors-container  {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s; }
   .dropify-wrapper.touch-fallback {
     height: auto !important; }
     .dropify-wrapper.touch-fallback:hover {
@@ -279,9 +282,67 @@
       display: none; }
     .dropify-wrapper.touch-fallback:hover .dropify-preview .dropify-infos .dropify-infos-inner {
       margin-top: 0; }
+  .dropify-wrapper .dropify-loader {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: none;
+    z-index: 9; }
+    .dropify-wrapper .dropify-loader::after {
+      display: block;
+      position: relative;
+      width: 20px;
+      height: 20px;
+      animation: rotate 0.6s linear infinite;
+      border-radius: 100%;
+      border-top: 1px solid #CCC;
+      border-bottom: 1px solid #777;
+      border-left: 1px solid #CCC;
+      border-right: 1px solid #777;
+      content: ''; }
+  .dropify-wrapper .dropify-errors-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    background: rgba(229, 57, 53, 0.8);
+    text-align: left;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0.15s,opacity 0.15s linear; }
+    .dropify-wrapper .dropify-errors-container ul {
+      padding: 10px 20px;
+      margin: 0;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%); }
+      .dropify-wrapper .dropify-errors-container ul li {
+        margin-left: 40px;
+        color: #FFF;
+        font-weight: bold; }
+    .dropify-wrapper .dropify-errors-container.visible {
+      visibility: visible;
+      opacity: 1;
+      transition-delay: 0s; }
+  .dropify-wrapper ~ .dropify-errors-container ul {
+    padding: 0;
+    margin: 15px 0; }
+    .dropify-wrapper ~ .dropify-errors-container ul li {
+      margin-left: 20px;
+      color: #e53935;
+      font-weight: bold; }
 
 @keyframes stripes {
   from {
     background-position: 0 0; }
   to {
     background-position: 60px 30px; } }
+
+@keyframes rotate {
+  0% {
+    transform: rotateZ(-360deg); }
+  100% {
+    transform: rotateZ(0deg); } }

@@ -342,9 +342,11 @@
   color: #fefefe;
 }
 .app_theme_dark #top_bar .top_bar_nav > li > a:hover {
+  -webkit-box-shadow: inset 0 -3px 0 #546e7a;
   box-shadow: inset 0 -3px 0 #546e7a;
 }
 .app_theme_dark #top_bar .top_bar_nav > li.uk-active a {
+  -webkit-box-shadow: inset 0 -3px 0 #546e7a;
   box-shadow: inset 0 -3px 0 #546e7a;
 }
 .app_theme_dark .user_heading {
@@ -461,6 +463,7 @@
   color: #727272;
 }
 .app_theme_dark .fc-unthemed .fc-highlight {
+  -webkit-box-shadow: inset 0 0 0 2px #546e7a, inset 0 -1px 0 2px #546e7a;
   box-shadow: inset 0 0 0 2px #546e7a, inset 0 -1px 0 2px #546e7a;
 }
 .app_theme_dark .fc-toolbar .fc-button {

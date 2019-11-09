@@ -1,0 +1,232 @@
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <h3 class="heading_b uk-margin-bottom uk-text-center">Үнийн санал</h3>
+
+        <div class="pricing_table_v2 uk-text-center pricing_table_v2_a uk-grid uk-grid-small uk-push-1-5 uk-grid-width-medium-1-2 uk-grid-width-large-1-5 uk-margin-large-bottom" data-uk-grid-margin data-uk-grid-match="{target:'.md-card-content'}">
+            <div>
+                <div class="md-card">
+                    <div class="md-card-content padding-reset">
+                        <div class="pricing_table_plan">Хувилбар-1</div>
+                        <div class="pricing_table_price">
+                            50,000<span class="currency">₮</span>
+                            <span class="period">улирал</span>
+                        </div>
+                        <ul class="pricing_table_features">
+                            <li><strong>1 GB</strong> Memory</li>
+                            <li><strong>1 Core</strong> Processor</li>
+                            <li><strong>30GB</strong> SSD Disk</li>
+                            <li><strong>30GB</strong> SSD Disk</li>
+                        </ul>
+                        <div class="pricing_table_select">
+                            <button ng-click="pricingVersion(1)" class="md-btn md-btn-large">Захиалах</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="md-card">
+                    <div class="md-card-content padding-reset">
+                        <div class="pricing_table_plan">Хувилбар-2</div>
+                        <div class="pricing_table_price">
+                            200,000<span class="currency">₮</span>
+                            <span class="period">жил</span>
+                        </div>
+                        <ul class="pricing_table_features">
+                            <li><strong>4 GB</strong> Memory</li>
+                            <li><strong>2 Core</strong> Processor</li>
+                            <li><strong>60GB</strong> SSD Disk</li>
+                            <li><strong>4TB</strong> Transfer</li>
+                        </ul>
+                        <div class="pricing_table_select">
+                            <button ng-click="pricingVersion(2)" class="md-btn md-btn-large">Захиалах</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="md-card">
+                    <div class="md-card-content padding-reset">
+                        <div class="pricing_table_plan">Хувилбар-3</div>
+                        <div class="pricing_table_price">
+                            100,000<span class="currency">₮</span>
+                            <span class="period">monthly</span>
+                        </div>
+                        <ul class="pricing_table_features">
+                            <li><strong>8 GB</strong> Memory</li>
+                            <li><strong>4 Core</strong> Processor</li>
+                            <li><strong>100GB</strong> SSD Disk</li>
+                            <li><strong>5TB</strong> Transfer</li>
+                        </ul>
+                        <div class="pricing_table_select">
+                            <button ng-click="pricingVersion(3)" class="md-btn md-btn-large">Захиалах</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="uk-modal" id="modal_payment_request_print">
+    <div class="uk-modal-dialog" style="padding: 0;">
+        <page print-section style="font-family: arial !important;font-size: 12px !important;padding-top: 2cm;padding-left: 3cm;padding-bottom: 2cm;padding-right: 1.5cm;width: 100%;float: left;box-sizing:  border-box;">
+            <small>
+                <span style="float: right; text-align: right;">Сангийн сайдын 2017 оны 12 дугаар сарын<br>5-ны өдрийн 347 тоот тушаалын хавсралт</span>
+            </small>
+            <h5 class="uk-text-center">Нэхэмжлэх № ...</h5>
+            <p style="margin-bottom: -10px;" class="uk-text-center" ng-bind="singlePaymentReq.transferdate | date:'yyyy оны MM сарын dd'"></p>
+            <table class="uk-table no-padding uk-table-condensed full-bordered uk-margin-bottom border-black">
+                <tr>
+                    <td colspan="3" class="uk-text-nowrap">Байгууллагын нэр: <span class="uk-text-bold">{{singlePaymentReq.accountname}}</span></td>
+                    <td colspan="2" class="uk-text-center"><i>Дансны дугаар</i></td>
+                    <td rowspan="6" class="uk-text-bold uk-text-center" ng-bind="singlePaymentReq.imbursementamount | number:2"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="uk-text-nowrap"><i>Регистрийн дугаар: </i> <span class="uk-text-bold">{{singlePaymentReq.regnum}}</span></td>
+                    <td colspan="2" class="uk-text-bold uk-text-center" ng-bind="singlePaymentReq.accountnumber"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="uk-text-nowrap">Хүлээн авагчийн нэр: <span class="uk-text-bold">{{singlePaymentReq.clientname}}</span></td>
+                    <td colspan="2" class="uk-text-center"><i>Дансны дугаар</i></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="uk-text-nowrap"><i>Регистрийн дугаар: </i> <span class="uk-text-bold">{{singlePaymentReq.clientregnum}}</span></td>
+                    <td rowspan="2" colspan="2" class="uk-text-bold uk-text-center" ng-bind="singlePaymentReq.clientbankaccountnumber"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="uk-text-nowrap">Хүлээн авагчийн банк: <span class="uk-text-bold">{{singlePaymentReq.clientbankname}}</span></td>
+                </tr>
+                <tr>
+                    <td colspan="3" ><i>Мөнгөн дүн үсгээр:</i>
+                        <span style="display: block;" class="uk-text-bold uk-text-center first-letter-uppercase">{{singlePaymentReq.imbursementamount | words}}</span>
+                    </td>
+                    <td colspan="2" class="uk-text-center">Ангилал</td>
+                </tr>
+
+                <tr>
+                    <td rowspan="3" colspan="3"><i>Гүйлгээний утга:</i>
+                        <span style="display: block;" class="uk-text-bold uk-text-center first-letter-uppercase" ng-bind="singlePaymentReq.transactiondescription"></span>
+                    </td>
+                    <td colspan="3">00000 - Төрийн сан </td>
+                </tr>
+                <tr>
+                    <td colspan="3">00000 - Төрийн сан </td>
+                </tr>
+                <tr>
+                    <td colspan="3">0000 - Төрийн сан </td>
+                </tr>
+                <tr>
+                    <td style="border: none" colspan="3"></td>
+                    <td colspan="2"><span ng-bind="singlePaymentReq.economytype"></span> - <span ng-if="singlePaymentReq.economytype==300010">Татварын буцаалт</span><span ng-if="singlePaymentReq.economytype==300015">Нэр данс зөрүү</span></td>
+                    <td class="uk-text-bold uk-text-right"><span  ng-bind="singlePaymentReq.imbursementamount | number:2"></span></td>
+                </tr>
+                <tr>
+                    <td style="border: none;" colspan="6">Хяналтын хуудас <i>№:{{singlePaymentReq.paymentrequestnumber}}</i></td>
+                </tr>
+                <tr>
+                    <td class="uk-text-center" colspan="3">Үндэслэх бичиг баримтын нэр</td>
+                    <td class="uk-text-center">Он сар, дугаар</td>
+                    <td colspan="2" class="uk-text-center">Төрийн сангийн тэмдэглэгээ</td>
+                </tr>
+                <tr ng-if="singlePaymentReq.data1dt!=null && singlePaymentReq.data1dt.length>0">
+                    <td></td>
+                    <td colspan="2">
+                        Мөнгө тушаасан баримт</td>
+                    <td class="uk-text-center" ng-bind="singlePaymentReq.data1dt"></td>
+                    <td colspan="2">{{singlePaymentReq.data1}}</td>
+                </tr>
+                <tr ng-if="singlePaymentReq.data2dt!=null && singlePaymentReq.data2dt.length>0">
+                    <td></td>
+                    <td colspan="2">
+                        Орлогын хуулга</td>
+                    <td class="uk-text-center" ng-bind="singlePaymentReq.data2dt"></td>
+                    <td colspan="2">{{singlePaymentReq.data2}}</td>
+                </tr>
+                <tr ng-if="singlePaymentReq.data3dt!=null && singlePaymentReq.data3dt.length>0">
+                    <td></td>
+                    <td colspan="2">
+                        <span ng-if="singlePaymentReq.clientregnum.length > 7"> Шүүгчийн захирамж</span>
+                        <span ng-if="singlePaymentReq.clientregnum.length == 7">Тодорхойлолт</span>
+                    </td>
+                    <td class="uk-text-center" ng-bind="singlePaymentReq.data3dt"></td>
+                    <td colspan="2">{{singlePaymentReq.data3}}</td>
+                </tr>
+                <tr ng-if="singlePaymentReq.data4dt!=null && singlePaymentReq.data4dt.length>0">
+                    <td></td>
+                    <td colspan="2">
+                        Албан хүсэлт
+                    </td>
+                    <td class="uk-text-center" ng-bind="singlePaymentReq.data4dt"></td>
+                    <td colspan="2">{{singlePaymentReq.data4}}</td>
+                </tr>
+                <tr ng-if="singlePaymentReq.data5dt!=null && singlePaymentReq.data5dt.length>0">
+                    <td></td>
+                    <td colspan="2">
+                        Иргэний үнэмлэхний хуулбар
+                    </td>
+                    <td class="uk-text-center" ng-bind="singlePaymentReq.data5dt"></td>
+                    <td colspan="2">{{singlePaymentReq.data5}}</td>
+                </tr>
+                <tr ng-if="singlePaymentReq.data6dt!=null && singlePaymentReq.data6dt.length>0">
+                    <td></td>
+                    <td colspan="2">
+                        Улсын бүртгэлийн гэрчилгээ
+                    </td>
+                    <td class="uk-text-center" ng-bind="singlePaymentReq.data6dt"></td>
+                    <td colspan="2">{{singlePaymentReq.data6}}</td>
+                </tr>
+                <tr ng-if="singlePaymentReq.data7dt!=null && singlePaymentReq.data7dt.length>0">
+                    <td></td>
+                    <td colspan="2">
+                        Татварын хэлтсийн тооцоо нийлсэн жагсаалт
+                    </td>
+                    <td class="uk-text-center" ng-bind="singlePaymentReq.data7dt"></td>
+                    <td colspan="2">{{singlePaymentReq.data7}}</td>
+                </tr>
+                <tr ng-if="singlePaymentReq.data8dt!=null && singlePaymentReq.data8dt.length>0">
+                    <td></td>
+                    <td colspan="2">
+                        Итгэмжлэл
+                    </td>
+                    <td class="uk-text-center" ng-bind="singlePaymentReq.data8dt"></td>
+                    <td colspan="2">{{singlePaymentReq.data8}}</td>
+                </tr>
+            </table>
+
+            <table class="no-border uk-table uk-table-condensed uk-margin-top">
+                <tr>
+                    <td colspan="4">Тамга</td>
+                    <td></td>
+                    <td class="uk-text-right">Төрийн санд гүйлгээ хийсэн</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Дарга</td>
+                    <td >&emsp;&emsp;&emsp;</td>
+                    <td class="uk-text-left">/ Ж.Орхонбаяр /</td>
+                    <td></td>
+                    <td class="uk-text-right">..... оны ..... сарын ..... өдөр</td>
+                </tr>
+                <tr>
+                    <td colspan="5"> </td>
+                    <td class="uk-text-right">тэмдэг, гарын үсэг</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Нягтлан бодогч</td>
+                    <td>&emsp;&emsp;&emsp;</td>
+                    <td class="uk-text-left">/ Н.Дэлгэрмаа /</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </page>
+        <div class="uk-modal-footer uk-text-right">
+            <button type="button" print-btn class="md-btn md-btn-primary md-btn-wave-light waves-effect waves-button waves-light">Хэвлэх</button>
+            <button type="button" class="md-btn md-btn-flat uk-modal-close">Хаах</button>
+        </div>
+    </div>
+</div>

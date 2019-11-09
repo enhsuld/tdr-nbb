@@ -116,6 +116,10 @@
             // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
             // as long as the trigger happened on one of the trigger-element's child nodes
             reposition: true,
+            // Flag denoting if a second trigger should close the menu, as long as 
+            // the trigger happened on one of the trigger-element's child nodes.
+            // This overrides the reposition option.
+            hideOnSecondTrigger: false,
 
             //ability to select submenu
             selectableSubMenu: false,
@@ -171,7 +175,8 @@
                     offset = opt.$menu.position();
                 } else {
                     // x and y are given (by mouse event)
-                    offset = {top: y, left: x};
+                    var offsetParentOffset = opt.$menu.offsetParent().offset();
+                    offset = {top: y - offsetParentOffset.top, left: x -offsetParentOffset.left};
                 }
 
                 // correct offset if viewport demands it
@@ -235,7 +240,8 @@
             // events
             events: {
                 show: $.noop,
-                hide: $.noop
+                hide: $.noop,
+                activated: $.noop
             },
             // default callback
             callback: null,
@@ -447,7 +453,6 @@
                     offset;
 
                 e.preventDefault();
-                e.stopImmediatePropagation();
 
                 setTimeout(function () {
                     var $window;
@@ -468,13 +473,18 @@
                             sel.removeAllRanges();
                             sel.addRange(range);
                         }
-
+                        $(target).trigger(e);
                         root.$layer.show();
                     }
-
+                    
+                    if (root.hideOnSecondTrigger && triggerAction && root.$menu !== null && typeof root.$menu !== 'undefined') {
+                      root.$menu.trigger('contextmenu:hide');
+                      return;
+                    }
+                    
                     if (root.reposition && triggerAction) {
                         if (document.elementFromPoint) {
-                            if (root.$trigger.is(target) || root.$trigger.has(target).length) {
+                            if (root.$trigger.is(target)) {
                                 root.position.call(root.$trigger, root, x, y);
                                 return;
                             }
@@ -549,7 +559,7 @@
                 // If targetZIndex is heigher then opt.zIndex dont progress any futher.
                 // This is used to make sure that if you are using a dialog with a input / textarea / contenteditable div
                 // and its above the contextmenu it wont steal keys events
-                if (targetZIndex > opt.zIndex) {
+                if (opt.$menu && parseInt(targetZIndex,10) > parseInt(opt.$menu.css("zIndex"),10)) {
                     return;
                 }
                 switch (e.keyCode) {
@@ -836,6 +846,7 @@
                     return;
                 }
 
+
                 $this.trigger('contextmenu:focus');
             },
             // :hover done manually so key handling is possible
@@ -852,6 +863,10 @@
                     e.preventDefault();
                     e.stopImmediatePropagation();
                     root.$selected = opt.$selected = opt.$node;
+                    return;
+                }
+
+                if(opt && opt.$menu && opt.$menu.hasClass('context-menu-visible')){
                     return;
                 }
 
@@ -886,7 +901,7 @@
                 }
 
                 // hide menu if callback doesn't stop that
-                if (callback.call(root.$trigger, key, root) !== false) {
+                if (callback.call(root.$trigger, key, root, e) !== false) {
                     root.$menu.trigger('contextmenu:hide');
                 } else if (root.$menu.parent().length) {
                     op.update.call(root.$trigger, root);
@@ -923,6 +938,11 @@
 
                 // remember selected
                 opt.$selected = root.$selected = $this;
+
+
+                if(opt && opt.$node && opt.$node.hasClass('context-menu-submenu')){
+                    opt.$node.addClass(root.classNames.hover);
+                }
 
                 // position sub-menu - do after show so dumb $.ui.position can keep up
                 if (opt.$node) {
@@ -987,6 +1007,9 @@
                 // position and show context menu
                 opt.$menu.css(css)[opt.animation.show](opt.animation.duration, function () {
                     $trigger.trigger('contextmenu:visible');
+                    
+                    op.activated(opt);
+                    opt.events.activated();
                 });
                 // make options available and set state
                 $trigger
@@ -1092,6 +1115,7 @@
                 if (typeof root === 'undefined') {
                     root = opt;
                 }
+
                 // create contextMenu
                 opt.$menu = $('<ul class="context-menu-list"></ul>').addClass(opt.className || '').data({
                     'contextMenu': opt,
@@ -1428,7 +1452,7 @@
                                 break;
 
                             case 'select':
-                                item.$input.val(item.selected || '');
+                                item.$input.val((item.selected === 0 ? "0" : item.selected) || '');
                                 break;
                         }
                     }
@@ -1516,6 +1540,26 @@
                 // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt
                 // and root to avoid scope problems
                 promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
+            },
+            // operation that will run after contextMenu showed on screen
+            activated: function(opt){
+                var $menu = opt.$menu;
+                var $menuOffset = $menu.offset();
+                var winHeight = $(window).height();
+                var winScrollTop = $(window).scrollTop();
+                var menuHeight = $menu.height();
+                if(menuHeight > winHeight){
+                    $menu.css({
+                        'height' : winHeight + 'px',
+                        'overflow-x': 'hidden',
+                        'overflow-y': 'auto',
+                        'top': winScrollTop + 'px'
+                    });
+                } else if(($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)){
+                    $menu.css({
+                        'top': '0px'
+                    });
+                } 
             }
         };
 
@@ -1605,6 +1649,20 @@
         }
 
         switch (operation) {
+
+            case 'update':
+                // Updates visibility and such
+                if(_hasContext){
+                    op.update($context);
+                } else {
+                    for(var menu in menus){
+                        if(menus.hasOwnProperty(menu)){
+                            op.update(menus[menu]);
+                        }
+                    }
+                }
+                break;
+
             case 'create':
                 // no selector no joy
                 if (!o.selector) {
@@ -1677,6 +1735,9 @@
 
                     case 'left':
                         $context.on('click' + o.ns, o.selector, o, handle.click);
+                        break;
+				    case 'touchstart':
+                        $context.on('touchstart' + o.ns, o.selector, o, handle.click);
                         break;
                     /*
                      default:
@@ -1762,7 +1823,7 @@
                 break;
 
             case 'html5':
-                // if <command> or <menuitem> are not handled by the browser,
+                // if <command> and <menuitem> are not handled by the browser,
                 // or options was a bool true,
                 // initialize $.contextMenu for them
                 if ((!$.support.htmlCommand && !$.support.htmlMenuitem) || (typeof options === 'boolean' && options)) {
@@ -1891,14 +1952,13 @@
                         disabled: !!$node.attr('disabled'),
                         callback: (function () {
                             return function () {
-                                $node.click();
+                                $node.get(0).click();
                             };
                         })()
                     };
                     break;
 
                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-command-element-to-define-a-command
-
                 case 'menuitem':
                 case 'command':
                     switch ($node.attr('type')) {
@@ -1911,7 +1971,7 @@
                                 icon: $node.attr('icon'),
                                 callback: (function () {
                                     return function () {
-                                        $node.click();
+                                        $node.get(0).click();
                                     };
                                 })()
                             };

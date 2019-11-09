@@ -1,6 +1,7 @@
 # C3JS AngularJS directives
 
 [![Join the chat at https://gitter.im/jettro/c3-angular-directive](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jettro/c3-angular-directive?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![CDNJS](https://img.shields.io/cdnjs/v/c3-angular.svg)](https://cdnjs.com/libraries/c3-angular/)
 
 This repository contains directives that let you easily create graphs using the c3js library. Most of the options that are available in c3js are now also available to you in angularjs. Below one of the most basic examples:
 ```html
@@ -59,6 +60,16 @@ bower install c3-angular --save
 In the end you just need one file in your project: c3-angular.min.js
 
 ## Version History
+
+### 1.4.0
+- Upgrade to version 0.4.18 of c3js library
+- Merged pull request #174 by adamczykmichael update to material css
+- Merged pull request #172 by esahekmat with a fix for documentation
+- Merged pull request #169 by vmanchev with a new option for interaction enabled
+- Merged pull request #134 by ishank18 with a more consistent tick labelling
+
+
+
 
 ### 1.3.1
 Merged pull request #131 by mumuxin

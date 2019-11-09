@@ -1,0 +1,54 @@
+<div class="uk-container uk-container-center" style="margin-top:100px;">
+    <div class="md-card">
+        <div class="md-card-content padding-reset">
+            <div class="uk-grid uk-grid-collapse">
+                <div class="uk-width-large-2-3 uk-hidden-medium uk-hidden-small">
+                    <div class="login_page_info uk-height-1-1" style="background-image: url('assets/img/others/sabri-tuzcu-331970.jpg')">
+                        <div class="info_content">
+                            <h1 class="heading_b">A – CHECK 1.0</h1>
+                            Энэхүү систем нь дараах боломжийг санхүүгийн тайланг хянаж, хүлээн авдаг байгууллага,
+                            ажилтнуудад олгож байна.
+                            Сангийн яамны Plastic, Э-тайлан, Үндэсний аудитын газрын СТАУС зэрэг бусад
+                            програмуудтай бүрэн уялдаж, өгөгдөл солилцох боломжтой.
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-width-large-1-3 uk-width-medium-2-3 uk-container-center">
+                    <div class="login_page_forms">
+                        <div id="login_card">
+                            <div id="login_form">
+                                <div class="login_heading">
+                                    <div class="user_avatar"></div>
+                                </div>
+                                <form role="form" id="form_validation" class="uk-form-stacked" ng-submit="login()">  
+                                    <div class="uk-form-row parsley-row">
+                                        <label for="login_username">Нэвтрэх нэр</label>
+                                        <input class="md-input" type="text" required id="login_username" ng-model="credentials.username" md-input />
+                                    </div>
+                                    <div class="uk-form-row parsley-row">
+                                        <label for="login_password">Нууц үг</label>
+                                        <input class="md-input" type="password" required id="login_password" ng-model="credentials.password" md-input />
+                                    </div>
+                                    <div class="uk-margin-medium-top">
+                                        <button class="md-btn md-btn-primary md-btn-block md-btn-large" type="submit">Нэвтрэх</button>
+                                    </div>       
+                                    <div class="uk-margin-medium-top uk-form-row"  ng-show="error">
+                                        <div class="uk-alert uk-alert-info"  style="margin-bottom:0px;" data-uk-alert>
+                                            Нэвтрэх эсвэл нууц үг буруу байна.
+                                        </div>
+                                    </div>
+                                    <div class="uk-margin-medium-top uk-form-row"  ng-show="loggedout">
+                                        <div class="uk-alert uk-alert-info" style="margin-bottom:0px;" data-uk-alert>
+                                              Системээс гарлаа.
+                                        </div>
+                                    </div>                             
+                                </form>
+                            </div>                            
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

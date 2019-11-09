@@ -1,6 +1,6 @@
-/*! c3-angular - v1.3.1 - 2016-08-04
+/*! c3-angular - v1.3.1 - 2017-10-16
 * https://github.com/jettro/c3-angular-directive
-* Copyright (c) 2016 ; Licensed  */
+* Copyright (c) 2017 ; Licensed  */
 angular.module('gridshore.c3js.chart', []);
 angular.module('gridshore.c3js.chart')
     .directive('chartAxes', ChartAxes);
@@ -273,7 +273,7 @@ angular.module('gridshore.c3js.chart')
  * @param {Number} tick-culling-max Set the maximum number of ticks, if specified culling is by default true.
  * 
  *   {@link http://c3js.org/reference.html#axis-x-tick-culling-max| c3js doc}
- * @param {Boolean} tick-multiline Not sure what this does, not documented.
+ * @param {Boolean} tick-multiline Break the line if the tick length doesn't fit in space, default true.
  *
  *   {@link http://c3js.org/reference.html#axis-x-tick-multiline| c3js doc}
  * @param {Boolean} tick-centered Centers the tick on the x axis
@@ -406,12 +406,12 @@ function ChartAxisXTick() {
             }
         }
 
-        var format = attrs.format;
+        var format = attrs.tickFormat;
         if (format) {
             tick.format = d3.format(format);
         }
 
-        var formatTime = attrs.formatTime;
+        var formatTime = attrs.tickFormatTime;
         if (formatTime) {
             tick.format = d3.time.format(formatTime);
         }
@@ -502,14 +502,14 @@ angular.module('gridshore.c3js.chart')
  *                 axis-label="Higher numbers"
  *                 padding-top="100"
  *                 padding-bottom="0"
- *                 range-min="0"/>
+ *                 axis-min="0"/>
  *     <chart-axis-y axis-id="y2"
  *                 axis-position="outer-right"
  *                 axis-label="Lower numbers"
  *                 padding-top="10"
  *                 padding-bottom="0"
- *                 range-max="100"
- *                 range-min="0"/>
+ *                 axis-max="100"
+ *                 axis-min="0"/>
  *  </chart-axis>
  */
 
@@ -785,6 +785,10 @@ angular.module('gridshore.c3js.chart')
  * 
  *   {@link http://c3js.org/reference.html#zoom-enabled| c3js doc}
  *
+ * @param {Boolean} rescale-zoom Use it to update the y domain according to the zoomed region.
+ * 
+ *   {@link http://c3js.org/reference.html#zoom-rescale| c3js doc}
+ *
  * @param {Function} on-zoom-end-function Use this if you want to do something after zooming
  * 
  *   {@link http://c3js.org/reference.html#zoom-onzoomend| c3js doc} 
@@ -860,6 +864,10 @@ function C3Chart ($timeout) {
         var transitionDuration = attrs.transitionDuration;
         var initialConfig = attrs.initialConfig;
 
+        if (attrs.interactionEnabled && attrs.interactionEnabled === 'false') {
+            chartCtrl.addInteractionEnabled(false);
+        }
+
         if (paddingTop) {
             chartCtrl.addPadding('top', paddingTop);
         }
@@ -910,6 +918,7 @@ function C3Chart ($timeout) {
             "showSubchart": "@showSubchart",
             "subchartOnBrushFunction": "&",
             "enableZoom": "@enableZoom",
+            "rescaleZoom": "@rescaleZoom",
             "chartData": "=chartData",
             "chartColumns": "=chartColumns",
             "chartX": "=chartX",
@@ -1059,6 +1068,7 @@ function ChartController($scope, $timeout) {
     this.rotateAxis = rotateAxis;
     this.addPadding = addPadding;
     this.addSorting = addSorting;
+    this.addInteractionEnabled = addInteractionEnabled;
     this.addSize = addSize;
     this.addEmptyLabel = addEmptyLabel;
 
@@ -1228,6 +1238,10 @@ function ChartController($scope, $timeout) {
         if ($scope.enableZoom && $scope.enableZoom === "true") {
             config.zoom = {"enabled": true};
         }
+        if ($scope.rescaleZoom && $scope.rescaleZoom === "true") {
+            config.zoom = config.zoom || {};
+            config.zoom.rescale = true;
+        }
         if ($scope.onZoomEndFunction){
             config.zoom = config.zoom || {};
             config.zoom.onzoomend = $scope.onZoomEndFunction;
@@ -1387,6 +1401,12 @@ function ChartController($scope, $timeout) {
         if ($scope.selection != null) {
             config.data.selection = $scope.selection;
         }
+        
+        if (typeof $scope.interactionEnabled === 'boolean') {
+            config.interaction = {
+              enabled: $scope.interactionEnabled
+            };
+        }
 
         $scope.config = config;
 
@@ -1492,6 +1512,10 @@ function ChartController($scope, $timeout) {
 
     function addSorting(sorting) {
         $scope.sorting = sorting;
+    }
+
+    function addInteractionEnabled(interactionEnabled) {
+        $scope.interactionEnabled = interactionEnabled;
     }
 
     function addGrid(axis) {

@@ -30,6 +30,8 @@ Form.prototype = {
     if (submitSource && null !== submitSource.getAttribute('formnovalidate'))
       return;
 
+    window.Parsley._remoteCache = {};
+
     var promise = this.whenValidate({event});
 
     if ('resolved' === promise.state() && false !== this._trigger('submit')) {
@@ -135,6 +137,11 @@ Form.prototype = {
       return $.map(this.fields, field => field.whenValid({group, force}));
     });
     return Utils.all(promises);
+  },
+
+  refresh: function() {
+    this._refreshFields();
+    return this;
   },
 
   // Reset UI

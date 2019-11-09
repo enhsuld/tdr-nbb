@@ -102,12 +102,10 @@ altairApp
     };
 
     session.logout = function() {
-   		  $http.post("/logout", {}).success(function() {
+   		  $http.post("/logout", {}).then(function() {
    		    $rootScope.authenticated = false;
    		    $location.path("/login");
    		    localStorage.setItem("session", false);
-   		  }).error(function(data) {
-   		    $rootScope.authenticated = false;
    		  });
    		};
 
